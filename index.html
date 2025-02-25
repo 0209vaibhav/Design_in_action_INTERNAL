@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Odyssey - Transforming Commutes</title>
+  
+  <!-- Mapbox GL JS -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.1.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.1.0/mapbox-gl.css" rel="stylesheet" />
+  
+  <!-- Font Awesome -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  </noscript>
+  
+  <!-- External CSS -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Add this meta tag -->
+  <meta name="forced-colors-adjust" content="none">
+</head>
+
+<body>
+  <div class="container">
+    <!-- Left Navigation Panel -->
+    <div class="left-section">
+      <nav class="info-tab" aria-label="Main Navigation">
+        
+        <div class="header-content">
+          <h1>
+            <span class="logo-text">ODYSSEY</span>
+            <span class="version-tag">2.0</span>
+          </h1>
+          <p class="tagline">Transform Your Commute into interactive journeys</p>
+        </div>
+        <ul>
+          <li><a href="#" class="activity-tab" data-activity="about">
+            <i class="fas fa-info-circle"></i><span>About</span></a>
+            <div class="explorer-subtabs hidden">
+              <button class="explorer-tab-btn active" data-tab="what">
+                  <i class="fas fa-question-circle"></i>
+                  <span>What</span>
+              </button>
+              <button class="explorer-tab-btn" data-tab="why">
+                  <i class="fas fa-lightbulb"></i>
+                  <span>Why</span>
+              </button>
+              <button class="explorer-tab-btn" data-tab="who">
+                  <i class="fas fa-users"></i>
+                  <span>Who</span>
+              </button>
+              <button class="explorer-tab-btn" data-tab="where">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>Where</span>
+              </button>
+              <button class="explorer-tab-btn" data-tab="team">
+                  <i class="fas fa-user-friends"></i>
+                  <span>Team</span>
+              </button>
+              <button class="explorer-tab-btn" data-tab="contact">
+                  <i class="fas fa-envelope"></i>
+                  <span>Contact</span>
+              </button>
+            </div>
+            
+            <div class="about-content hidden">
+                <div class="about-section active" id="about-what">
+                    <h2>What is Odyssey?</h2>
+                    <p>Odyssey 2.0 is a live, interactive city map that brings visibility to spontaneous urban moments, events, and activities that typically go unnoticed. Unlike traditional navigation apps, which focus on permanent locations, Odyssey 2.0 allows users to share and engage with real-time city happenings—creating an interactive urban experience.</p>
+                    <ul>
+                        <li><i class="fas fa-map-marked-alt"></i> A real-time map that highlights spontaneous city activities and moments</li>
+                        <li><i class="fas fa-route"></i> Allows users to add and explore live events that aren't found on traditional maps</li>
+                        <li><i class="fas fa-users"></i> Enables community engagement and interaction, fostering a more connected urban experience</li>
+                        <li><i class="fas fa-star"></i> Captures fleeting but meaningful moments like street performances, temporary art, pop-up markets, and unique weather events</li>
+                    </ul>
+                </div>
+
+                <div class="about-section hidden" id="about-why">
+                    <h2>Why Odyssey?</h2>
+                    <p>Cities are constantly changing, full of small but meaningful experiences that make urban life vibrant. However, these moments often go unnoticed or are only shared in isolated social media posts. Traditional navigation tools don't support the discovery of such real-time events, and social platforms don't encourage interaction with the city itself. Odyssey 2.0 bridges this gap, creating a shared, interactive urban space where people can find and contribute to the evolving life of the city.</p>
+                    <p>Why It Matters:</p>
+                    <ul>
+                        <li><i class="fas fa-camera"></i> Captures real-time city moments that are otherwise ephemeral</li>
+                        <li><i class="fas fa-handshake"></i> Encourages city engagement, making urban spaces more interactive</li>
+                        <li><i class="fas fa-map-marked-alt"></i> Goes beyond static locations, unlike traditional navigation apps</li>
+                        <li><i class="fas fa-users"></i> Fosters community connections through shared city experiences</li>
+                        <li><i class="fas fa-route"></i> Enhances urban exploration, making everyday commutes more engaging</li>
+                    </ul>
+                </div>
+
+                <div class="about-section hidden" id="about-who">
+                    <h2>Who is it for?</h2>
+                    <p>This platform is designed for anyone who loves exploring cities in a dynamic, immersive way. It provides a space where people can both share and discover hidden gems in real time.</p>
+                    <p>Target Audience:</p>
+                    <ul>
+                        <li><i class="fas fa-compass"></i> Urban Explorers – People who enjoy discovering new places and experiences</li>
+                        <li><i class="fas fa-route"></i> Daily Commuters – Those looking to make their routine routes more engaging</li>
+                        <li><i class="fas fa-plane-arrival"></i> Tourists – Visitors who want a more authentic and dynamic city experience</li>
+                        <li><i class="fas fa-palette"></i> Local Creatives – Street artists, musicians, performers, and event organizers who want to share their work</li>
+                        <li><i class="fas fa-hands-helping"></i> Community Builders – People interested in fostering local engagement and social interaction</li>
+                    </ul>
+                </div>
+
+                <div class="about-section hidden" id="about-where">
+                    <h2>Where does it work?</h2>
+                    <p>Odyssey 2.0 is designed for urban environments where spontaneous interactions define the city experience. It thrives in places that have a rich mix of culture, community, and dynamic public spaces.</p>
+                    <p>Ideal Locations:</p>
+                    <ul>
+                        <li><i class="fas fa-city"></i> Metropolitan cities with dense, active public spaces</li>
+                        <li><i class="fas fa-guitar"></i> Neighborhoods with street culture—live music, art, and public performances</li>
+                        <li><i class="fas fa-subway"></i> Transit hubs and commutes—subway stations, plazas, and sidewalks</li>
+                        <li><i class="fas fa-landmark"></i> Cultural hotspots—historical districts, parks, festivals, and events</li>
+                        <li><i class="fas fa-globe-americas"></i> Anywhere people want to engage with their city in real time</li>
+                    </ul>
+                </div>
+
+                <div class="about-section hidden" id="about-team">
+                    <h2>Team</h2>
+                    <div class="team-content">
+                        <div class="created-by">
+                            <h3>Created & Designed by</h3>
+                            <p>Vaibhav Jain</p>
+                        </div>
+                        
+                        <div class="credits">
+                            <h3>Credits & Guidance</h3>
+                            <div class="studio-credit">
+                                <p><strong>Explore, Explain, Propose (Studio)</strong></p>
+                                <p>Laura Kurgan, Snoweria Zhang (Fall 2024)</p>
+                            </div>
+                            <div class="studio-credit">
+                                <p><strong>Design in Action (Studio)</strong></p>
+                                <p>Seth Thompson, Catherine Griffiths</p>
+                            </div>
+                            <p><strong>Program:</strong> M.S. Computational Design Practice (MS.CDP)</p>
+                        </div>
+
+                        <div class="institution">
+                            <p>Graduate School of Architecture, Planning, and Preservation (GSAPP)</p>
+                            <p>Columbia University, New York, USA</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-section hidden" id="about-contact">
+                    <h2>Contact</h2>
+                    <div class="contact-content">
+                        <p>For inquiries, collaborations, or to explore Odyssey 2.0 further, reach out via:</p>
+                        
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <p><a href="mailto:vuj2000@columbia.edu">vuj2000@columbia.edu</a></p>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <p><a href="mailto:0209vaibhav@gmail.com">0209vaibhav@gmail.com</a></p>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-globe"></i>
+                                <p><a href="https://0209vaibhav.github.io/CDP-PORTFOLIO_INTERNAL/" target="_blank">Portfolio Website</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </li>
+
+          <li><a href="#" class="activity-tab" data-activity="explorer">
+            <i class="fas fa-user"></i><span>Explorer</span></a>
+            <div class="explorer-subtabs hidden">
+                <button class="explorer-tab-btn active" data-tab="profile">
+                    <i class="fas fa-id-card"></i>
+                    <span>Profile</span>
+                </button>
+                <button class="explorer-tab-btn" data-tab="favorites">
+                    <i class="fas fa-star"></i>
+                    <span>Favorites</span>
+                </button>
+                <button class="explorer-tab-btn" data-tab="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </button>
+                <button class="explorer-tab-btn" data-tab="help">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Help</span>
+                </button>
+            </div>
+          </li>
+
+          <li><a href="#" class="activity-tab" data-activity="journey">
+            <i class="fas fa-route"></i><span>Journey</span></a>
+            <div class="explorer-subtabs hidden">
+              <button class="explorer-tab-btn active" data-tab="capture">
+                  <i class="fas fa-camera"></i>
+                  <span>Capture</span>
+              </button>
+              <button class="explorer-tab-btn" data-tab="myactivities">
+                  <i class="fas fa-list-alt"></i>
+                  <span>Activities</span>
+              </button>
+              <button class="explorer-tab-btn" data-tab="drafts">
+                  <i class="fas fa-file-alt"></i>
+                  <span>Drafts</span>
+              </button>
+              <button class="explorer-tab-btn" data-tab="history">
+                  <i class="fas fa-history"></i>
+                  <span>History</span>
+              </button>
+          </div>
+        </li>
+
+          <li><a href="#" class="activity-tab" data-activity="discovery">
+            <i class="fas fa-map-marked-alt"></i><span>Discovery</span></a>
+            <div class="explorer-subtabs hidden">
+                <button class="explorer-tab-btn active" data-tab="live-map">
+                    <i class="fas fa-tags"></i>
+                    <span>Category</span>
+                </button>
+                <button class="explorer-tab-btn" data-tab="list-view" id="list-events-btn">
+                    <i class="fas fa-list"></i>
+                    <span>List Events</span>
+                </button>
+                <button class="explorer-tab-btn" data-tab="filter">
+                    <i class="fas fa-filter"></i>
+                    <span>Filter</span>
+                </button>
+            </div>
+            
+            <!-- Add the filter settings container here -->
+            <div class="filter-settings-container hidden">
+                <!-- Radius Filter -->
+                <div class="filter-group">
+                    <h3>Filter by Radius</h3>
+                    <div class="radius-toggle-container">
+                        <label for="radius-toggle">Enable Radius</label>
+                        <input type="checkbox" id="radius-toggle" checked>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" 
+                               id="radius-slider" 
+                               min="0.00189394" 
+                               max="1" 
+                               step="0.00189394" 
+                               value="0.75">
+                        <div class="radius-value-container">
+                            <span>10 ft</span>
+                            <span id="radius-value">0.75 mi</span>
+                            <span>1 mi</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Filter -->
+                <div class="filter-group">
+                    <h3>Filter by Category</h3>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" value="academic"> Academic</label>
+                        <label><input type="checkbox" value="social"> Social</label>
+                        <label><input type="checkbox" value="career"> Career</label>
+                        <label><input type="checkbox" value="cultural"> Cultural</label>
+                        <label><input type="checkbox" value="sports"> Sports</label>
+                        <label><input type="checkbox" value="arts"> Arts</label>
+                        <label><input type="checkbox" value="technology"> Technology</label>
+                        <label><input type="checkbox" value="other"> Other</label>
+                    </div>
+                </div>
+
+                <!-- Search Filter -->
+                <div class="filter-group">
+                    <h3>Filter by Search</h3>
+                    <div class="search-input">
+                        <input type="text" id="filter-search" placeholder="Search events...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+
+                <!-- Date Filter -->
+                <div class="filter-group">
+                    <h3>Filter by Date</h3>
+                    <div class="date-inputs">
+                        <input type="date" id="filter-start-date">
+                        <span>to</span>
+                        <input type="date" id="filter-end-date">
+                    </div>
+                </div>
+
+                <!-- Time Filter -->
+                <div class="filter-group">
+                    <h3>Filter by Time</h3>
+                    <div class="time-inputs">
+                        <input type="time" id="filter-start-time">
+                        <span>to</span>
+                        <input type="time" id="filter-end-time">
+                    </div>
+                    <div class="checkbox-group time-periods">
+                        <label><input type="checkbox" value="morning"> Morning (6AM-12PM)</label>
+                        <label><input type="checkbox" value="afternoon"> Afternoon (12PM-5PM)</label>
+                        <label><input type="checkbox" value="evening"> Evening (5PM-9PM)</label>
+                        <label><input type="checkbox" value="night"> Night (9PM-6AM)</label>
+                    </div>
+                </div>
+
+                <!-- Location Filter -->
+                <div class="filter-group">
+                    <h3>Filter by Location</h3>
+                    <div class="location-input-group">
+                        <input type="text" id="filter-location" placeholder="Enter location...">
+                        <button type="button" id="pick-location-filter" class="pick-location-btn">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="filter-actions">
+                    <button id="apply-filters" class="filter-button">Apply Filters</button>
+                    <button id="reset-filters" class="filter-button">Reset Filters</button>
+                </div>
+            </div>
+          </li>
+
+          <li><a href="#" class="activity-tab" data-activity="archive">
+            <i class="fas fa-archive"></i><span>Archive</span></a>
+            <div class="explorer-subtabs hidden">
+              <button class="explorer-tab-btn active" data-tab="all">
+                  <i class="fas fa-folder"></i>
+                  <span>All</span>
+              </button>
+              <button class="explorer-tab-btn" data-tab="recent">
+                  <i class="fas fa-clock"></i>
+                  <span>Recent</span>
+              </button>
+              <button class="explorer-tab-btn" data-tab="favorites">
+                  <i class="fas fa-star"></i>
+                  <span>Favorites</span>
+              </button>
+              <button class="explorer-tab-btn" data-tab="search">
+                  <i class="fas fa-search"></i>
+                  <span>Search</span>
+              </button>
+          </div>
+        </li>
+        </ul>
+      </nav>
+
+      <button id="collapse-left" aria-label="Collapse Menu">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button id="expand-left" class="hidden" aria-label="Expand Menu">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <!-- Main Content Section -->
+    <main class="main-content">
+      <!-- Content (map for Discovery) will be injected here -->
+      <div class="tab-content" id="explorer">
+        <div class="explorer-tabs">
+          <button class="explorer-tab-btn active" data-tab="profile">Profile</button>
+          <button class="explorer-tab-btn" data-tab="favorites">Favorites</button>
+          <button class="explorer-tab-btn" data-tab="settings">Settings</button>
+          <button class="explorer-tab-btn" data-tab="help">Help</button>
+        </div>
+        
+        <div class="explorer-tab-content active" id="profile-tab">
+          <!-- Profile content here -->
+        </div>
+        <div class="explorer-tab-content" id="favorites-tab">
+          <!-- Favorites content here -->
+        </div>
+        <div class="explorer-tab-content" id="settings-tab">
+          <!-- Settings content here -->
+        </div>
+        <div class="explorer-tab-content" id="help-tab">
+          <!-- Help content here -->
+        </div>
+      </div>
+
+      <!-- Journey Content -->
+      <div class="tab-content hidden" id="journey">
+        <div class="journey-content">
+          <div id="journey-capture-form" class="capture-form hidden">
+            <div class="capture-form-header">
+              <h2>Capture Activity</h2>
+            </div>
+            <form id="activity-capture-form">
+              <div class="form-group">
+                <label for="activity-media">Media</label>
+                <div class="media-upload-container">
+                  <input type="file" id="activity-media" multiple accept="image/*,video/*">
+                  <label for="activity-media" class="media-upload-btn">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <span>Upload Images/Videos</span>
+                  </label>
+                  <div id="media-preview" class="media-preview"></div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="activity-name">Activity Name*</label>
+                <input type="text" id="activity-name" required placeholder="Enter activity name">
+              </div>
+
+              <div class="form-group">
+                <label for="activity-category">Category*</label>
+                <select id="activity-category" required>
+                  <option value="">Select a category</option>
+                  <option value="food">Food & Dining</option>
+                  <option value="shopping">Shopping</option>
+                  <option value="entertainment">Entertainment</option>
+                  <option value="sports">Sports & Recreation</option>
+                  <option value="education">Education</option>
+                  <option value="work">Work</option>
+                  <option value="travel">Travel</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="activity-caption">Caption</label>
+                <input type="text" id="activity-caption" placeholder="Add a short caption">
+              </div>
+
+              <div class="form-group">
+                <label for="activity-description">Description</label>
+                <textarea id="activity-description" rows="3" placeholder="Add a detailed description"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="activity-location">Location*</label>
+                <div class="location-input-group">
+                  <input type="text" id="activity-location" required placeholder="Enter or pick location">
+                  <button type="button" id="pick-location-btn" class="pick-location-btn">
+                    <i class="fas fa-map-marker-alt"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-group datetime-group">
+                <div class="start-time">
+                  <label for="activity-start">Start Time*</label>
+                  <input type="datetime-local" id="activity-start" required>
+                </div>
+                <div class="end-time">
+                  <label for="activity-end">End Time*</label>
+                  <input type="datetime-local" id="activity-end" required>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="cancel-btn">Cancel</button>
+                <button type="submit" class="save-btn">Save Activity</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Right Panel Section -->
+    <div class="right-section">
+      <aside class="right-panel hidden" aria-label="Event Details">
+        <!-- Content will be dynamically inserted here -->
+      </aside>
+      <button id="collapse-right" aria-label="Collapse Insights" class="hidden">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+      <button id="expand-right" aria-label="Expand Insights">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="auth.js"></script>
+  <script src="script.js"></script>
+
+  <!-- Add this before your other scripts -->
+  <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+
+</body>
+</html>

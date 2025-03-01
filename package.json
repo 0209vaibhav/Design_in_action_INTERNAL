@@ -1,0 +1,17 @@
+{
+  "name": "odyssey",
+  "version": "1.0.0",
+  "description": "Odyssey - Transform Your Commute into interactive journeys",
+  "main": "js/main.js",
+  "scripts": {
+    "build": "echo 'No build step required' && exit 0",
+    "test": "echo 'No tests configured'"
+  },
+  "dependencies": {
+    "firebase": "^9.0.0",
+    "@turf/turf": "^6.5.0"
+  },
+  "devDependencies": {
+    "firebase-tools": "^12.0.0"
+  }
+} 

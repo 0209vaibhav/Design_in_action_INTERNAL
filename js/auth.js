@@ -130,53 +130,55 @@ async function showUserProfile(user) {
           <div class="detail-row" data-type="photo">
             <img src="${userData.photoURL || 'default-avatar.png'}" alt="Profile" class="profile-photo">
             <span>Profile Photo</span>
-            <button class="chevron-btn">›</button>
+            <button class="chevron-btn"></button>
           </div>
 
           <div class="detail-row" data-type="name">
             <span>Name</span>
             <span class="detail-value">${userData.displayName || 'Add name'}</span>
-            <button class="chevron-btn">›</button>
+            <button class="chevron-btn"></button>
           </div>
 
           <div class="detail-row" data-type="email">
             <span>Email</span>
             <span class="detail-value">${userData.email}</span>
-            <button class="chevron-btn">›</button>
+            <button class="chevron-btn"></button>
           </div>
 
           <div class="detail-row" data-type="phone">
             <span>Phone</span>
             <span class="detail-value">${userData.phoneNumber || 'Add phone number'}</span>
-            <button class="chevron-btn">›</button>
+            <button class="chevron-btn"></button>
           </div>
 
           <div class="detail-row" data-type="address">
             <span>Address</span>
             <span class="detail-value">${formatAddressPreview(userData.addresses)}</span>
-            <button class="chevron-btn">›</button>
+            <button class="chevron-btn"></button>
           </div>
 
           <div class="detail-row" data-type="bio">
             <span>Bio</span>
             <span class="detail-value">${userData.bio || 'Add bio'}</span>
-            <button class="chevron-btn">›</button>
+            <button class="chevron-btn"></button>
           </div>
 
           <div class="detail-row" data-type="interests">
             <span>Interests</span>
             <span class="detail-value">${userData.interests ? userData.interests.join(', ') : 'Add interests'}</span>
-            <button class="chevron-btn">›</button>
+            <button class="chevron-btn"></button>
           </div>
 
           <div class="detail-row" data-type="aspirations">
             <span>Aspiration Categories</span>
             <span class="detail-value">${userData.aspirations || 'Add aspirations'}</span>
-            <button class="chevron-btn">›</button>
+            <button class="chevron-btn"></button>
           </div>
         </div>
 
-        <button id="logoutBtn" class="logout-btn">Log out</button>
+        <div class="profile-actions">
+          <button id="logoutBtn" class="profile-action-btn">Log out</button>
+        </div>
       </div>
     `;
 
@@ -246,6 +248,14 @@ function setupProfileEventListeners(user) {
       });
     }
   });
+
+  // Edit Profile button
+  const editProfileBtn = document.getElementById('editProfileBtn');
+  if (editProfileBtn) {
+    editProfileBtn.addEventListener('click', () => {
+      showEditProfileModal(user);
+    });
+  }
 
   // Logout button
   const logoutBtn = document.getElementById('logoutBtn');
@@ -418,48 +428,103 @@ function showEditProfileModal(user) {
   const authContainer = document.getElementById('auth-container');
   authContainer.innerHTML = `
     <div class="profile-container">
-      <div class="profile-header">
+      <div class="edit-screen-header">
         <button class="back-btn">‹</button>
         <h3>Edit Profile</h3>
       </div>
       
-      <form id="editProfileForm">
-        <div class="detail-section">
-          <div class="detail-item">
-            <label for="displayName">Name</label>
-            <input type="text" id="displayName" value="${user.displayName || ''}" required>
-          </div>
-          <div class="detail-item">
-            <label for="email">Email</label>
-            <input type="email" id="email" value="${user.email}" disabled>
-          </div>
+      <form id="editProfileForm" class="edit-profile-form">
+        <div class="edit-field-group">
+          <label for="displayName">Name</label>
+          <input type="text" id="displayName" value="${user.displayName || ''}" required>
         </div>
         
-        <button type="submit" class="save-profile-btn">Save</button>
+        <div class="edit-field-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" value="${user.email}" disabled>
+          <p class="field-note">Email cannot be changed</p>
+        </div>
+
+        <div class="edit-field-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" value="${user.phoneNumber || ''}" placeholder="(123) 456-7890">
+        </div>
+
+        <div class="edit-field-group">
+          <label for="street">Address</label>
+          <input type="text" id="street" value="${user.address?.street || ''}" placeholder="Enter your street address">
+        </div>
+
+        <div class="edit-field-group">
+          <label for="apartment">Apartment/Suite (Optional)</label>
+          <input type="text" id="apartment" value="${user.address?.apartment || ''}" placeholder="Apt, Suite, Unit, etc.">
+        </div>
+
+        <div class="edit-field-group">
+          <label for="bio">Bio</label>
+          <textarea id="bio" maxlength="200" placeholder="Tell us about yourself">${user.bio || ''}</textarea>
+          <p class="field-note">Maximum 200 characters</p>
+        </div>
+
+        <div class="edit-field-group">
+          <label for="interests">Interests (comma-separated)</label>
+          <textarea id="interests" placeholder="e.g., photography, travel, music">${(user.interests || []).join(', ')}</textarea>
+          <p class="field-note">Separate multiple interests with commas</p>
+        </div>
+
+        <div class="edit-field-group">
+          <label for="aspirations">Aspiration Categories</label>
+          <textarea id="aspirations" placeholder="What do you aspire to achieve?">${user.aspirations || ''}</textarea>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="cancel-btn">Cancel</button>
+          <button type="submit" class="save-btn">Update Profile</button>
+        </div>
       </form>
     </div>
   `;
 
-  // Add back button listener
-  document.querySelector('.back-btn').addEventListener('click', () => {
-    showUserProfile(user);
-  });
+  // Add back button and cancel button listeners
+  const backToProfile = () => showUserProfile(user);
+  document.querySelector('.back-btn').addEventListener('click', backToProfile);
+  document.querySelector('.cancel-btn').addEventListener('click', backToProfile);
 
   // Add form submit listener
   document.getElementById('editProfileForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const newDisplayName = document.getElementById('displayName').value.trim();
-
+    
     try {
-      await user.updateProfile({ displayName: newDisplayName });
-      await db.collection('users').doc(user.uid).update({
-        displayName: newDisplayName,
+      const newData = {
+        displayName: document.getElementById('displayName').value.trim(),
+        phoneNumber: document.getElementById('phone').value.trim(),
+        address: {
+          street: document.getElementById('street').value.trim(),
+          apartment: document.getElementById('apartment').value.trim()
+        },
+        bio: document.getElementById('bio').value.trim(),
+        interests: document.getElementById('interests').value
+          .split(',')
+          .map(interest => interest.trim())
+          .filter(interest => interest.length > 0),
+        aspirations: document.getElementById('aspirations').value.trim(),
         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
+      };
+
+      // Update display name in Firebase Auth
+      await user.updateProfile({ displayName: newData.displayName });
+      
+      // Update user data in Firestore
+      await db.collection('users').doc(user.uid).update(newData);
+      
+      // Show success message
+      showToast('Profile updated successfully');
+      
+      // Return to profile view
       showUserProfile(user);
     } catch (error) {
       console.error('Error updating profile:', error);
-      alert('Failed to update profile');
+      showToast('Failed to update profile', 'error');
     }
   });
 }

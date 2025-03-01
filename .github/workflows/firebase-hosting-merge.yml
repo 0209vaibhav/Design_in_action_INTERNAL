@@ -10,15 +10,6 @@ on:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
-    
-    env:
-      FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
-      FIREBASE_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}
-      FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
-      FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL }}
-      FIREBASE_CLIENT_ID: ${{ secrets.FIREBASE_CLIENT_ID }}
-      FIREBASE_CLIENT_CERT_URL: ${{ secrets.FIREBASE_CLIENT_CERT_URL }}
-    
     steps:
       - uses: actions/checkout@v4
       
@@ -30,9 +21,6 @@ jobs:
           
       - name: Install Dependencies
         run: npm ci || npm install
-        
-      - name: Install Firebase Tools
-        run: npm install -g firebase-tools
         
       - name: Build
         run: npm run build

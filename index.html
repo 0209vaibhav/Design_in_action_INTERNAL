@@ -20,6 +20,24 @@
   
   <!-- Add this meta tag -->
   <meta name="forced-colors-adjust" content="none">
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+
+  <!-- Application Scripts -->
+  <script src="js/utils.js"></script>
+  <script type="module" src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/activities.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/journey.js"></script>
+  <script src="js/main.js"></script>
 </head>
 
 <body>
@@ -27,7 +45,6 @@
     <!-- Left Navigation Panel -->
     <div class="left-section">
       <nav class="info-tab" aria-label="Main Navigation">
-        
         <div class="header-content">
           <h1>
             <span class="logo-text">ODYSSEY</span>
@@ -35,7 +52,271 @@
           </h1>
           <p class="tagline">Transform Your Commute into interactive journeys</p>
         </div>
-        <ul>
+        
+        <!-- Add activity-tabs-container -->
+        <div class="activity-tabs-container">
+          <ul>
+            <!-- Explorer -->
+            <li><a href="#" class="activity-tab" data-activity="explorer">
+              <i class="fas fa-user"></i><span>Explorer</span></a>
+              <div class="explorer-subtabs hidden">
+                  <button class="explorer-tab-btn active" data-tab="profile">
+                      <i class="fas fa-id-card"></i>
+                      <span>Profile</span>
+                  </button>
+                  <button class="explorer-tab-btn" data-tab="settings">
+                      <i class="fas fa-cog"></i>
+                      <span>Settings</span>
+                  </button>
+                  <button class="explorer-tab-btn" data-tab="help">
+                      <i class="fas fa-question-circle"></i>
+                      <span>Help</span>
+                  </button>
+              </div>
+            </li>
+
+            <!-- Journey -->
+            <li><a href="#" class="activity-tab" data-activity="journey">
+              <i class="fas fa-route"></i><span>Journey</span></a>
+              <div class="explorer-subtabs hidden">
+                <button class="explorer-tab-btn active" data-tab="capture">
+                    <i class="fas fa-camera"></i>
+                    <span>Capture</span>
+                </button>
+                <button class="explorer-tab-btn" data-tab="myactivities">
+                    <i class="fas fa-list-alt"></i>
+                    <span>Activities</span>
+                </button>
+                <button class="explorer-tab-btn" data-tab="drafts">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Drafts</span>
+                </button>
+                <button class="explorer-tab-btn" data-tab="history">
+                    <i class="fas fa-history"></i>
+                    <span>History</span>
+                </button>
+              </div>
+              <!-- Add capture form here in the left panel -->
+              <div id="journey-capture-form" class="capture-form hidden">
+                <div class="capture-form-header">
+                  <h2>Capture Activity</h2>
+                </div>
+                <form id="activity-capture-form">
+                  <div class="form-group">
+                    <label for="activity-name">Event Name *</label>
+                    <input type="text" id="activity-name" required placeholder="Enter event name">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="activity-caption">Caption *</label>
+                    <input type="text" id="activity-caption" required placeholder="Add a short caption">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="activity-category">Category *</label>
+                    <select id="activity-category" required>
+                      <option value="">Select a category</option>
+                      <option value="food">Food & Dining</option>
+                      <option value="shopping">Shopping</option>
+                      <option value="entertainment">Entertainment</option>
+                      <option value="sports">Sports & Recreation</option>
+                      <option value="education">Education</option>
+                      <option value="work">Work</option>
+                      <option value="travel">Travel</option>
+                      <option value="cultural">Cultural</option>
+                      <option value="social">Social</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="activity-text">Event Description</label>
+                    <textarea id="activity-text" rows="3" placeholder="Add a detailed description of the event"></textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="activity-location">Location*</label>
+                    <div class="location-input-group">
+                      <input type="text" id="activity-location" required placeholder="Enter or pick location">
+                      <button type="button" id="pick-location-btn" class="pick-location-btn">
+                        <i class="fas fa-map-marker-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="form-group datetime-group">
+                    <div class="start-time">
+                      <label for="activity-start">Start Date & Time*</label>
+                      <input type="datetime-local" id="activity-start" required>
+                    </div>
+                    <div class="end-time">
+                      <label for="activity-end">End Date & Time*</label>
+                      <input type="datetime-local" id="activity-end" required>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="activity-media">Media Upload</label>
+                    <div class="media-upload-container">
+                      <input type="file" id="activity-media" multiple accept="image/*,video/*">
+                      <label for="activity-media" class="media-upload-btn">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>Upload Images/Videos</span>
+                      </label>
+                      <div class="media-upload-note">Supported formats: Images (JPG, PNG, GIF) and Videos (MP4, WebM)</div>
+                      <div id="media-preview" class="media-preview"></div>
+                    </div>
+                  </div>
+
+                  <div class="form-actions">
+                    <button type="button" class="cancel-btn">
+                        <i class="fas fa-times"></i>
+                        Cancel
+                    </button>
+                    <button type="button" class="save-event-btn">
+                        <i class="fas fa-check"></i>
+                        Save
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </li>
+
+            <!-- Discovery -->
+            <li><a href="#" class="activity-tab" data-activity="discovery">
+              <i class="fas fa-map-marked-alt"></i><span>Discovery</span></a>
+              <div class="explorer-subtabs hidden">
+                  <button class="explorer-tab-btn active" data-tab="filter">
+                      <i class="fas fa-filter"></i>
+                      <span>Filter</span>
+                  </button>
+                  <button class="explorer-tab-btn" data-tab="live-map">
+                      <i class="fas fa-tags"></i>
+                      <span>Category</span>
+                  </button>
+                  <button class="explorer-tab-btn" data-tab="list-view" id="list-events-btn">
+                      <i class="fas fa-list"></i>
+                      <span>List Events</span>
+                  </button>
+              </div>
+              
+              <!-- Add the filter settings container here -->
+              <div class="filter-settings-container hidden">
+                  <!-- Radius Filter -->
+                  <div class="filter-group">
+                      <h3>Filter by Radius</h3>
+                      <div class="radius-toggle-container">
+                          <label for="radius-toggle">Enable Radius</label>
+                          <input type="checkbox" id="radius-toggle" checked>
+                      </div>
+                      <div class="slider-container">
+                          <input type="range" 
+                                 id="radius-slider" 
+                                 min="0.00189394" 
+                                 max="1" 
+                                 step="0.00189394" 
+                                 value="0.75">
+                          <div class="radius-value-container">
+                              <span>10 ft</span>
+                              <span id="radius-value">0.75 mi</span>
+                              <span>1 mi</span>
+                          </div>
+                      </div>
+                  </div>
+
+                  <!-- Category Filter -->
+                  <div class="filter-group">
+                      <h3>Filter by Category</h3>
+                      <div class="checkbox-group">
+                          <label><input type="checkbox" value="academic"> Academic</label>
+                          <label><input type="checkbox" value="social"> Social</label>
+                          <label><input type="checkbox" value="career"> Career</label>
+                          <label><input type="checkbox" value="cultural"> Cultural</label>
+                          <label><input type="checkbox" value="sports"> Sports</label>
+                          <label><input type="checkbox" value="arts"> Arts</label>
+                          <label><input type="checkbox" value="technology"> Technology</label>
+                          <label><input type="checkbox" value="other"> Other</label>
+                      </div>
+                  </div>
+
+                  <!-- Search Filter -->
+                  <div class="filter-group">
+                      <h3>Filter by Search</h3>
+                      <div class="search-input">
+                          <input type="text" id="filter-search" placeholder="Search events...">
+                          <i class="fas fa-search"></i>
+                      </div>
+                  </div>
+
+                  <!-- Date Filter -->
+                  <div class="filter-group">
+                      <h3>Filter by Date</h3>
+                      <div class="date-inputs">
+                          <input type="date" id="filter-start-date">
+                          <span>to</span>
+                          <input type="date" id="filter-end-date">
+                      </div>
+                  </div>
+
+                  <!-- Time Filter -->
+                  <div class="filter-group">
+                      <h3>Filter by Time</h3>
+                      <div class="time-inputs">
+                          <input type="time" id="filter-start-time">
+                          <span>to</span>
+                          <input type="time" id="filter-end-time">
+                      </div>
+                      <div class="checkbox-group time-periods">
+                          <label><input type="checkbox" value="morning"> Morning (6AM-12PM)</label>
+                          <label><input type="checkbox" value="afternoon"> Afternoon (12PM-5PM)</label>
+                          <label><input type="checkbox" value="evening"> Evening (5PM-9PM)</label>
+                          <label><input type="checkbox" value="night"> Night (9PM-6AM)</label>
+                      </div>
+                  </div>
+
+                  <!-- Location Filter -->
+                  <div class="filter-group">
+                      <h3>Filter by Location</h3>
+                      <div class="location-input-group">
+                          <input type="text" id="filter-location" placeholder="Enter location...">
+                          <button type="button" id="pick-location-filter" class="pick-location-btn">
+                              <i class="fas fa-map-marker-alt"></i>
+                          </button>
+                      </div>
+                  </div>
+
+                  <!-- Action Buttons -->
+                  <div class="filter-actions">
+                      <button id="apply-filters" class="filter-button">Apply Filters</button>
+                      <button id="reset-filters" class="filter-button">Reset Filters</button>
+                  </div>
+              </div>
+            </li>
+
+            <!-- Archive -->
+            <li><a href="#" class="activity-tab" data-activity="archive">
+              <i class="fas fa-archive"></i><span>Archive</span></a>
+              <div class="explorer-subtabs hidden">
+                <button class="explorer-tab-btn active" data-tab="favorites">
+                    <i class="fas fa-star"></i>
+                    <span>Favorites</span>
+                </button>
+                <button class="explorer-tab-btn" data-tab="all">
+                    <i class="fas fa-folder"></i>
+                    <span>All</span>
+                </button>
+                <button class="explorer-tab-btn" data-tab="recent">
+                    <i class="fas fa-clock"></i>
+                    <span>Recent</span>
+                </button>
+                <button class="explorer-tab-btn" data-tab="search">
+                    <i class="fas fa-search"></i>
+                    <span>Search</span>
+                </button>
+            </div>
+          </li>
+
+          <!-- About -->
           <li><a href="#" class="activity-tab" data-activity="about">
             <i class="fas fa-info-circle"></i><span>About</span></a>
             <div class="explorer-subtabs hidden">
@@ -167,183 +448,8 @@
                 </div>
             </div>
           </li>
-
-          <li><a href="#" class="activity-tab" data-activity="explorer">
-            <i class="fas fa-user"></i><span>Explorer</span></a>
-            <div class="explorer-subtabs hidden">
-                <button class="explorer-tab-btn active" data-tab="profile">
-                    <i class="fas fa-id-card"></i>
-                    <span>Profile</span>
-                </button>
-                <button class="explorer-tab-btn" data-tab="favorites">
-                    <i class="fas fa-star"></i>
-                    <span>Favorites</span>
-                </button>
-                <button class="explorer-tab-btn" data-tab="settings">
-                    <i class="fas fa-cog"></i>
-                    <span>Settings</span>
-                </button>
-                <button class="explorer-tab-btn" data-tab="help">
-                    <i class="fas fa-question-circle"></i>
-                    <span>Help</span>
-                </button>
-            </div>
-          </li>
-
-          <li><a href="#" class="activity-tab" data-activity="journey">
-            <i class="fas fa-route"></i><span>Journey</span></a>
-            <div class="explorer-subtabs hidden">
-              <button class="explorer-tab-btn active" data-tab="capture">
-                  <i class="fas fa-camera"></i>
-                  <span>Capture</span>
-              </button>
-              <button class="explorer-tab-btn" data-tab="myactivities">
-                  <i class="fas fa-list-alt"></i>
-                  <span>Activities</span>
-              </button>
-              <button class="explorer-tab-btn" data-tab="drafts">
-                  <i class="fas fa-file-alt"></i>
-                  <span>Drafts</span>
-              </button>
-              <button class="explorer-tab-btn" data-tab="history">
-                  <i class="fas fa-history"></i>
-                  <span>History</span>
-              </button>
-          </div>
-        </li>
-
-          <li><a href="#" class="activity-tab" data-activity="discovery">
-            <i class="fas fa-map-marked-alt"></i><span>Discovery</span></a>
-            <div class="explorer-subtabs hidden">
-                <button class="explorer-tab-btn active" data-tab="live-map">
-                    <i class="fas fa-tags"></i>
-                    <span>Category</span>
-                </button>
-                <button class="explorer-tab-btn" data-tab="list-view" id="list-events-btn">
-                    <i class="fas fa-list"></i>
-                    <span>List Events</span>
-                </button>
-                <button class="explorer-tab-btn" data-tab="filter">
-                    <i class="fas fa-filter"></i>
-                    <span>Filter</span>
-                </button>
-            </div>
-            
-            <!-- Add the filter settings container here -->
-            <div class="filter-settings-container hidden">
-                <!-- Radius Filter -->
-                <div class="filter-group">
-                    <h3>Filter by Radius</h3>
-                    <div class="radius-toggle-container">
-                        <label for="radius-toggle">Enable Radius</label>
-                        <input type="checkbox" id="radius-toggle" checked>
-                    </div>
-                    <div class="slider-container">
-                        <input type="range" 
-                               id="radius-slider" 
-                               min="0.00189394" 
-                               max="1" 
-                               step="0.00189394" 
-                               value="0.75">
-                        <div class="radius-value-container">
-                            <span>10 ft</span>
-                            <span id="radius-value">0.75 mi</span>
-                            <span>1 mi</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Category Filter -->
-                <div class="filter-group">
-                    <h3>Filter by Category</h3>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" value="academic"> Academic</label>
-                        <label><input type="checkbox" value="social"> Social</label>
-                        <label><input type="checkbox" value="career"> Career</label>
-                        <label><input type="checkbox" value="cultural"> Cultural</label>
-                        <label><input type="checkbox" value="sports"> Sports</label>
-                        <label><input type="checkbox" value="arts"> Arts</label>
-                        <label><input type="checkbox" value="technology"> Technology</label>
-                        <label><input type="checkbox" value="other"> Other</label>
-                    </div>
-                </div>
-
-                <!-- Search Filter -->
-                <div class="filter-group">
-                    <h3>Filter by Search</h3>
-                    <div class="search-input">
-                        <input type="text" id="filter-search" placeholder="Search events...">
-                        <i class="fas fa-search"></i>
-                    </div>
-                </div>
-
-                <!-- Date Filter -->
-                <div class="filter-group">
-                    <h3>Filter by Date</h3>
-                    <div class="date-inputs">
-                        <input type="date" id="filter-start-date">
-                        <span>to</span>
-                        <input type="date" id="filter-end-date">
-                    </div>
-                </div>
-
-                <!-- Time Filter -->
-                <div class="filter-group">
-                    <h3>Filter by Time</h3>
-                    <div class="time-inputs">
-                        <input type="time" id="filter-start-time">
-                        <span>to</span>
-                        <input type="time" id="filter-end-time">
-                    </div>
-                    <div class="checkbox-group time-periods">
-                        <label><input type="checkbox" value="morning"> Morning (6AM-12PM)</label>
-                        <label><input type="checkbox" value="afternoon"> Afternoon (12PM-5PM)</label>
-                        <label><input type="checkbox" value="evening"> Evening (5PM-9PM)</label>
-                        <label><input type="checkbox" value="night"> Night (9PM-6AM)</label>
-                    </div>
-                </div>
-
-                <!-- Location Filter -->
-                <div class="filter-group">
-                    <h3>Filter by Location</h3>
-                    <div class="location-input-group">
-                        <input type="text" id="filter-location" placeholder="Enter location...">
-                        <button type="button" id="pick-location-filter" class="pick-location-btn">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="filter-actions">
-                    <button id="apply-filters" class="filter-button">Apply Filters</button>
-                    <button id="reset-filters" class="filter-button">Reset Filters</button>
-                </div>
-            </div>
-          </li>
-
-          <li><a href="#" class="activity-tab" data-activity="archive">
-            <i class="fas fa-archive"></i><span>Archive</span></a>
-            <div class="explorer-subtabs hidden">
-              <button class="explorer-tab-btn active" data-tab="all">
-                  <i class="fas fa-folder"></i>
-                  <span>All</span>
-              </button>
-              <button class="explorer-tab-btn" data-tab="recent">
-                  <i class="fas fa-clock"></i>
-                  <span>Recent</span>
-              </button>
-              <button class="explorer-tab-btn" data-tab="favorites">
-                  <i class="fas fa-star"></i>
-                  <span>Favorites</span>
-              </button>
-              <button class="explorer-tab-btn" data-tab="search">
-                  <i class="fas fa-search"></i>
-                  <span>Search</span>
-              </button>
-          </div>
-        </li>
-        </ul>
+          </ul>
+        </div>
       </nav>
 
       <button id="collapse-left" aria-label="Collapse Menu">
@@ -360,16 +466,12 @@
       <div class="tab-content" id="explorer">
         <div class="explorer-tabs">
           <button class="explorer-tab-btn active" data-tab="profile">Profile</button>
-          <button class="explorer-tab-btn" data-tab="favorites">Favorites</button>
           <button class="explorer-tab-btn" data-tab="settings">Settings</button>
           <button class="explorer-tab-btn" data-tab="help">Help</button>
         </div>
         
         <div class="explorer-tab-content active" id="profile-tab">
           <!-- Profile content here -->
-        </div>
-        <div class="explorer-tab-content" id="favorites-tab">
-          <!-- Favorites content here -->
         </div>
         <div class="explorer-tab-content" id="settings-tab">
           <!-- Settings content here -->
@@ -382,80 +484,7 @@
       <!-- Journey Content -->
       <div class="tab-content hidden" id="journey">
         <div class="journey-content">
-          <div id="journey-capture-form" class="capture-form hidden">
-            <div class="capture-form-header">
-              <h2>Capture Activity</h2>
-            </div>
-            <form id="activity-capture-form">
-              <div class="form-group">
-                <label for="activity-media">Media</label>
-                <div class="media-upload-container">
-                  <input type="file" id="activity-media" multiple accept="image/*,video/*">
-                  <label for="activity-media" class="media-upload-btn">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <span>Upload Images/Videos</span>
-                  </label>
-                  <div id="media-preview" class="media-preview"></div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="activity-name">Activity Name*</label>
-                <input type="text" id="activity-name" required placeholder="Enter activity name">
-              </div>
-
-              <div class="form-group">
-                <label for="activity-category">Category*</label>
-                <select id="activity-category" required>
-                  <option value="">Select a category</option>
-                  <option value="food">Food & Dining</option>
-                  <option value="shopping">Shopping</option>
-                  <option value="entertainment">Entertainment</option>
-                  <option value="sports">Sports & Recreation</option>
-                  <option value="education">Education</option>
-                  <option value="work">Work</option>
-                  <option value="travel">Travel</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="activity-caption">Caption</label>
-                <input type="text" id="activity-caption" placeholder="Add a short caption">
-              </div>
-
-              <div class="form-group">
-                <label for="activity-description">Description</label>
-                <textarea id="activity-description" rows="3" placeholder="Add a detailed description"></textarea>
-              </div>
-
-              <div class="form-group">
-                <label for="activity-location">Location*</label>
-                <div class="location-input-group">
-                  <input type="text" id="activity-location" required placeholder="Enter or pick location">
-                  <button type="button" id="pick-location-btn" class="pick-location-btn">
-                    <i class="fas fa-map-marker-alt"></i>
-                  </button>
-                </div>
-              </div>
-
-              <div class="form-group datetime-group">
-                <div class="start-time">
-                  <label for="activity-start">Start Time*</label>
-                  <input type="datetime-local" id="activity-start" required>
-                </div>
-                <div class="end-time">
-                  <label for="activity-end">End Time*</label>
-                  <input type="datetime-local" id="activity-end" required>
-                </div>
-              </div>
-
-              <div class="form-actions">
-                <button type="button" class="cancel-btn">Cancel</button>
-                <button type="submit" class="save-btn">Save Activity</button>
-              </div>
-            </form>
-          </div>
+          <!-- Remove the capture form from here -->
         </div>
       </div>
     </main>
@@ -474,17 +503,16 @@
     </div>
   </div>
 
+  <!-- Add this before your other scripts -->
+  <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+
   <!-- External JavaScript -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
-  <script src="firebase-config.js"></script>
-  <script src="auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
   <script src="script.js"></script>
-
-  <!-- Add this before your other scripts -->
-  <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
 
 </body>
 </html>

@@ -1,4 +1,10 @@
-// Your web app's Firebase configuration
+// ---------------------------
+// Firebase Configuration Module
+// ---------------------------
+
+// ---------------------------
+// 1) Firebase Configuration
+// ---------------------------
 const firebaseConfig = {
   apiKey: "AIzaSyCGoOiUDU6r002oO_I34A006W32q8gbR0o",
   authDomain: "odyssey-0209vaibhav.firebaseapp.com",
@@ -9,8 +15,14 @@ const firebaseConfig = {
   measurementId: "G-589GPCGG4R"
 };
 
-// Initialize Firebase
+// ---------------------------
+// 2) Firebase Initialization
+// ---------------------------
+// Initialize core Firebase app
 firebase.initializeApp(firebaseConfig);
 
-// Initialize Analytics (optional)
+// ---------------------------
+// 3) Analytics Setup
+// ---------------------------
+// Initialize Firebase Analytics service
 const analytics = firebase.analytics(); 

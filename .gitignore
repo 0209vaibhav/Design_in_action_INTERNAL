@@ -1,0 +1,22 @@
+# Firebase
+serviceAccountKey.json
+.env
+
+# Dependencies
+node_modules/
+
+# Build
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db 

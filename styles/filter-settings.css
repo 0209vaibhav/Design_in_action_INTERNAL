@@ -1,0 +1,1016 @@
+/* ========== FILTER SETTINGS STYLES ========== */
+
+  /* --- Filter Container --- */
+  .filter-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    z-index: 900;
+    width: calc(100% - 30px);
+    max-width: 900px;
+    box-sizing: border-box;
+  }
+
+   /* --- Filter Group Headers --- */
+   .filter-group h3 {
+    font-family: Arial, sans-serif;
+    font-size: 1.1rem;
+    color: #333;
+    margin: 0;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 24px;
+  } 
+
+    /* --- Filter Labels --- */
+    .filter-group label {
+        font-size: 14px; /* Set a consistent font size for labels */
+        color: #666; /* Use a softer color for labels */
+        margin-bottom: 5px; /* Add space below labels */
+      }
+      
+      /* --- Filter Buttons --- */
+      .filter-button {
+        background-color: #FF0080; /* Use brand color for buttons */
+        color: white; /* Ensure text is white for contrast */
+        border-radius: 4px; /* Slightly round corners */
+        transition: background-color 0.2s; /* Smooth transition for hover effect */
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      
+      .filter-button:hover {
+        background-color: #e5007a; /* Darker shade on hover */
+      }
+      
+      /* --- Checkbox Groups --- */
+      .checkbox-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .checkbox-group label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        color: #666;
+        font-size: 14px;
+      }
+
+        /* --- Date Input Fields --- */
+  .date-inputs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+  }
+  
+  .date-inputs input[type="date"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    flex: 1;
+  }
+  
+  .date-inputs span {
+    color: #666;
+  }
+  
+  /* --- Filter Actions --- */
+  .filter-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  /* --- Reset Filter Button --- */
+  .reset-filter-button {
+    flex: 1;
+    padding: 10px 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #374151;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+  }
+  
+  .reset-filter-button:hover {
+    background-color: #f3f4f6;
+  }
+  
+  /* --- Save Filter Button --- */
+  .save-filter-button {
+    flex: 1;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #FF0080;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+  }
+  
+  .save-filter-button:hover {
+    background-color: #e5006f;
+  }
+  
+  /* --- Search Input --- */
+  .search-input {
+    position: relative;
+    width: 100%;
+  }
+  
+  .search-input input {
+    width: 100%;
+    padding: 8px 32px 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .search-input i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+  }
+
+    /* --- Time Input Fields --- */
+    .time-inputs {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      
+      .time-inputs input[type="time"] {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        flex: 1;
+      }
+      
+      .time-periods {
+        margin-top: 8px;
+      }
+      
+      /* --- Location Input --- */
+      .location-input-group {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      
+      .location-input-group input {
+        flex: 1;
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+        /* Improve aesthetics of the filter settings container */
+  .filter-settings-container {
+    position: absolute;
+    top: 300px;  /* Same position as radius control */
+    left: 15px;
+    right: 15px;
+    bottom: 20px;
+    background-color: white;
+    border-radius: 12px;
+    z-index: 900;
+    width: calc(100% - 30px);
+    max-width: 900px;
+    box-sizing: border-box;
+
+  }
+  
+  .filter-group h3 {
+    font-family: Arial, sans-serif;
+    font-size: 1.1rem;
+    color: #333;
+    margin: 0;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 24px;
+  }
+  
+  .filter-group label {
+    font-size: 14px; /* Set a consistent font size for labels */
+    color: #666; /* Use a softer color for labels */
+    margin-bottom: 5px; /* Add space below labels */
+  }
+  
+  .filter-button {
+    background-color: #FF0080; /* Use brand color for buttons */
+    color: white; /* Ensure text is white for contrast */
+    border-radius: 4px; /* Slightly round corners */
+    transition: background-color 0.2s; /* Smooth transition for hover effect */
+        
+  }
+  
+  .filter-button:hover {
+    background-color: #e5007a; /* Darker shade on hover */
+  }
+  
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .date-inputs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+  }
+  
+  .date-inputs input[type="date"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    flex: 1;
+  }
+  
+  .date-inputs span {
+    color: #666;
+  }
+  
+  .filter-button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #FF0080;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .filter-button:hover {
+    background-color: #e5006f;
+  }
+  
+  .filter-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.reset-filter-button {
+    flex: 1;
+    padding: 10px 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #374151;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.reset-filter-button:hover {
+    background-color: #f3f4f6;
+}
+
+.save-filter-button {
+    flex: 1;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #FF0080;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.save-filter-button:hover {
+    background-color: #e5006f;
+}
+  
+  /* Search Input Styling */
+  .search-input {
+    position: relative;
+    width: 100%;
+  }
+  
+  .search-input input {
+    width: 100%;
+    padding: 8px 32px 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .search-input i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+  }
+  
+  /* Time Inputs Styling */
+  .time-inputs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .time-inputs input[type="time"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    flex: 1;
+  }
+  
+  .time-periods {
+    margin-top: 8px;
+  }
+  
+  /* Location Input Styling */
+  .location-input-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .location-input-group input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .pick-location-btn {
+    background: #FF0080;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .pick-location-btn:hover {
+    background-color: #e5007a;
+  }
+  
+  .location-options {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+  }
+  
+  /* Filter Actions Styling */
+  .filter-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  /* Enhance existing filter button styles */
+  .filter-button {
+    padding: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  /* Add some spacing between filter groups */
+  .filter-group {
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .filter-group:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  .filters-section {
+    display: none;
+  }
+
+  .checkbox-group {
+    display: none;
+  }
+
+  .filter-buttons {
+    display: none;
+  }
+
+  .filter-button {
+    display: none;
+  }
+
+  .filter-date-range {
+    display: none;
+  }
+
+  .filter-group {
+    margin-bottom: 20px;
+    border-radius: 8px;
+  }
+
+  .filter-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .filter-group h3 {
+    font-family: Arial, sans-serif;
+    font-size: 1.1rem;
+    color: #333;
+    margin: 0 0 0 0;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 24px;
+  }
+
+  .filter-settings-container .filter-group {
+    border-bottom: 1px solid #f0f0f0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .filter-settings-container .capture-form-header {
+    border-bottom: 1px solid #f0f0f0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .filter-settings-container .capture-form-header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .filter-settings-container .capture-form-header h2::before {
+    content: none !important;  /* Remove any inherited icon */
+  }
+
+  .filter-settings-container .capture-form-header h2 i {
+    color: #FF0080;
+  }
+
+  .filter-settings-container .filter-group {
+    border-bottom: 1px solid #f0f0f0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .filter-settings-container .filter-content {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Ensure the container respects parent width */
+  .info-tab .filter-settings-container {
+    width: 100%;
+    max-width: calc(100% - 30px);
+  }
+
+    /* Update existing filter group styles */
+    .filter-group {
+        border-radius: 8px;
+      }
+
+       /* --- Radius Control Styles --- */
+  #radius-control {
+    width: 100%;
+    background-color: white;
+    padding: 25px 30px;
+    box-sizing: border-box;
+    position: absolute;
+    top: 340px;
+    left: 0;
+    right: 0;
+    border-top: none;
+    z-index: 900;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 8px 8px;
+  }
+  
+  #radius-control.hidden {
+    display: none;
+  }
+  
+  .radius-toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 100%; /* Match parent height */
+  }
+  
+  .radius-toggle-container label {
+    font-size: 15px;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  /* Custom toggle switch */
+  input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 50px;
+    height: 26px;
+    background: #eee;
+    border-radius: 13px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid #ddd;
+    margin: 0;
+    top: 0;
+  }
+  
+  input[type="checkbox"]:checked {
+    background: #FF0080;
+    border-color: #FF0080;
+  }
+  
+  input[type="checkbox"]::before {
+    content: '';
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    background: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+  
+  input[type="checkbox"]:checked::before {
+    left: 24px;
+  }
+  
+  .slider-container {
+    width: 100%;
+    padding: 10px 0;
+  }
+  
+  #radius-slider {
+    width: 100%;
+    margin: 10px 0;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    background: #ddd;
+    border-radius: 2px;
+    outline: none;
+  }
+  
+  #radius-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #FF0080;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+  }
+  
+  #radius-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  #radius-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #FF0080;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+  }
+  
+  #radius-slider::-moz-range-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  .radius-value-container {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #666;
+    margin-top: 8px;
+    padding: 0 2px;
+  }
+  
+  #radius-value {
+    color: #FF0080;
+    font-weight: 500;
+  }
+
+    /* Flashback Tags Styles */
+    .flashback-tags-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 10px;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        margin-top: 5px;
+      }
+    
+      .tag-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        background-color: white;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+        cursor: pointer;
+      }
+    
+      .tag-item:hover {
+        background-color: #f0f0f0;
+      }
+    
+      .tag-item input[type="checkbox"] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 18px;
+        height: 18px;
+        border: 2px solid #e5e7eb;
+        border-radius: 4px;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.2s ease;
+      }
+    
+      .tag-item input[type="checkbox"]:checked {
+        background-color: #FF0080;
+        border-color: #FF0080;
+      }
+    
+      .tag-item input[type="checkbox"]:checked::after {
+        content: '✓';
+        color: white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 12px;
+      }
+    
+      .tag-item label {
+        font-size: 0.9rem;
+        color: #374151;
+        cursor: pointer;
+        user-select: none;
+      }
+    
+      .tag-item:hover input[type="checkbox"]:not(:checked) {
+        border-color: #FF0080;
+      }
+
+        /* --- Form Select Styling --- */
+  .control-group select {
+    padding: 10px 12px;
+    border: 1px solid rgba(203, 213, 224, 0.5);
+    border-radius: 8px;
+    background: white;
+    color: #2d3748;
+    font-size: 0.9em;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF0080'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+  }
+  
+  .control-group select:hover {
+    border-color: #FF0080;
+  }
+  
+  .control-group select:focus {
+    border-color: #FF0080;
+    box-shadow: 0 0 0 3px rgba(255, 0, 128, 0.1);
+    outline: none;
+  }
+
+    /* Search Bar Container Styles */
+    .search-bar-container {
+        position: relative;
+        width: 100%;
+        padding: 10px 0;
+        background-color: #ffffff;
+        font-family: Arial, sans-serif;
+        color: #333333;
+      }
+    
+      .search-bar-container .search-input {
+        width: calc(100% - 30px);
+        padding: 10px 15px 10px 15px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        font-family: Arial, sans-serif;
+        color: #333333;
+        transition: all 0.2s ease;
+        background-color: #ffffff;
+      }
+    
+      .search-bar-container .search-input:focus {
+        outline: none;
+        border-color: #FF0080;
+        box-shadow: 0 0 0 3px rgba(255, 0, 128, 0.1);
+      }
+    
+      .search-bar-container .search-input::placeholder {
+        color: #9ca3af;
+      }
+    
+      .search-bar-container .search-button {
+        position: absolute;
+        right: 0px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #9ca3af;
+        cursor: pointer;
+        padding: 5px;
+        transition: color 0.2s ease;
+      }
+    
+      .search-bar-container .search-button:hover {
+        color: #FF0080;
+      }
+    
+      .search-bar-container .search-button i {
+        font-size: 1.1rem;
+      }
+
+      .radius-interaction-container {
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+    
+      .radius-interaction-container label {
+        font-size: 14px;
+        color: #333;
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+    
+      .radius-interaction-container select {
+        flex: 1;
+        min-width: 0; /* Prevents select from overflowing */
+        padding: 8px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        background-color: white;
+        font-size: 14px;
+        color: #333;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: calc(100% - 15px); /* Ensures there's always a right margin */
+      }
+    
+      .radius-interaction-container select:hover {
+        border-color: #FF0080;
+      }
+    
+      .radius-interaction-container select:focus {
+        outline: none;
+        border-color: #FF0080;
+        box-shadow: 0 0 0 2px rgba(255, 0, 128, 0.1);
+      }
+    
+      .chevron-btn {
+        background: none;
+        border: none;
+        color: #666;
+        cursor: pointer;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease;
+      }
+    
+      .chevron-btn:hover {
+        color: #333;
+      }
+    
+      .radius-toggle-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+    
+      .radius-toggle-container input[type="checkbox"] {
+        margin: 0;
+        vertical-align: middle;
+        position: relative;
+        top: -1px;
+      }
+
+        /* --- Checkbox Styling --- */
+  .control-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #FF0080;
+    border-radius: 4px;
+  }
+  
+  /* --- Range Input Styling --- */
+  .control-group input[type="range"] {
+    width: 100%;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  
+  .control-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(45deg, #FF0080, #FF66B2);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(255, 0, 128, 0.2);
+  }
+  
+  .control-group input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 12px rgba(255, 0, 128, 0.3);
+  }
+
+    /* --- Timestamp Toggle --- */
+    .timestamp-toggle {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 10px 0;
+        font-size: 14px;
+        color: #333;
+      }
+      
+      .timestamp-toggle input[type="checkbox"] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 40px;
+        height: 20px;
+        background-color: #ccc;
+        border-radius: 20px;
+        position: relative;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      
+      .timestamp-toggle input[type="checkbox"]:checked {
+        background-color: #4CAF50;
+      }
+      
+      .timestamp-toggle input[type="checkbox"]::before {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background-color: white;
+        top: 2px;
+        left: 2px;
+        transition: transform 0.3s;
+      }
+      
+      .timestamp-toggle input[type="checkbox"]:checked::before {
+        transform: translateX(20px);
+      }
+      
+      .timestamp-toggle label {
+        cursor: pointer;
+        user-select: none;
+      }
+
+        /* --- Checkbox Styling --- */
+  .control-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #FF0080;
+    border-radius: 4px;
+  }
+  
+  /* --- Range Input Styling --- */
+  .control-group input[type="range"] {
+    width: 100%;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  
+  .control-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(45deg, #FF0080, #FF66B2);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(255, 0, 128, 0.2);
+  }
+  
+  .control-group input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 12px rgba(255, 0, 128, 0.3);
+  }

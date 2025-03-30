@@ -1,6 +1,9 @@
 # Firebase
 serviceAccountKey.json
 .env
+.venv/
+venv/
+*firebase-adminsdk*.json
 
 # Dependencies
 node_modules/

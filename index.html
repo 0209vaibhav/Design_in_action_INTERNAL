@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- ========== HEAD SECTION: Meta Tags and External Resources ========== -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Odyssey - Transforming Commutes</title>
   
+  <!-- External Libraries -->
   <!-- Mapbox GL JS -->
   <script src="https://api.mapbox.com/mapbox-gl-js/v3.1.0/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v3.1.0/mapbox-gl.css" rel="stylesheet" />
@@ -15,11 +17,745 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   </noscript>
   
-  <!-- External CSS -->
-  <link rel="stylesheet" href="styles.css">
-  
-  <!-- Add this meta tag -->
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/navigation.css">
+  <link rel="stylesheet" href="styles/map-container.css">
+  <link rel="stylesheet" href="styles/marker.css">
+  <link rel="stylesheet" href="styles/filter-settings.css">
+  <link rel="stylesheet" href="styles/profile-container.css">
+  <link rel="stylesheet" href="styles/auth-container.css">
+  <link rel="stylesheet" href="styles/capture-form.css">
+  <link rel="stylesheet" href="styles/info-container.css">
+  <link rel="stylesheet" href="styles/live-feed-container.css">
+  <link rel="stylesheet" href="styles/drafts-container.css">
+  <link rel="stylesheet" href="styles/archive-container.css">
+  <link rel="stylesheet" href="styles/curated-container.css">
+  <link rel="stylesheet" href="styles/favorites-container.css">
+  <link rel="stylesheet" href="styles/credits-container.css">
+  <link rel="stylesheet" href="styles/help-container.css">
+  <link rel="stylesheet" href="styles/toast-notification.css">
+  <link rel="stylesheet" href="styles/my-mementos-container.css">
+
+  <!-- Additional Meta Tags -->
   <meta name="forced-colors-adjust" content="none">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Google Maps API -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGoOiUDU6r002oO_I34A006W32q8gbR0o&libraries=places"></script>
+</head>
+
+<body>
+  <!-- ========== MAIN CONTAINER ========== -->
+  <div class="container">
+    <!-- ========== LEFT NAVIGATION PANEL ========== -->
+    <div class="left-section">
+      <nav class="info-tab" aria-label="Main Navigation">
+        <!-- Header with Logo -->
+        <div class="header-content">
+          <h1>
+            <span class="logo-text">CITY-SENS</span>
+          </h1>
+          <p class="tagline">from disconnected <strong>OBLIVIAN</strong> commute,<br>to an engaging <strong>ODYSSEY</strong> journey</p>
+        </div>
+        
+        <!-- ========== MAIN NAVIGATION TABS ========== -->
+        <div class="activity-tabs-container">
+          <ul>
+            <!-- Explorer Tab -->
+            <li><a href="#" class="activity-tab" data-activity="explorer">
+              <i class="fas fa-user"></i><span>Explorer</span></a>
+              <!-- Explorer Subtabs -->
+              <div class="explorer-subtabs hidden">
+                  <button class="explorer-tab-btn active" data-tab="profile">
+                      <i class="fas fa-id-card"></i>
+                      <span>Profile</span>
+                  </button>
+                  <button class="explorer-tab-btn" data-tab="archive">
+                      <i class="fas fa-archive"></i>
+                      <span>Archive</span>
+                  </button>
+                  <button class="explorer-tab-btn" data-tab="my-mementos">
+                      <i class="fas fa-bookmark"></i>
+                      <span>My Mementos</span>
+                  </button>
+              </div>
+            </li>
+
+            <!-- Journey/Capture Tab -->
+            <li><a href="#" class="activity-tab" data-activity="journey">
+              <i class="fas fa-camera"></i><span>Capture</span></a>
+              <!-- Journey Subtabs -->
+              <div class="explorer-subtabs hidden">
+                <button class="explorer-tab-btn active" data-tab="capture">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Create</span>
+                </button>
+                <button class="explorer-tab-btn" data-tab="drafts">
+                    <i class="fas fa-edit"></i>
+                    <span>Drafts</span>
+                </button>
+              </div>
+
+              <!-- ========== CAPTURE FORM SECTION ========== -->
+              <div id="journey-capture-form" class="capture-form hidden">
+                <!-- Form Header -->
+                <div class="capture-form-header">
+                  <h2><i class="fas fa-plus-circle"></i> Create Memento</h2>
+                </div>
+                
+                <!-- Memento Preview Container -->
+                <div id="memento-preview-container" class="memento-preview-container">
+                  <div class="detail-section">
+                    <!-- Media Upload Preview -->
+                    <div class="detail-row" data-type="media">
+                      <span><i class="fas fa-camera"></i> Memento Media</span>
+                      <span class="detail-value" id="media-preview-text">Add photo/video</span>
+                      <button class="chevron-btn"></button>
+                    </div>
+                    
+                    <!-- Name -->
+                    <div class="detail-row" data-type="name">
+                      <span><i class="fas fa-tag"></i> Name</span>
+                      <span class="detail-value" id="name-preview">Add name</span>
+                      <button class="chevron-btn"></button>
+                    </div>
+                    
+                    <!-- Caption -->
+                    <div class="detail-row" data-type="caption">
+                      <span><i class="fas fa-quote-right"></i> Caption</span>
+                      <span class="detail-value" id="caption-preview">Add caption</span>
+                      <button class="chevron-btn"></button>
+                    </div>
+                    
+                    <!-- Description -->
+                    <div class="detail-row" data-type="description">
+                      <span><i class="fas fa-align-left"></i> Description</span>
+                      <span class="detail-value" id="description-preview">Add description</span>
+                      <button class="chevron-btn"></button>
+                    </div>
+                    
+                    <!-- Tags -->
+                    <div class="detail-row" data-type="tags">
+                      <span><i class="fas fa-tags"></i> Memento Tags</span>
+                      <span class="detail-value" id="tags-preview">Select tags</span>
+                      <button class="chevron-btn"></button>
+                    </div>
+                    
+                    <!-- Category -->
+                    <div class="detail-row" data-type="category">
+                      <span><i class="fas fa-folder"></i> Memento Category</span>
+                      <span class="detail-value" id="category-preview">Select category</span>
+                      <button class="chevron-btn"></button>
+                    </div>
+                    
+                    <!-- Location -->
+                    <div class="detail-row" data-type="location">
+                      <span><i class="fas fa-map-marker-alt"></i> Location</span>
+                      <span class="detail-value" id="location-preview">Add location</span>
+                      <button class="chevron-btn"></button>
+                    </div>
+                    
+                    <!-- Timestamp -->
+                    <div class="detail-row" data-type="timestamp">
+                      <span><i class="fas fa-clock"></i> Timestamp</span>
+                      <span class="detail-value" id="timestamp-preview">Current time</span>
+                      <button class="chevron-btn"></button>
+                    </div>
+                    
+                    <!-- Duration -->
+                    <div class="detail-row" data-type="duration">
+                      <span><i class="fas fa-hourglass-half"></i> Memento Duration</span>
+                      <span class="detail-value" id="duration-preview">Select duration</span>
+                      <button class="chevron-btn"></button>
+                    </div>
+                  </div>
+                  
+                  <!-- Form Actions -->
+                  <div class="memento-actions">
+                    <div class="memento-actions-row">
+                      <button type="button" id="cancel-memento-btn" class="memento-action-btn cancel-btn">
+                        <i class="fas fa-times"></i> Cancel Memento
+                      </button>
+                      <button type="button" id="draft-memento-btn" class="memento-action-btn draft-btn">
+                        <i class="fas fa-save"></i> Draft Memento
+                      </button>
+                    </div>
+                    <button type="button" id="save-memento-btn" class="memento-action-btn">
+                      <i class="fas fa-check"></i> Save Memento
+                    </button>
+                  </div>
+                </div>
+                
+                <!-- Edit Screens - Initially Hidden -->
+                <!-- Media Edit Screen -->
+                <div id="media-edit-screen" class="edit-screen hidden">
+                  <div class="edit-screen-header">
+                    <button class="back-btn">‹</button>
+                    <h3>Memento Media</h3>
+                  </div>
+                  <div class="edit-field-group">
+                    <label for="activity-media">Upload Media</label>
+                    <div class="media-upload-container">
+                      <div class="media-upload-box" id="media-upload-box">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop files here or</p>
+                        <input type="file" id="activity-media" accept="image/*,video/*" multiple>
+                        <label for="activity-media" class="upload-button">
+                          <i class="fas fa-plus"></i>
+                          Choose Files
+                        </label>
+                      </div>
+                      <div id="media-preview" class="media-preview-container"></div>
+                    </div>
+                    <button type="button" class="save-field-btn">Save</button>
+                  </div>
+                </div>
+                
+                <!-- Name Edit Screen -->
+                <div id="name-edit-screen" class="edit-screen hidden">
+                  <div class="edit-screen-header">
+                    <button class="back-btn">‹</button>
+                    <h3>Memento Name</h3>
+                  </div>
+                  <div class="edit-field-group">
+                    <label for="memento-name">Name</label>
+                    <input type="text" id="memento-name" placeholder="Enter a name for your memento">
+                    <button type="button" class="save-field-btn">Save</button>
+                  </div>
+                </div>
+                
+                <!-- Caption Edit Screen -->
+                <div id="caption-edit-screen" class="edit-screen hidden">
+                  <div class="edit-screen-header">
+                    <button class="back-btn">‹</button>
+                    <h3>Caption</h3>
+                  </div>
+                  <div class="edit-field-group">
+                    <label for="memento-caption">Caption</label>
+                    <input type="text" id="memento-caption" placeholder="Add a short caption">
+                    <button type="button" class="save-field-btn">Save</button>
+                  </div>
+                </div>
+                
+                <!-- Description Edit Screen -->
+                <div id="description-edit-screen" class="edit-screen hidden">
+                  <div class="edit-screen-header">
+                    <button class="back-btn">‹</button>
+                    <h3>Description</h3>
+                  </div>
+                  <div class="edit-field-group">
+                    <label for="memento-description">Description</label>
+                    <textarea id="memento-description" rows="4" placeholder="Add a detailed description"></textarea>
+                    <button type="button" class="save-field-btn">Save</button>
+                  </div>
+                </div>
+                
+                <!-- Tags Edit Screen -->
+                <div id="tags-edit-screen" class="edit-screen hidden">
+                  <div class="edit-screen-header">
+                    <button class="back-btn">‹</button>
+                    <h3>Memento Tags</h3>
+                  </div>
+                  <div class="edit-field-group">
+                    <div class="tags-container">
+                      <div class="tag-item">
+                        <input type="checkbox" id="tag-ephemeral" name="memento-tags" value="ephemeral">
+                        <label for="tag-ephemeral">🌀 Ephemeral</label>
+                      </div>
+                      <div class="tag-item">
+                        <input type="checkbox" id="tag-unmapped" name="memento-tags" value="unmapped">
+                        <label for="tag-unmapped">📍 Unmapped</label>
+                      </div>
+                      <div class="tag-item">
+                        <input type="checkbox" id="tag-niche" name="memento-tags" value="niche">
+                        <label for="tag-niche">🧬 Niche/Cult</label>
+                      </div>
+                      <div class="tag-item">
+                        <input type="checkbox" id="tag-emotional" name="memento-tags" value="emotional">
+                        <label for="tag-emotional">💫 Emotionally Charged</label>
+                      </div>
+                      <div class="tag-item">
+                        <input type="checkbox" id="tag-hidden" name="memento-tags" value="hidden">
+                        <label for="tag-hidden">🕵️ Hidden Gem</label>
+                      </div>
+                      <div class="tag-item">
+                        <input type="checkbox" id="tag-unexpected" name="memento-tags" value="unexpected">
+                        <label for="tag-unexpected">🎭 Unexpected Encounter</label>
+                      </div>
+                      <div class="tag-item">
+                        <input type="checkbox" id="tag-reflective" name="memento-tags" value="reflective">
+                        <label for="tag-reflective">🪞 Reflective</label>
+                      </div>
+                      <div class="tag-item">
+                        <input type="checkbox" id="tag-unpleasant" name="memento-tags" value="unpleasant">
+                        <label for="tag-unpleasant">💔 Unpleasant Truth</label>
+                      </div>
+                      <div class="tag-item">
+                        <input type="checkbox" id="tag-rare" name="memento-tags" value="rare">
+                        <label for="tag-rare">⏳ Once-in-a-While</label>
+                      </div>
+                    </div>
+                    <button type="button" class="save-field-btn">Save</button>
+                  </div>
+                </div>
+                
+                <!-- Category Edit Screen -->
+                <div id="category-edit-screen" class="edit-screen hidden">
+                  <div class="edit-screen-header">
+                    <button class="back-btn">‹</button>
+                    <h3>Memento Category</h3>
+                  </div>
+                  <div class="edit-field-group">
+                    <div class="category-container">
+                      <div class="category-item">
+                        <input type="radio" id="category-architecture" name="memento-category" value="architecture">
+                        <label for="category-architecture">🏛️ Architecture</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-urban-nature" name="memento-category" value="urban-nature">
+                        <label for="category-urban-nature">🌿 Urban Nature</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-sky-weather" name="memento-category" value="sky-weather">
+                        <label for="category-sky-weather">🌈 Sky & Weather</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-cultural" name="memento-category" value="cultural">
+                        <label for="category-cultural">🎭 Cultural Spotlight</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-mood-music" name="memento-category" value="mood-music">
+                        <label for="category-mood-music">🎧 Mood & Music</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-creature" name="memento-category" value="creature">
+                        <label for="category-creature">🐾 Creature Sighting</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-street-food" name="memento-category" value="street-food">
+                        <label for="category-street-food">🍴 Street Food</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-social" name="memento-category" value="social">
+                        <label for="category-social">🎊 Social Gathering</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-sport" name="memento-category" value="sport">
+                        <label for="category-sport">⚽ Sport in Action</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-poetic" name="memento-category" value="poetic">
+                        <label for="category-poetic">✍️ Poetic Reflection</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-folklore" name="memento-category" value="folklore">
+                        <label for="category-folklore">💡 Urban Folklore</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-transition" name="memento-category" value="transition">
+                        <label for="category-transition">🏗️ City in Transition</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-unpleasant" name="memento-category" value="unpleasant">
+                        <label for="category-unpleasant">⚠️ Unpleasant Spot</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-public-event" name="memento-category" value="public-event">
+                        <label for="category-public-event">👥 Public Event</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-other" name="memento-category" value="other">
+                        <label for="category-other">🗂️ Other</label>
+                      </div>
+                    </div>
+                    <button type="button" class="save-field-btn">Save</button>
+                  </div>
+                </div>
+                
+                <!-- Location Edit Screen -->
+                <div id="location-edit-screen" class="edit-screen hidden">
+                  <div class="edit-screen-header">
+                    <button class="back-btn">‹</button>
+                    <h3>Location</h3>
+                  </div>
+                  <div class="edit-field-group">
+                    <label for="memento-location">Enter Location</label>
+                    <div class="location-input-group">
+                      <input type="text" id="memento-location" placeholder="Search for a location">
+                      <button type="button" id="use-current-location-btn" class="location-btn" title="Use my current location">
+                        <i class="fas fa-crosshairs"></i>
+                      </button>
+                    </div>
+                    <p class="location-helper-text">Search for a location or use your current location</p>
+                    
+                    <button type="button" class="save-field-btn">Save</button>
+                  </div>
+                </div>
+                
+                <!-- Timestamp Edit Screen -->
+                <div id="timestamp-edit-screen" class="edit-screen hidden">
+                  <div class="edit-screen-header">
+                    <button class="back-btn">‹</button>
+                    <h3>Timestamp</h3>
+                  </div>
+                  <div class="edit-field-group">
+                    <label for="memento-timestamp">Date and Time</label>
+                    <input type="datetime-local" id="memento-timestamp">
+                    <button type="button" id="use-current-time-btn" class="time-btn">Use Current Time</button>
+                    <button type="button" class="save-field-btn">Save</button>
+                  </div>
+                </div>
+                
+                <!-- Duration Edit Screen -->
+                <div id="duration-edit-screen" class="edit-screen hidden">
+                  <div class="edit-screen-header">
+                    <button class="back-btn">‹</button>
+                    <h3>Memento Duration</h3>
+                  </div>
+                  <div class="edit-field-group">
+                    <div class="duration-container">
+                      <div class="duration-item">
+                        <input type="radio" id="duration-15min" name="memento-duration" value="less-than-15min">
+                        <label for="duration-15min">Less than 15 minutes</label>
+                      </div>
+                      <div class="duration-item">
+                        <input type="radio" id="duration-1hr" name="memento-duration" value="15min-1hr">
+                        <label for="duration-1hr">15 minutes - 1 hour</label>
+                      </div>
+                      <div class="duration-item">
+                        <input type="radio" id="duration-2hrs" name="memento-duration" value="1-2hrs">
+                        <label for="duration-2hrs">1 - 2 hours</label>
+                      </div>
+                      <div class="duration-item">
+                        <input type="radio" id="duration-6hrs" name="memento-duration" value="2-6hrs">
+                        <label for="duration-6hrs">2 - 6 hours</label>
+                      </div>
+                      <div class="duration-item">
+                        <input type="radio" id="duration-12hrs" name="memento-duration" value="6-12hrs">
+                        <label for="duration-12hrs">6 - 12 hours</label>
+                      </div>
+                      <div class="duration-item">
+                        <input type="radio" id="duration-24hrs" name="memento-duration" value="12-24hrs">
+                        <label for="duration-24hrs">12 - 24 hours</label>
+                      </div>
+                      <div class="duration-item">
+                        <input type="radio" id="duration-eternal" name="memento-duration" value="eternal">
+                        <label for="duration-eternal">Eternal</label>
+                      </div>
+                    </div>
+                    <button type="button" class="save-field-btn">Save</button>
+                  </div>
+                </div>
+                
+              </div>
+
+              <!-- ========== DRAFTS SECTION ========== -->
+              <div id="journey-drafts-container" class="capture-form hidden">
+                <div class="capture-form-header">
+                  <h2><i class="fas fa-edit"></i>Memento Drafts </h2>
+                </div>
+                <div class="drafts-content">
+                  <!-- Drafts will be dynamically loaded here -->
+                </div>
+              </div>
+
+              <!-- ========== ARCHIVE SECTION ========== -->
+              <div id="archive-container" class="capture-form hidden">
+                <div class="capture-form-header">
+                  <h2><i class="fas fa-archive"></i> Archive</h2>
+                </div>
+                <div class="archive-content">
+                  <!-- Archive content will be dynamically loaded here -->
+                </div>
+              </div>
+
+              <!-- ========== MY MEMENTOS SECTION ========== -->
+              <div class="my-mementos-container hidden">
+                <div class="capture-form-header">
+                  <h2><i class="fas fa-bookmark"></i> My Mementos</h2>
+                </div>
+                <div class="my-mementos-content">
+                  <!-- Content will be dynamically populated -->
+                </div>
+              </div>
+            </li>
+
+            <!-- ========== DISCOVERY TAB ========== -->
+            <li><a href="#" class="activity-tab active" data-activity="discovery">
+              <i class="fas fa-map-marked-alt"></i><span>Discovery</span></a>
+              <!-- Discovery Subtabs -->
+              <div class="explorer-subtabs show">
+                <button class="explorer-tab-btn active" data-tab="live-feed">
+                  <i class="fas fa-stream"></i>
+                  <span>Live Feed</span>
+                </button>
+                <button class="explorer-tab-btn" data-tab="filter">
+                  <i class="fas fa-filter"></i>
+                  <span>Filter</span>
+                </button>
+                <button class="explorer-tab-btn" data-tab="curated">
+                  <i class="fas fa-heart"></i>
+                  <span>Curated</span>
+                </button>
+              </div>
+              
+              <!-- ========== FILTER SETTINGS SECTION ========== -->
+              <div class="filter-settings-container">
+                <!-- Filter Header -->
+                <div class="capture-form-header">
+                  <h2><i class="fas fa-filter"></i> Filter Settings</h2>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="filter-group">
+                  <div class="search-bar-container">
+                    <input type="text" id="event-search" placeholder="Search events..." class="search-input">
+                    <button class="search-button">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Radius Filter -->
+                <div class="filter-group">
+                  <h3>
+                    <span>Filter by Radius</span>
+                    <div class="radius-toggle-container">
+                      <input type="checkbox" id="radius-toggle" checked>
+                      <i class="fas fa-chevron-down"></i>
+                    </div>
+                  </h3>
+                  <div class="radius-interaction-container">
+                    <label>Radius Range:</label>
+                    <select id="radius-range-toggle">
+                      <option value="short">Short Range (10ft - 1mi)</option>
+                      <option value="long">Long Range (1mi - 5mi)</option>
+                    </select>
+                  </div>
+                  <div class="slider-container">
+                    <input type="range" 
+                           id="radius-slider" 
+                           min="0.00189394" 
+                           max="1" 
+                           step="0.00189394" 
+                           value="0.75">
+                    <div class="radius-value-container">
+                      <span class="min-value">10 ft</span>
+                      <span id="radius-value">0.75 mi</span>
+                      <span class="max-value">1 mi</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Category Filter -->
+                <div class="filter-group">
+                  <h3 style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>Filter by Category</span>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <input type="checkbox" id="category-toggle">
+                      <i class="fas fa-chevron-down"></i>
+                    </div>
+                  </h3>
+                </div>
+
+                <!-- Date and Time Filter -->
+                <div class="filter-group">
+                  <h3 style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>Filter by Date & Time</span>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <input type="checkbox" id="datetime-toggle">
+                      <i class="fas fa-chevron-down"></i>
+                    </div>
+                  </h3>
+                </div>
+
+                <!-- Filter Actions -->
+                <div class="filter-actions">
+                  <button id="reset-filters" class="reset-filter-button" onclick="resetFilters()">
+                    <i class="fas fa-times"></i>
+                    Reset Filters
+                  </button>
+                  <button id="save-filters" class="save-filter-button" onclick="saveFilters()">
+                    <i class="fas fa-check"></i>
+                    Save Filters
+                  </button>
+                </div>
+              </div>
+
+              <!-- ========== LIVE FEED SECTION ========== -->
+              <div class="live-feed-container">
+                <div class="capture-form-header">
+                  <h2><i class="fas fa-stream"></i> Live Feed</h2>
+                </div>
+                <div class="live-feed-content">
+                  <!-- Live feed content will be dynamically loaded here -->
+                </div>
+              </div>
+
+              <!-- ========== CURATED SECTION ========== -->
+              <div class="curated-container hidden">
+                <div class="capture-form-header">
+                  <h2><i class="fas fa-heart"></i> Curated Mementos</h2>
+                </div>
+                <div class="curated-content">
+                  <!-- Curated content will be dynamically loaded here -->
+                </div>
+              </div>
+            </li>
+
+            <!-- ========== ABOUT TAB ========== -->
+            <li><a href="#" class="activity-tab" data-activity="about">
+              <i class="fas fa-info-circle"></i><span>About</span></a>
+              <!-- About Subtabs -->
+              <div class="explorer-subtabs hidden">
+                <button class="explorer-tab-btn active" data-tab="info">
+                  <i class="fas fa-info-circle"></i>
+                  <span>Info</span>
+                </button>
+                <button class="explorer-tab-btn" data-tab="credits">
+                  <i class="fas fa-user-friends"></i>
+                  <span>Credits</span>
+                </button>
+              </div>
+              
+              <!-- About Content Sections -->
+              <div class="about-content hidden">
+                <!-- Credits Section -->
+                <div class="about-section active" id="about-credits">
+                  <div class="credits-container">
+                    <div class="credits-header">
+                      <h2><i class="fas fa-user-friends"></i> Credits</h2>
+                    </div>
+                    <div class="credits-content">
+                      <!-- Creator Info -->
+                      <div class="credits-section">
+                        <h3>Created By</h3>
+                        <div class="creator-info">
+                          <i class="fas fa-graduation-cap"></i>
+                          <span>Vaibhav Jain</span>
+                        </div>
+                      </div>
+
+                      <!-- Studio Credits -->
+                      <div class="credits-section">
+                        <h3>Studio Credits</h3>
+                        <div class="studio-credit">
+                          <i class="fas fa-paint-brush"></i>
+                          <div>
+                            <p class="studio-name">Explore, Explain, Propose (Studio)</p>
+                            <p class="instructors">Instructors: Laura Kurgan, Snoweria Zhang</p>
+                            <p class="semester">Fall 2024</p>
+                          </div>
+                        </div>
+                        <div class="studio-credit">
+                          <i class="fas fa-paint-brush"></i>
+                          <div>
+                            <p class="studio-name">Design in Action (Studio)</p>
+                            <p class="instructors">Instructors: Seth Thompson, Catherine Griffiths</p>
+                            <p class="semester">Spring 2025</p>
+                          </div>
+                        </div>
+                        <div class="studio-credit">
+                          <i class="fas fa-paint-brush"></i>
+                          <div>
+                            <p class="studio-name">Colloquium Advisor</p>
+                            <p class="instructors">Juan Francisco Saldarriaga</p>
+                            <p class="semester">Spring 2025</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Institution Info -->
+                      <div class="credits-section">
+                        <h3>Institution</h3>
+                        <div class="institution">
+                          <i class="fas fa-university"></i>
+                          <div>
+                            <p>M.S. Computational Design Practice (MS.CDP)</p>
+                            <p>Graduate School of Architecture, Planning, and Preservation (GSAPP)</p>
+                            <p>Columbia University, New York, USA</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Info Section -->
+                <div class="about-section hidden" id="about-info">
+                  <div class="info-container">
+                    <div class="capture-form-header">
+                      <h2><i class="fas fa-info-circle"></i> About CITY-SENS</h2>
+                    </div>
+                    <div class="info-content">
+                      <!-- Info content will be dynamically loaded here -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Navigation Toggle Buttons -->
+        <button id="collapse-left" aria-label="Collapse Menu">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button id="expand-left" class="hidden" aria-label="Expand Menu">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+
+      <!-- ========== MAIN CONTENT SECTION ========== -->
+      <main class="main-content">
+        <!-- Explorer Tab Content -->
+        <div class="tab-content hidden" id="explorer">
+          <div class="explorer-tabs">
+            <button class="explorer-tab-btn" data-tab="profile">Profile</button>
+            <button class="explorer-tab-btn" data-tab="settings">Settings</button>
+          </div>
+          
+          <div class="explorer-tab-content" id="profile-tab">
+            <!-- Profile content here -->
+          </div>
+          <div class="explorer-tab-content" id="settings-tab">
+            <!-- Settings content here -->
+          </div>
+        </div>
+
+        <!-- Journey Tab Content -->
+        <div class="tab-content hidden" id="journey">
+          <div class="journey-content">
+            <!-- Journey content here -->
+          </div>
+        </div>
+
+        <!-- Discovery Tab Content -->
+        <div class="tab-content active" id="discovery">
+          <div id="map"></div>
+        </div>
+      </main>
+
+      <!-- ========== RIGHT PANEL SECTION ========== -->
+      <div class="right-section">
+        <aside class="right-panel hidden" aria-label="Event Details">
+          <!-- Content will be dynamically inserted here -->
+        </aside>
+        <button id="collapse-right" aria-label="Collapse Insights" class="hidden">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+        <button id="expand-right" aria-label="Expand Insights">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== EXTERNAL SCRIPTS ========== -->
+  <!-- Turf.js for geospatial analysis -->
+  <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
 
   <!-- Firebase Scripts -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -27,492 +763,32 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+  
+  <!-- Core configs first -->
+  <script src="scripts/firebase-config.js"></script>
+  <script src="scripts/firebase-setup.js"></script>
 
-  <!-- Application Scripts -->
-  <script src="js/utils.js"></script>
-  <script type="module" src="js/firebase-config.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/activities.js"></script>
-  <script src="js/map.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/settings.js"></script>
-  <script src="js/journey.js"></script>
-  <script src="js/main.js"></script>
-</head>
+  <!-- Utilities -->
+  <script src="scripts/toast-notification.js"></script>
+  <script src="scripts/layout.js"></script>
 
-<body>
-  <div class="container">
-    <!-- Left Navigation Panel -->
-    <div class="left-section">
-      <nav class="info-tab" aria-label="Main Navigation">
-        <div class="header-content">
-          <h1>
-            <span class="logo-text">ODYSSEY</span>
-            <span class="version-tag">2.0</span>
-          </h1>
-          <p class="tagline">Transform Your Commute into interactive journeys</p>
-        </div>
-        
-        <!-- Add activity-tabs-container -->
-        <div class="activity-tabs-container">
-          <ul>
-            <!-- Explorer -->
-            <li><a href="#" class="activity-tab" data-activity="explorer">
-              <i class="fas fa-user"></i><span>Explorer</span></a>
-              <div class="explorer-subtabs hidden">
-                  <button class="explorer-tab-btn active" data-tab="profile">
-                      <i class="fas fa-id-card"></i>
-                      <span>Profile</span>
-                  </button>
-                  <button class="explorer-tab-btn" data-tab="settings">
-                      <i class="fas fa-cog"></i>
-                      <span>Settings</span>
-                  </button>
-                  <button class="explorer-tab-btn" data-tab="help">
-                      <i class="fas fa-question-circle"></i>
-                      <span>Help</span>
-                  </button>
-              </div>
-            </li>
+  <!-- Components -->
+  <script src="scripts/navigation.js"></script>
+  <script src="scripts/map-container.js"></script>
+  <script src="scripts/auth-container.js"></script>
+  <script src="scripts/activities.js"></script>
+  <script src="scripts/capture-form.js"></script>
+  <script src="scripts/credits-container.js"></script>
+  <script src="scripts/curated-container.js"></script>
+  <script src="scripts/drafts-container.js"></script>
+  <script src="scripts/favorites-container.js"></script>
+  <script src="scripts/filter-settings.js"></script>
+  <script src="scripts/help-container.js"></script>
+  <script src="scripts/info-container.js"></script>
+  <script src="scripts/live-feed-container.js"></script>
+  <script src="scripts/profile-container.js"></script>
 
-            <!-- Journey -->
-            <li><a href="#" class="activity-tab" data-activity="journey">
-              <i class="fas fa-route"></i><span>Journey</span></a>
-              <div class="explorer-subtabs hidden">
-                <button class="explorer-tab-btn active" data-tab="capture">
-                    <i class="fas fa-camera"></i>
-                    <span>Capture</span>
-                </button>
-                <button class="explorer-tab-btn" data-tab="myactivities">
-                    <i class="fas fa-list-alt"></i>
-                    <span>Activities</span>
-                </button>
-                <button class="explorer-tab-btn" data-tab="drafts">
-                    <i class="fas fa-file-alt"></i>
-                    <span>Drafts</span>
-                </button>
-                <button class="explorer-tab-btn" data-tab="history">
-                    <i class="fas fa-history"></i>
-                    <span>History</span>
-                </button>
-              </div>
-              <!-- Add capture form here in the left panel -->
-              <div id="journey-capture-form" class="capture-form hidden">
-                <div class="capture-form-header">
-                  <h2>Capture Activity</h2>
-                </div>
-                <form id="activity-capture-form">
-                  <div class="form-group">
-                    <label for="activity-name">Event Name *</label>
-                    <input type="text" id="activity-name" required placeholder="Enter event name">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="activity-caption">Caption *</label>
-                    <input type="text" id="activity-caption" required placeholder="Add a short caption">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="activity-category">Category *</label>
-                    <select id="activity-category" required>
-                      <option value="">Select a category</option>
-                      <option value="food">Food & Dining</option>
-                      <option value="shopping">Shopping</option>
-                      <option value="entertainment">Entertainment</option>
-                      <option value="sports">Sports & Recreation</option>
-                      <option value="education">Education</option>
-                      <option value="work">Work</option>
-                      <option value="travel">Travel</option>
-                      <option value="cultural">Cultural</option>
-                      <option value="social">Social</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="activity-text">Event Description</label>
-                    <textarea id="activity-text" rows="3" placeholder="Add a detailed description of the event"></textarea>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="activity-location">Location*</label>
-                    <div class="location-input-group">
-                      <input type="text" id="activity-location" required placeholder="Enter or pick location">
-                      <button type="button" id="pick-location-btn" class="pick-location-btn">
-                        <i class="fas fa-map-marker-alt"></i>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="form-group datetime-group">
-                    <div class="start-time">
-                      <label for="activity-start">Start Date & Time*</label>
-                      <input type="datetime-local" id="activity-start" required>
-                    </div>
-                    <div class="end-time">
-                      <label for="activity-end">End Date & Time*</label>
-                      <input type="datetime-local" id="activity-end" required>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="activity-media">Media Upload</label>
-                    <div class="media-upload-container">
-                      <input type="file" id="activity-media" multiple accept="image/*,video/*">
-                      <label for="activity-media" class="media-upload-btn">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <span>Upload Images/Videos</span>
-                      </label>
-                      <div class="media-upload-note">Supported formats: Images (JPG, PNG, GIF) and Videos (MP4, WebM)</div>
-                      <div id="media-preview" class="media-preview"></div>
-                    </div>
-                  </div>
-
-                  <div class="form-actions">
-                    <button type="button" class="cancel-btn">
-                        <i class="fas fa-times"></i>
-                        Cancel
-                    </button>
-                    <button type="button" class="save-event-btn">
-                        <i class="fas fa-check"></i>
-                        Save
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </li>
-
-            <!-- Discovery -->
-            <li><a href="#" class="activity-tab" data-activity="discovery">
-              <i class="fas fa-map-marked-alt"></i><span>Discovery</span></a>
-              <div class="explorer-subtabs hidden">
-                  <button class="explorer-tab-btn active" data-tab="filter">
-                      <i class="fas fa-filter"></i>
-                      <span>Filter</span>
-                  </button>
-                  <button class="explorer-tab-btn" data-tab="live-map">
-                      <i class="fas fa-tags"></i>
-                      <span>Category</span>
-                  </button>
-                  <button class="explorer-tab-btn" data-tab="list-view" id="list-events-btn">
-                      <i class="fas fa-list"></i>
-                      <span>List Events</span>
-                  </button>
-              </div>
-              
-              <!-- Add the filter settings container here -->
-              <div class="filter-settings-container hidden">
-                  <!-- Radius Filter -->
-                  <div class="filter-group">
-                      <h3>Filter by Radius</h3>
-                      <div class="radius-toggle-container">
-                          <label for="radius-toggle">Enable Radius</label>
-                          <input type="checkbox" id="radius-toggle" checked>
-                      </div>
-                      <div class="slider-container">
-                          <input type="range" 
-                                 id="radius-slider" 
-                                 min="0.00189394" 
-                                 max="1" 
-                                 step="0.00189394" 
-                                 value="0.75">
-                          <div class="radius-value-container">
-                              <span>10 ft</span>
-                              <span id="radius-value">0.75 mi</span>
-                              <span>1 mi</span>
-                          </div>
-                      </div>
-                  </div>
-
-                  <!-- Category Filter -->
-                  <div class="filter-group">
-                      <h3>Filter by Category</h3>
-                      <div class="checkbox-group">
-                          <label><input type="checkbox" value="academic"> Academic</label>
-                          <label><input type="checkbox" value="social"> Social</label>
-                          <label><input type="checkbox" value="career"> Career</label>
-                          <label><input type="checkbox" value="cultural"> Cultural</label>
-                          <label><input type="checkbox" value="sports"> Sports</label>
-                          <label><input type="checkbox" value="arts"> Arts</label>
-                          <label><input type="checkbox" value="technology"> Technology</label>
-                          <label><input type="checkbox" value="other"> Other</label>
-                      </div>
-                  </div>
-
-                  <!-- Search Filter -->
-                  <div class="filter-group">
-                      <h3>Filter by Search</h3>
-                      <div class="search-input">
-                          <input type="text" id="filter-search" placeholder="Search events...">
-                          <i class="fas fa-search"></i>
-                      </div>
-                  </div>
-
-                  <!-- Date Filter -->
-                  <div class="filter-group">
-                      <h3>Filter by Date</h3>
-                      <div class="date-inputs">
-                          <input type="date" id="filter-start-date">
-                          <span>to</span>
-                          <input type="date" id="filter-end-date">
-                      </div>
-                  </div>
-
-                  <!-- Time Filter -->
-                  <div class="filter-group">
-                      <h3>Filter by Time</h3>
-                      <div class="time-inputs">
-                          <input type="time" id="filter-start-time">
-                          <span>to</span>
-                          <input type="time" id="filter-end-time">
-                      </div>
-                      <div class="checkbox-group time-periods">
-                          <label><input type="checkbox" value="morning"> Morning (6AM-12PM)</label>
-                          <label><input type="checkbox" value="afternoon"> Afternoon (12PM-5PM)</label>
-                          <label><input type="checkbox" value="evening"> Evening (5PM-9PM)</label>
-                          <label><input type="checkbox" value="night"> Night (9PM-6AM)</label>
-                      </div>
-                  </div>
-
-                  <!-- Location Filter -->
-                  <div class="filter-group">
-                      <h3>Filter by Location</h3>
-                      <div class="location-input-group">
-                          <input type="text" id="filter-location" placeholder="Enter location...">
-                          <button type="button" id="pick-location-filter" class="pick-location-btn">
-                              <i class="fas fa-map-marker-alt"></i>
-                          </button>
-                      </div>
-                  </div>
-
-                  <!-- Action Buttons -->
-                  <div class="filter-actions">
-                      <button id="apply-filters" class="filter-button">Apply Filters</button>
-                      <button id="reset-filters" class="filter-button">Reset Filters</button>
-                  </div>
-              </div>
-            </li>
-
-            <!-- Archive -->
-            <li><a href="#" class="activity-tab" data-activity="archive">
-              <i class="fas fa-archive"></i><span>Archive</span></a>
-              <div class="explorer-subtabs hidden">
-                <button class="explorer-tab-btn active" data-tab="favorites">
-                    <i class="fas fa-star"></i>
-                    <span>Favorites</span>
-                </button>
-                <button class="explorer-tab-btn" data-tab="all">
-                    <i class="fas fa-folder"></i>
-                    <span>All</span>
-                </button>
-                <button class="explorer-tab-btn" data-tab="recent">
-                    <i class="fas fa-clock"></i>
-                    <span>Recent</span>
-                </button>
-                <button class="explorer-tab-btn" data-tab="search">
-                    <i class="fas fa-search"></i>
-                    <span>Search</span>
-                </button>
-            </div>
-          </li>
-
-          <!-- About -->
-          <li><a href="#" class="activity-tab" data-activity="about">
-            <i class="fas fa-info-circle"></i><span>About</span></a>
-            <div class="explorer-subtabs hidden">
-              <button class="explorer-tab-btn active" data-tab="what">
-                  <i class="fas fa-question-circle"></i>
-                  <span>What</span>
-              </button>
-              <button class="explorer-tab-btn" data-tab="why">
-                  <i class="fas fa-lightbulb"></i>
-                  <span>Why</span>
-              </button>
-              <button class="explorer-tab-btn" data-tab="who">
-                  <i class="fas fa-users"></i>
-                  <span>Who</span>
-              </button>
-              <button class="explorer-tab-btn" data-tab="where">
-                  <i class="fas fa-map-marker-alt"></i>
-                  <span>Where</span>
-              </button>
-              <button class="explorer-tab-btn" data-tab="team">
-                  <i class="fas fa-user-friends"></i>
-                  <span>Team</span>
-              </button>
-              <button class="explorer-tab-btn" data-tab="contact">
-                  <i class="fas fa-envelope"></i>
-                  <span>Contact</span>
-              </button>
-            </div>
-            
-            <div class="about-content hidden">
-                <div class="about-section active" id="about-what">
-                    <h2>What is Odyssey?</h2>
-                    <p>Odyssey 2.0 is a live, interactive city map that brings visibility to spontaneous urban moments, events, and activities that typically go unnoticed. Unlike traditional navigation apps, which focus on permanent locations, Odyssey 2.0 allows users to share and engage with real-time city happenings—creating an interactive urban experience.</p>
-                    <ul>
-                        <li><i class="fas fa-map-marked-alt"></i> A real-time map that highlights spontaneous city activities and moments</li>
-                        <li><i class="fas fa-route"></i> Allows users to add and explore live events that aren't found on traditional maps</li>
-                        <li><i class="fas fa-users"></i> Enables community engagement and interaction, fostering a more connected urban experience</li>
-                        <li><i class="fas fa-star"></i> Captures fleeting but meaningful moments like street performances, temporary art, pop-up markets, and unique weather events</li>
-                    </ul>
-                </div>
-
-                <div class="about-section hidden" id="about-why">
-                    <h2>Why Odyssey?</h2>
-                    <p>Cities are constantly changing, full of small but meaningful experiences that make urban life vibrant. However, these moments often go unnoticed or are only shared in isolated social media posts. Traditional navigation tools don't support the discovery of such real-time events, and social platforms don't encourage interaction with the city itself. Odyssey 2.0 bridges this gap, creating a shared, interactive urban space where people can find and contribute to the evolving life of the city.</p>
-                    <p>Why It Matters:</p>
-                    <ul>
-                        <li><i class="fas fa-camera"></i> Captures real-time city moments that are otherwise ephemeral</li>
-                        <li><i class="fas fa-handshake"></i> Encourages city engagement, making urban spaces more interactive</li>
-                        <li><i class="fas fa-map-marked-alt"></i> Goes beyond static locations, unlike traditional navigation apps</li>
-                        <li><i class="fas fa-users"></i> Fosters community connections through shared city experiences</li>
-                        <li><i class="fas fa-route"></i> Enhances urban exploration, making everyday commutes more engaging</li>
-                    </ul>
-                </div>
-
-                <div class="about-section hidden" id="about-who">
-                    <h2>Who is it for?</h2>
-                    <p>This platform is designed for anyone who loves exploring cities in a dynamic, immersive way. It provides a space where people can both share and discover hidden gems in real time.</p>
-                    <p>Target Audience:</p>
-                    <ul>
-                        <li><i class="fas fa-compass"></i> Urban Explorers – People who enjoy discovering new places and experiences</li>
-                        <li><i class="fas fa-route"></i> Daily Commuters – Those looking to make their routine routes more engaging</li>
-                        <li><i class="fas fa-plane-arrival"></i> Tourists – Visitors who want a more authentic and dynamic city experience</li>
-                        <li><i class="fas fa-palette"></i> Local Creatives – Street artists, musicians, performers, and event organizers who want to share their work</li>
-                        <li><i class="fas fa-hands-helping"></i> Community Builders – People interested in fostering local engagement and social interaction</li>
-                    </ul>
-                </div>
-
-                <div class="about-section hidden" id="about-where">
-                    <h2>Where does it work?</h2>
-                    <p>Odyssey 2.0 is designed for urban environments where spontaneous interactions define the city experience. It thrives in places that have a rich mix of culture, community, and dynamic public spaces.</p>
-                    <p>Ideal Locations:</p>
-                    <ul>
-                        <li><i class="fas fa-city"></i> Metropolitan cities with dense, active public spaces</li>
-                        <li><i class="fas fa-guitar"></i> Neighborhoods with street culture—live music, art, and public performances</li>
-                        <li><i class="fas fa-subway"></i> Transit hubs and commutes—subway stations, plazas, and sidewalks</li>
-                        <li><i class="fas fa-landmark"></i> Cultural hotspots—historical districts, parks, festivals, and events</li>
-                        <li><i class="fas fa-globe-americas"></i> Anywhere people want to engage with their city in real time</li>
-                    </ul>
-                </div>
-
-                <div class="about-section hidden" id="about-team">
-                    <h2>Team</h2>
-                    <div class="team-content">
-                        <div class="created-by">
-                            <h3>Created & Designed by</h3>
-                            <p>Vaibhav Jain</p>
-                        </div>
-                        
-                        <div class="credits">
-                            <h3>Credits & Guidance</h3>
-                            <div class="studio-credit">
-                                <p><strong>Explore, Explain, Propose (Studio)</strong></p>
-                                <p>Laura Kurgan, Snoweria Zhang (Fall 2024)</p>
-                            </div>
-                            <div class="studio-credit">
-                                <p><strong>Design in Action (Studio)</strong></p>
-                                <p>Seth Thompson, Catherine Griffiths</p>
-                            </div>
-                            <p><strong>Program:</strong> M.S. Computational Design Practice (MS.CDP)</p>
-                        </div>
-
-                        <div class="institution">
-                            <p>Graduate School of Architecture, Planning, and Preservation (GSAPP)</p>
-                            <p>Columbia University, New York, USA</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="about-section hidden" id="about-contact">
-                    <h2>Contact</h2>
-                    <div class="contact-content">
-                        <p>For inquiries, collaborations, or to explore Odyssey 2.0 further, reach out via:</p>
-                        
-                        <div class="contact-info">
-                            <div class="contact-item">
-                                <i class="fas fa-envelope"></i>
-                                <p><a href="mailto:vuj2000@columbia.edu">vuj2000@columbia.edu</a></p>
-                            </div>
-                            <div class="contact-item">
-                                <i class="fas fa-envelope"></i>
-                                <p><a href="mailto:0209vaibhav@gmail.com">0209vaibhav@gmail.com</a></p>
-                            </div>
-                            <div class="contact-item">
-                                <i class="fas fa-globe"></i>
-                                <p><a href="https://0209vaibhav.github.io/CDP-PORTFOLIO_INTERNAL/" target="_blank">Portfolio Website</a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-          </li>
-          </ul>
-        </div>
-      </nav>
-
-      <button id="collapse-left" aria-label="Collapse Menu">
-        <i class="fas fa-chevron-left"></i>
-      </button>
-      <button id="expand-left" class="hidden" aria-label="Expand Menu">
-        <i class="fas fa-chevron-right"></i>
-      </button>
-    </div>
-
-    <!-- Main Content Section -->
-    <main class="main-content">
-      <!-- Content (map for Discovery) will be injected here -->
-      <div class="tab-content" id="explorer">
-        <div class="explorer-tabs">
-          <button class="explorer-tab-btn active" data-tab="profile">Profile</button>
-          <button class="explorer-tab-btn" data-tab="settings">Settings</button>
-          <button class="explorer-tab-btn" data-tab="help">Help</button>
-        </div>
-        
-        <div class="explorer-tab-content active" id="profile-tab">
-          <!-- Profile content here -->
-        </div>
-        <div class="explorer-tab-content" id="settings-tab">
-          <!-- Settings content here -->
-        </div>
-        <div class="explorer-tab-content" id="help-tab">
-          <!-- Help content here -->
-        </div>
-      </div>
-
-      <!-- Journey Content -->
-      <div class="tab-content hidden" id="journey">
-        <div class="journey-content">
-          <!-- Remove the capture form from here -->
-        </div>
-      </div>
-    </main>
-
-    <!-- Right Panel Section -->
-    <div class="right-section">
-      <aside class="right-panel hidden" aria-label="Event Details">
-        <!-- Content will be dynamically inserted here -->
-      </aside>
-      <button id="collapse-right" aria-label="Collapse Insights" class="hidden">
-        <i class="fas fa-chevron-right"></i>
-      </button>
-      <button id="expand-right" aria-label="Expand Insights">
-        <i class="fas fa-chevron-left"></i>
-      </button>
-    </div>
-  </div>
-
-  <!-- Add this before your other scripts -->
-  <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
-
-  <!-- External JavaScript -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
-  <script src="script.js"></script>
-
+  <!-- Main script last -->
+  <script src="scripts/script.js"></script>
 </body>
 </html>

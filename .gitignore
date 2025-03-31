@@ -23,3 +23,8 @@ npm-debug.log*
 # OS
 .DS_Store
 Thumbs.db 
+
+# API Keys and sensitive files
+update_event_images.py
+developer-memento-markers/update-images_developerMementoMarkers.py
+.env

@@ -25,7 +25,25 @@ auth.onAuthStateChanged((user) => {
 // 3) Authentication UI
 // ---------------------------
 function showAuthForms() {
-  const authContainer = document.getElementById('auth-container');
+  let authContainer = document.getElementById('auth-container');
+  if (!authContainer) {
+    authContainer = document.createElement('div');
+    authContainer.id = 'auth-container';
+    authContainer.className = 'auth-container';
+    
+    // Insert the auth container below subtabs
+    const subtabs = document.querySelector('.explorer-subtabs');
+    if (subtabs) {
+      subtabs.insertAdjacentElement('afterend', authContainer);
+    } else {
+      // If subtabs don't exist yet, append to main content
+      const mainContent = document.querySelector('.main-content');
+      if (mainContent) {
+        mainContent.appendChild(authContainer);
+      }
+    }
+  }
+  
   authContainer.classList.remove('hidden');
   authContainer.innerHTML = `
     <div class="auth-tabs">

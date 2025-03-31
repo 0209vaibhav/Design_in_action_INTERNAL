@@ -10,11 +10,12 @@
     "deploy": "firebase deploy"
   },
   "dependencies": {
-    "firebase": "^9.22.0",
     "@turf/turf": "^6.5.0",
+    "firebase": "^9.22.0",
+    "mapbox-gl": "^3.10.0",
     "serve": "^14.2.1"
   },
   "devDependencies": {
     "firebase-tools": "^12.0.0"
   }
-} 
+}

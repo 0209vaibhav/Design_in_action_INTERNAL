@@ -1,0 +1,120 @@
+/* Memento Marker Styles */
+
+/* Common styles for all markers */
+.user-memento-marker,
+.developer-memento-marker,
+.public-memento-marker {
+  width: 150px;
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+/* User memento marker - Square */
+.user-memento-marker {
+  border: 2px solid #ffffff;
+  border-radius: 0;
+}
+
+/* Developer memento marker - Circle */
+.developer-memento-marker {
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+}
+
+/* Public memento marker - Rounded Square */
+.public-memento-marker {
+  border: 2px solid #2196F3;
+  border-radius: 8px;
+}
+
+/* Common popup styles */
+.user-memento-popup,
+.developer-memento-popup,
+.public-memento-popup {
+  max-width: 300px;
+}
+
+.user-memento-popup-content,
+.developer-memento-popup-content,
+.public-memento-popup-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.user-memento-popup-media,
+.developer-memento-popup-media,
+.public-memento-popup-media {
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.user-memento-popup-media img,
+.developer-memento-popup-media img,
+.public-memento-popup-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-memento-popup-details,
+.developer-memento-popup-details,
+.public-memento-popup-details {
+  padding: 10px;
+}
+
+.user-memento-popup-details h3,
+.developer-memento-popup-details h3,
+.public-memento-popup-details h3 {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+  color: #111827;
+}
+
+.user-memento-popup-details p,
+.developer-memento-popup-details p,
+.public-memento-popup-details p {
+  margin: 0 0 5px 0;
+  font-size: 14px;
+  color: #4b5563;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-memento-popup-details i,
+.developer-memento-popup-details i,
+.public-memento-popup-details i {
+  color: #FF0080;
+}
+
+/* Tags styles */
+.user-memento-popup-tags,
+.developer-memento-popup-tags,
+.public-memento-popup-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.user-memento-popup-tags .tag,
+.developer-memento-popup-tags .tag,
+.public-memento-popup-tags .tag {
+  background-color: #FF0080;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+/* Out of radius styles */
+.out-of-radius {
+  opacity: 0.5;
+  filter: grayscale(1);
+} 

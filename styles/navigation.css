@@ -255,7 +255,7 @@
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     padding: 10px 20px;
-    background-color: #333333;  /* Changed from white to dark by default */
+    background-color: #ffffff;
     z-index: 1000;
     width: 100%;
     box-sizing: border-box;
@@ -265,7 +265,8 @@
   .activity-tab[data-activity="discovery"].active + .explorer-subtabs {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     gap: 10px;
     width: 100%;
     box-sizing: border-box;
@@ -274,11 +275,12 @@
   .explorer-subtabs.show {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     gap: 10px;
     width: 100%;
     box-sizing: border-box;
-    background-color: #333333;  /* Keep the dark background when shown */
+    background-color: #ffffff;
   }
   
   /* --- Explorer Subtab Buttons --- */
@@ -291,10 +293,12 @@
     align-items: center;
     justify-content: center;
     height: 48px;
-    background-color: #333333;
+    background-color: #ffffff;
     border-radius: 6px;
-    border: 1px solid #f0f0f0;
+    border: 1px solid #e0e0e0;
     transition: all 0.3s ease;
+    flex: 1;
+    max-width: 120px;
   }
   
   .explorer-subtabs .explorer-tab-btn i {
@@ -304,7 +308,7 @@
     height: auto;
     line-height: 1.2;
     margin: 0 0 3px 0;
-    color: #f0f0f0;
+    color: #666666;
   }
   
   .explorer-subtabs .explorer-tab-btn span {
@@ -313,28 +317,28 @@
     line-height: 1.2;
     font-size: 0.8em;
     width: 100%;
-    color: #f0f0f0;
+    color: #666666;
   }
   
   /* --- Explorer Subtab Button States --- */
   .explorer-subtabs .explorer-tab-btn:hover {
-    background-color: #404040;
+    background-color: #f5f5f5;
     transform: translateY(-2px);
     border-radius: 4px;
   }
   
   .explorer-subtabs .explorer-tab-btn.active {
-    background-color: #FF0080;
-    color: #ffffff;
+    background-color: #ffffff;
+    color: #FF0080;
     border-radius: 4px;
     border: 1px solid #FF0080;
     transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
   .explorer-subtabs .explorer-tab-btn.active i,
   .explorer-subtabs .explorer-tab-btn.active span {
-    color: #ffffff;
+    color: #FF0080;
   }
   
   /* --- Activity Tabs Container --- */
@@ -349,7 +353,8 @@
   /* --- Activity Tabs List --- */
   .activity-tabs-container ul {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     gap: 10px;
     margin: 0;
     padding: 0;
@@ -363,6 +368,8 @@
     padding: 0;
     display: flex;
     justify-content: center;
+    flex: 1;
+    max-width: 120px;
   }
   
   /* --- Activity Tab Buttons --- */
@@ -380,9 +387,8 @@
     transition: all 0.3s ease;
     height: 50px;
     border: 1px solid #ffffff;
-    width: 60px;
+    width: 100%;
     min-width: 0;
-    /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
   }
   
   .activity-tabs-container .activity-tab i {
@@ -442,15 +448,41 @@
   #collapse-left,
   #expand-left {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: white;
+    top: 20px;
+    transform: none;
+    background: transparent;
     border: none;
     padding: 12px;
     cursor: pointer;
     z-index: 1000;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    display: none; /* Hidden by default */
+    box-shadow: none;
+    display: none;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
+  
+  #collapse-left {
+    right: 10px;
+  }
+  
+  #expand-left {
+    left: 10px;
+  }
+  
+  #collapse-left i,
+  #expand-left i {
+    font-size: 1.2rem;
+    color: #FF0080;
+    transition: color 0.2s ease;
+  }
+  
+  #collapse-left:hover i,
+  #expand-left:hover i {
+    color: #FF0080;
   }
   
   /* --- Button Visibility States --- */
@@ -485,15 +517,15 @@
   #collapse-left,
   #expand-left {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: white;
+    top: 20px;
+    transform: none;
+    background: transparent;
     border: none;
     padding: 12px;
     cursor: pointer;
     z-index: 1000;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    display: none; /* Hidden by default */
+    box-shadow: none;
+    display: none;
   }
   
   /* --- Button Visibility States --- */
@@ -715,8 +747,13 @@
 
     #collapse-left,
     #expand-left {
-        background: rgba(255, 255, 255, 0.9);
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        background: transparent;
+        box-shadow: none;
+    }
+
+    #collapse-left i,
+    #expand-left i {
+        color: #FF0080;
     }
 
     .right-panel {

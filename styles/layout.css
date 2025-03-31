@@ -5,159 +5,140 @@ body {
     display: flex;
     height: 100vh;
     overflow: hidden;
-  }
-  
-  .container {
+}
+
+.container {
     display: flex;
     width: 100%;
     height: 100vh;
-  }
-  
-  /* A utility class to hide elements */
-  .hidden {
+}
+
+/* A utility class to hide elements */
+.hidden {
     display: none;
-  }
+}
 
-    /* --- Panel Section Wrappers --- */
-    .left-section,
-    .right-section {
-      position: relative;
-      height: 100%;
-      display: flex;
-    }
+/* --- Panel Section Wrappers --- */
+.left-section {
+    position: relative;
+    height: 100%;
+    display: flex;
+}
 
-      /* --- Animations --- */
-  @keyframes fadeIn {
+/* --- Animations --- */
+@keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
-  }
+}
 
-    /* --- Header Styles --- */
-    .header-content {
-      width: 100%;
-      padding: 10px 20px;
-      text-align: center;
-      border-bottom: 1px solid #ccc;
-      margin-bottom: 0;
-      background: #333333;
-    }
-    
-    .header-content h1 {
-      text-align: center;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    
-    /* --- Logo Styles --- */
-    .logo-text {
-      font-size: 2.2rem;
-      font-weight: 800;
-      letter-spacing: 2px;
-      color: #FF0080;
-      text-shadow: 1px 1px 2px rgba(255, 0, 128, 0.2);
-      line-height: 1;
-    }
-    
-    /* --- Tagline Styles --- */
-    .tagline {
-      font-size: 1rem;
-      font-weight: 400;
-      margin: 12px 0 0 0;
-      padding: 0;
-      line-height: 1.6;
-      max-width: none;
-      font-style: italic;
-      background: linear-gradient(135deg, #ffffff, #ffffff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-  }
-  
-  .tagline strong {
-      font-weight: 700;
-      font-style: italic;
-  }
-    
-    .tagline br {
-      display: block;
-      content: "";
-      margin: 4px 0;
-    }
+/* --- Header Styles --- */
+.header-content {
+    width: 100%;
+    padding: 10px 20px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 0;
+    background: #333333;
+}
 
-    /* --- Responsive Layout --- */
-    @media screen and (max-width: 768px) {
-        .container {
-            flex-direction: column;
-        }
+.header-content h1 {
+    text-align: center;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
 
-        .left-section {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            z-index: 1000;
-            background: white;
-        }
+/* --- Logo Styles --- */
+.logo-text {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #FF0080;
+    text-shadow: 1px 1px 2px rgba(255, 0, 128, 0.2);
+    line-height: 1;
+}
 
-        .info-tab {
-            width: 100%;
-            height: 100%;
-        }
+/* --- Tagline Styles --- */
+.tagline {
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 12px 0 0 0;
+    padding: 0;
+    line-height: 1.6;
+    max-width: none;
+    font-style: italic;
+    background: linear-gradient(135deg, #ffffff, #ffffff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
-        .main-content {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
+.tagline strong {
+    font-weight: 700;
+    font-style: italic;
+}
 
-        #map {
-            width: 100%;
-            height: 100%;
-        }
+.tagline br {
+    display: block;
+    content: "";
+    margin: 4px 0;
+}
 
-        .right-section {
-            display: none; /* Hide right panel on mobile */
-        }
-
-        /* Adjust button positions for mobile */
-        #collapse-left {
-            right: 10px;
-        }
-
-        #expand-left {
-            left: 10px;
-        }
-
-        /* Make the info-tab content scrollable */
-        .info-tab {
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-        }
+/* --- Responsive Layout --- */
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column;
     }
 
-    /* --- Tablet Layout --- */
-    @media screen and (min-width: 769px) and (max-width: 1024px) {
-        .info-tab {
-            width: 30vw;
-        }
-
-        .right-panel {
-            width: 30vw;
-        }
+    .left-section {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        z-index: 1000;
+        background: transparent;
+        pointer-events: none;
     }
 
-    /* --- Desktop Layout --- */
-    @media screen and (min-width: 1025px) {
-        .info-tab {
-            width: 25vw;
-        }
-
-        .right-panel {
-            width: 25vw;
-        }
+    .info-tab {
+        width: 100%;
+        height: 100%;
+        background: white;
+        transition: transform 0.3s ease;
+        pointer-events: auto;
     }
+
+    .info-tab.hidden {
+        transform: translateX(-100%);
+        pointer-events: none;
+    }
+
+    .main-content {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+/* --- Tablet Layout --- */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .info-tab {
+        width: 30vw;
+    }
+}
+
+/* --- Desktop Layout --- */
+@media screen and (min-width: 1025px) {
+    .info-tab {
+        width: 25vw;
+    }
+}

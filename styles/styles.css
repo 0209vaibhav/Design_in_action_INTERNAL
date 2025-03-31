@@ -1,1 +1,175 @@
+.details-actions-container {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
 
+.memento-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0; /* Prevents flex item from overflowing */
+}
+
+.memento-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 16px;
+  border-left: 1px solid #E5E7EB;
+}
+
+.memento-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.memento-name i {
+  color: #FF0080;
+  font-size: 1.1rem;
+}
+
+.memento-caption {
+  font-size: 1rem;
+  color: #4B5563;
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.5;
+}
+
+.memento-caption i {
+  color: #FF0080;
+  margin-top: 4px;
+}
+
+.memento-description {
+  font-size: 0.95rem;
+  color: #6B7280;
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.6;
+}
+
+.memento-description i {
+  color: #FF0080;
+  margin-top: 4px;
+}
+
+.memento-location {
+  font-size: 0.95rem;
+  color: #4B5563;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.memento-location i {
+  color: #FF0080;
+}
+
+.memento-timestamp {
+  font-size: 0.9rem;
+  color: #6B7280;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.memento-timestamp i {
+  color: #FF0080;
+}
+
+.memento-category {
+  font-size: 0.95rem;
+  color: #4B5563;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  background-color: #F3F4F6;
+  border-radius: 6px;
+  width: fit-content;
+}
+
+.memento-category i {
+  color: #FF0080;
+}
+
+.memento-duration {
+  font-size: 0.95rem;
+  color: #4B5563;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.memento-duration i {
+  color: #FF0080;
+}
+
+.memento-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.memento-tags i {
+  color: #FF0080;
+  font-size: 1rem;
+}
+
+.memento-tags .tag {
+  background-color: #FF0080;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(255, 0, 128, 0.2);
+}
+
+.memento-tags .tag:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(255, 0, 128, 0.3);
+}
+
+.memento-author {
+  font-size: 0.9rem;
+  color: #6B7280;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #E5E7EB;
+}
+
+.memento-author i {
+  color: #FF0080;
+}

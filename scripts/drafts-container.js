@@ -1,3 +1,25 @@
+// Format timestamp to readable date
+function formatTimestamp(timestamp) {
+    if (!timestamp) return 'No date';
+    
+    try {
+        // Convert Firebase timestamp to Date
+        const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+        
+        // Format the date
+        return new Intl.DateTimeFormat('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        }).format(date);
+    } catch (error) {
+        console.error('Error formatting timestamp:', error);
+        return 'Invalid date';
+    }
+}
+
 // Initialize drafts container
 function initializeDraftsContainer() {
   const draftsContainer = document.getElementById('journey-drafts-container');
@@ -58,7 +80,7 @@ function initializeDraftsContainer() {
 
       // Render sorted drafts
       drafts.forEach(draft => {
-        const draftElement = createDraftElement(draft.id, draft);
+        const draftElement = createDraftElement(draft);
         draftsContent.appendChild(draftElement);
       });
 
@@ -73,66 +95,125 @@ function initializeDraftsContainer() {
   }
 
   // Create HTML element for a draft
-  function createDraftElement(draftId, draft) {
+  function createDraftElement(draft) {
     const draftElement = document.createElement('div');
     draftElement.className = 'draft-item';
     
-    // Get first media item if exists
-    const firstMedia = draft.media && draft.media.length > 0 ? draft.media[0] : null;
+    const formattedDate = formatTimestamp(draft.timestamp);
     
+    // Prepare media HTML
+    let mediaHtml = `
+        <div class="placeholder-media">
+            <i class="fas fa-image"></i>
+        </div>
+    `;
+    
+    console.log('Draft data:', draft); // Debug full draft
+    
+    // Handle both array and single object media structures
+    if (draft.media) {
+        let mediaItem;
+        
+        if (Array.isArray(draft.media)) {
+            console.log('Media is array:', draft.media);
+            mediaItem = draft.media[0]; // Get first item if array
+        } else {
+            console.log('Media is object:', draft.media);
+            mediaItem = draft.media; // Use as is if single object
+        }
+        
+        if (mediaItem && mediaItem.url) {
+            console.log('Using media item:', mediaItem);
+            // Handle both full MIME types and simple types
+            const type = mediaItem.type || '';
+            if (type.includes('image') || type === 'image') {
+                mediaHtml = `<img src="${mediaItem.url}" alt="Draft media">`;
+            } else if (type.includes('video') || type === 'video') {
+                mediaHtml = `<video src="${mediaItem.url}" controls></video>`;
+            }
+        }
+    }
+
     draftElement.innerHTML = `
-      <div class="draft-content">
-        <div class="draft-media">
-          ${firstMedia 
-            ? (firstMedia.type === 'image' 
-                ? `<img src="${firstMedia.url}" alt="Draft preview">` 
-                : `<video src="${firstMedia.url}" controls></video>`)
-            : `<div class="placeholder-media">
-                 <i class="fas fa-image"></i>
-               </div>`
-          }
-        </div>
-        <div class="draft-details">
-          <div class="draft-header">
-            <h3 class="draft-name">
-              <i class="fas fa-tag"></i>
-              ${draft.name || 'Untitled Memento'}
-            </h3>
-            <div class="draft-actions">
-              <button class="edit-draft-btn" data-draft-id="${draftId}" title="Edit draft">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button class="delete-draft-btn" data-draft-id="${draftId}" title="Delete draft">
-                <i class="fas fa-trash"></i>
-              </button>
+        <div class="draft-content">
+            <div class="media-section">
+                <div class="draft-media">
+                    ${mediaHtml}
+                </div>
             </div>
-          </div>
-          <p class="draft-caption">
-            <i class="fas fa-quote-right"></i>
-            ${draft.caption || 'No caption'}
-          </p>
-          ${draft.location && draft.location.address ? 
-            `<p class="draft-location">
-               <i class="fas fa-map-marker-alt"></i>
-               ${draft.location.address}
-             </p>` 
-            : ''}
+            <div class="details-actions-container">
+                <div class="draft-details">
+                    <h3 class="draft-name">
+                        <i class="fas fa-tag"></i>
+                        ${draft.name || 'Untitled Draft'}
+                    </h3>
+                    <p class="draft-caption">
+                        <i class="fas fa-quote-right"></i>
+                        ${draft.caption || 'No caption'}
+                    </p>
+                    ${draft.location ? `
+                        <p class="draft-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            ${draft.location.address || 'Location added'}
+                        </p>
+                    ` : ''}
+                    <p class="draft-timestamp">
+                        <i class="fas fa-clock"></i>
+                        ${formattedDate}
+                    </p>
+                </div>
+                <div class="draft-actions">
+                    ${draft.location && draft.location.coordinates ? `
+                        <button class="view-on-map-btn" title="View on map">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </button>
+                    ` : ''}
+                    <button class="edit-draft-btn" title="Edit">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="delete-draft-btn" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
     `;
 
     // Add event listeners
-    const editBtn = draftElement.querySelector('.edit-draft-btn');
-    const deleteBtn = draftElement.querySelector('.delete-draft-btn');
+    const viewOnMapBtn = draftElement.querySelector('.view-on-map-btn');
+    if (viewOnMapBtn) {
+        viewOnMapBtn.addEventListener('click', () => {
+            if (draft.location && draft.location.coordinates) {
+                showLocationOnMap(draft.location.coordinates);
+            }
+        });
+    }
 
-    editBtn.addEventListener('click', () => editDraft(draftId, draft));
-    deleteBtn.addEventListener('click', () => deleteDraft(draftId, draftElement));
+    const editBtn = draftElement.querySelector('.edit-draft-btn');
+    editBtn.addEventListener('click', () => {
+        editDraft(draft);
+    });
+
+    const deleteBtn = draftElement.querySelector('.delete-draft-btn');
+    deleteBtn.addEventListener('click', async () => {
+        const confirmed = await showConfirmationDialog('Delete Draft', 'Are you sure you want to delete this draft?');
+        if (confirmed) {
+            try {
+                await deleteDraft(draft.id);
+                draftElement.remove();
+                showToast('Draft deleted successfully', 'success');
+            } catch (error) {
+                console.error('Error deleting draft:', error);
+                showToast('Failed to delete draft. Please try again.', 'error');
+            }
+        }
+    });
 
     return draftElement;
   }
 
   // Edit draft
-  async function editDraft(draftId, draft) {
+  async function editDraft(draft) {
     try {
       // Show the capture form
       const captureForm = document.getElementById('journey-capture-form');
@@ -171,7 +252,7 @@ function initializeDraftsContainer() {
       }
 
       // Store the draft ID for later use
-      captureForm.dataset.draftId = draftId;
+      captureForm.dataset.draftId = draft.id;
 
       // Show capture form and hide drafts
       captureForm.classList.remove('hidden');
@@ -184,15 +265,9 @@ function initializeDraftsContainer() {
   }
 
   // Delete draft
-  async function deleteDraft(draftId, draftElement) {
-    if (!confirm('Are you sure you want to delete this draft?')) return;
-
+  async function deleteDraft(draftId) {
     try {
       await firebase.firestore().collection('memento_drafts').doc(draftId).delete();
-      draftElement.remove();
-      
-      // Show success message
-      showToast('Draft deleted successfully', 'success');
       
       // If no more drafts, show empty message
       if (draftsContent.children.length === 0) {

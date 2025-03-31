@@ -8,99 +8,69 @@ async function initializeFirebase() {
         showToast('Please sign in to initialize Firebase collections', 'error');
         return;
     }
-    
+
     try {
-        // Create composite indexes for better querying
-        await firestore.collection('activities').doc('__indexes__').set({
-            by_category_and_date: {
-                fields: ['category', 'createdAt'],
-                queryScope: 'COLLECTION'
-            },
-            by_user_and_date: {
-                fields: ['userId', 'createdAt'],
-                queryScope: 'COLLECTION'
-            }
-        });
-
-        // Initialize user document with proper structure
+        // First check if we can access the users collection
         const userRef = firestore.collection('users').doc(user.uid);
-        await userRef.set({
-            displayName: user.displayName || '',
-            email: user.email || '',
-            photoURL: user.photoURL || 'default-avatar.png',
-            phoneNumber: '',
-            addresses: [],
-            bio: '',
-            interests: [],
-            aspirations: '',
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-            profile: {
-                completionScore: 0,
-                isPublic: false,
-                socialLinks: {},
-                skills: []
+        try {
+            await userRef.get();
+        } catch (error) {
+            if (error.code === 'permission-denied') {
+                showToast('Please update your Firestore rules to allow user access', 'error');
+                return;
             }
-        }, { merge: true });
+            throw error;
+        }
 
-        // Initialize user settings
-        const userSettingsRef = userRef.collection('settings').doc('preferences');
-        await userSettingsRef.set({
-            theme: 'light',
-            notifications: {
-                email: true,
-                push: true,
-                activityUpdates: true,
-                newMessages: true
-            },
-            privacy: {
-                showEmail: false,
-                showPhone: false,
-                showLocation: false
-            },
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        }, { merge: true });
+        // Initialize user document if it doesn't exist
+        if (!(await userRef.get()).exists) {
+            try {
+                await userRef.set({
+                    displayName: user.displayName || '',
+                    email: user.email || '',
+                    photoURL: user.photoURL || '',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            } catch (error) {
+                if (error.code === 'permission-denied') {
+                    showToast('Unable to create user profile. Please check Firebase rules.', 'error');
+                    return;
+                }
+                throw error;
+            }
+        }
 
-        // Initialize user filters
-        const userFiltersRef = userRef.collection('filters').doc('default');
-        await userFiltersRef.set({
-            radius: 1,
-            categories: [],
-            dateRange: null,
-            sortBy: 'date',
-            filterTags: [],
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        }, { merge: true });
-
-        // Create example activity with rich metadata
-        const activitiesRef = firestore.collection('activities');
-        const exampleActivity = {
-            name: 'Example Activity',
-            caption: 'This is an example activity',
-            category: 'other',
-            description: 'This is a placeholder activity to initialize the collection.',
-            userId: user.uid,
-            location: null,
-            media: [],
-            tags: [],
-            participants: [],
-            status: 'published',
-            visibility: 'public',
-            metadata: {
-                views: 0,
-                likes: 0,
-                shares: 0
-            },
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        };
-        
-        await activitiesRef.add(exampleActivity);
+        // Initialize example memento if none exist
+        try {
+            const mementosRef = firestore.collection('mementos');
+            const mementosSnapshot = await mementosRef.where('userId', '==', user.uid).limit(1).get();
+            
+            if (mementosSnapshot.empty) {
+                await mementosRef.add({
+                    name: 'Example Memento',
+                    caption: 'This is an example memento',
+                    userId: user.uid,
+                    location: null,
+                    media: [],
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            }
+        } catch (error) {
+            if (error.code === 'permission-denied') {
+                showToast('Unable to create example memento. Please check Firebase rules.', 'error');
+                return;
+            }
+            throw error;
+        }
 
         showToast('Firebase collections initialized successfully!', 'success');
     } catch (error) {
         console.error('Error initializing Firebase:', error);
-        showToast(`Error initializing Firebase: ${error.message}`, 'error');
+        if (error.code === 'permission-denied') {
+            showToast('Permission denied. Please check your Firebase rules in the console.', 'error');
+        } else {
+            showToast(`Error initializing Firebase: ${error.message}`, 'error');
+        }
     }
 }
 
@@ -116,6 +86,9 @@ function addInitButton() {
                 <button id="init-firebase" class="settings-button primary">
                     Initialize Firebase Collections
                 </button>
+                <p class="setting-description">
+                    Click to set up your Firebase collections and initial data.
+                </p>
             </div>
         `;
         settingsPanel.appendChild(setupSection);

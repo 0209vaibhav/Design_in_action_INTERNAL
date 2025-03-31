@@ -186,22 +186,59 @@ async function getActivities(filters = {}, pagination = { limit: 10, lastDoc: nu
 // Get user's activities with filters
 async function getUserActivities(userId, filters = {}) {
   try {
+    // Check if user is authenticated
+    const user = firebase.auth().currentUser;
+    if (!user) {
+      throw new Error('User must be logged in to access activities');
+    }
+
+    // Verify the user is accessing their own activities
+    if (user.uid !== userId) {
+      throw new Error('Unauthorized to access these activities');
+    }
+
+    // Ensure Firestore is initialized
+    if (!db) {
+      throw new Error('Database not initialized');
+    }
+
+    // Start with a basic query
     let query = db.collection(ACTIVITIES_COLLECTION)
       .where('userId', '==', userId);
 
-    // Apply status filter
-    if (filters.status) {
-      query = query.where('status', '==', filters.status);
+    // Apply filters one at a time with error handling
+    try {
+      if (filters.status) {
+        query = query.where('status', '==', filters.status);
+      }
+    } catch (error) {
+      console.warn('Status filter not available yet:', error);
     }
 
-    // Apply date range filter
-    if (filters.dateRange) {
-      query = query.where('createdAt', '>=', filters.dateRange.start)
-                  .where('createdAt', '<=', filters.dateRange.end);
+    try {
+      if (filters.category) {
+        query = query.where('category', '==', filters.category);
+      }
+    } catch (error) {
+      console.warn('Category filter not available yet:', error);
     }
 
-    // Apply sorting
-    query = query.orderBy('createdAt', 'desc');
+    try {
+      if (filters.dateRange) {
+        query = query
+          .where('createdAt', '>=', filters.dateRange.start)
+          .where('createdAt', '<=', filters.dateRange.end);
+      }
+    } catch (error) {
+      console.warn('Date range filter not available yet:', error);
+    }
+
+    // Apply sorting with error handling
+    try {
+      query = query.orderBy('createdAt', 'desc');
+    } catch (error) {
+      console.warn('Sorting not available yet:', error);
+    }
 
     const snapshot = await query.get();
     return snapshot.docs.map(doc => ({
@@ -210,6 +247,9 @@ async function getUserActivities(userId, filters = {}) {
     }));
   } catch (error) {
     console.error('Error getting user activities:', error);
+    if (error.code === 'failed-precondition') {
+      throw new Error('Database indexes are being created. Please try again in a moment.');
+    }
     throw error;
   }
 }

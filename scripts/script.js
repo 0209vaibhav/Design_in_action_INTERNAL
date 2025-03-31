@@ -1,4 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // Add link to memento markers styles
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'styles/memento-markers.css';
+  document.head.appendChild(link);
+
   // Initialize journey capture functionality
   initializeJourneyCapture();
 
@@ -14,20 +20,19 @@ document.addEventListener("DOMContentLoaded", function () {
   const tabs = document.querySelectorAll(".activity-tab");
   const mainContent = document.querySelector(".main-content");
   const infoTab = document.querySelector(".info-tab");
-  const rightPanel = document.querySelector(".right-panel");
 
   // ---------------------------
   // 3) Panel expansion function
   // ---------------------------
-  function expandRightPanel() {
-    const rightPanel = document.querySelector('.right-panel');
-    const expandRightBtn = document.getElementById('expand-right');
-    const collapseRightBtn = document.getElementById('collapse-right');
+  function expandLeftPanel() {
+    const infoTab = document.querySelector('.info-tab');
+    const expandLeftBtn = document.getElementById('expand-left');
+    const collapseLeftBtn = document.getElementById('collapse-left');
     
-    if (rightPanel && expandRightBtn && collapseRightBtn) {
-      rightPanel.classList.remove('hidden');
-      expandRightBtn.classList.add('hidden');
-      collapseRightBtn.classList.remove('hidden');
+    if (infoTab && expandLeftBtn && collapseLeftBtn) {
+      infoTab.classList.remove('hidden');
+      expandLeftBtn.classList.add('hidden');
+      collapseLeftBtn.classList.remove('hidden');
       // Resize map after panel expansion
       if (map) {
         setTimeout(() => { map.resize(); }, 300);
@@ -36,30 +41,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ---------------------------
-  // 4) Firebase auth state listener to load settings
+  // 4) Firebase auth state listener
   // ---------------------------
   firebase.auth().onAuthStateChanged(async (user) => {
-    if (user) {
-      try {
-        // Load and apply user settings
-        const userSettings = await loadSettingsFromFirestore(user);
-        if (userSettings) {
-          applySettings(userSettings);
-          updateSettingsUI(userSettings);
-        } else {
-          // If no settings found, apply and save defaults
-          const defaultSettings = loadDefaultSettings();
-          await saveSettingsToFirestore(user, defaultSettings);
-          applySettings(defaultSettings);
-          updateSettingsUI(defaultSettings);
-        }
-      } catch (error) {
-        console.error('Error loading settings:', error);
-        const defaultSettings = loadDefaultSettings();
-        applySettings(defaultSettings);
-        updateSettingsUI(defaultSettings);
-      }
-    }
+    // No settings loading needed
   });
 
   // Set initial state - Discovery tab and subtabs visible
@@ -445,84 +430,63 @@ document.addEventListener("DOMContentLoaded", function () {
   // 11) Map Functions
   // ---------------------------
   function initializeMap(center = [-73.9629, 40.8075]) {
+    // Safely remove existing map if it exists
     if (map) {
+      try {
         map.remove();
+      } catch (error) {
+        console.warn('Error removing map:', error);
+      }
     }
 
-    // Get current user and try to load their settings
-    const user = firebase.auth().currentUser;
-    let mapStyle = 'mapbox://styles/0209vaibhav/cm3qznmj6001r01s0aj3680en'; // Default style
-
-    if (user) {
-        // Try to get saved settings
-        loadSettingsFromFirestore(user).then(savedSettings => {
-            if (savedSettings && savedSettings.mapStyle) {
-                mapStyle = savedSettings.mapStyle;
-            }
-            
-            // Initialize map with saved or default style
-            initializeMapWithStyle(mapStyle, center);
-        }).catch(error => {
-            console.error('Error loading settings:', error);
-            // Initialize map with default style if there's an error
-            initializeMapWithStyle(mapStyle, center);
-        });
-    } else {
-        // Initialize map with default style if no user is logged in
-        initializeMapWithStyle(mapStyle, center);
-    }
+    // Initialize map with default style
+    const mapStyle = 'mapbox://styles/0209vaibhav/cm3qznmj6001r01s0aj3680en';
+    initializeMapWithStyle(mapStyle, center);
   }
 
   // Update the initializeMapWithStyle function
   function initializeMapWithStyle(mapStyle, center) {
-    // If map already exists and we're just changing the style
-    if (map) {
-        // Store the current center and zoom
-        const currentCenter = map.getCenter();
-        const currentZoom = map.getZoom();
-        
-        // Remove the old map instance
-        map.remove();
-        
-        // Create new map with updated style
-        map = new mapboxgl.Map({
-            container: 'map',
-            style: mapStyle,
-            center: currentCenter || userLocation || center,
-            zoom: currentZoom || 14,
-            minZoom: 11,
-            maxZoom: 18,
-            maxBounds: [
-                [-74.0659, 40.7012], // Southwest coordinates
-                [-73.8534, 40.8847]  // Northeast coordinates
-            ]
-        });
-    } else {
-        // Initial map creation
-        map = new mapboxgl.Map({
-            container: 'map',
-            style: mapStyle,
-            center: userLocation || center,
-            zoom: 14,
-            minZoom: 11,
-            maxZoom: 18,
-            maxBounds: [
-                [-74.0659, 40.7012], // Southwest coordinates
-                [-73.8534, 40.8847]  // Northeast coordinates
-            ]
-        });
+    try {
+      // Create new map instance
+      map = new mapboxgl.Map({
+        container: 'map',
+        style: mapStyle,
+        center: userLocation || center,
+        zoom: 14,
+        minZoom: 11,
+        maxZoom: 18,
+        maxBounds: [
+          [-74.0659, 40.7012], // Southwest coordinates
+          [-73.8534, 40.8847]  // Northeast coordinates
+        ]
+      });
+
+      // Store map instance on the map element for global access
+      const mapElement = document.getElementById('map');
+      if (mapElement) {
+        mapElement._mapboxgl_map = map;
+      }
+
+      // Add controls
+      map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+      
+      // Add custom locate control
+      map.addControl(new LocateMeControl(), 'top-right');
+
+      // Map is ready
+      map.on('load', () => {
+        // Map is initialized and ready
+        if (map) {
+          map.resize();
+          // Load all types of markers after map is ready
+          loadDeveloperMementoMarkers();
+          loadUserMementosOnMap();
+          loadPublicMementosOnMap();
+        }
+      });
+    } catch (error) {
+      console.error('Error initializing map:', error);
     }
-
-    // Add controls
-    map.addControl(new mapboxgl.NavigationControl(), 'top-right');
-    
-    // Add custom locate control
-    map.addControl(new LocateMeControl(), 'top-right');
-
-    // Load activities when map is ready
-    map.on('load', () => {
-      loadActivities();
-    });
   }
 
   // ---------------------------
@@ -577,10 +541,10 @@ document.addEventListener("DOMContentLoaded", function () {
     subtab.classList.remove('show');
   });
 
-  // Set right panel state
-  rightPanel.classList.add('hidden');
-  collapseRightBtn.classList.add('hidden');
-  expandRightBtn.classList.remove('hidden');
+  // Set left panel state to be expanded by default
+  infoTab.classList.remove('hidden');
+  collapseLeftBtn.classList.remove('hidden');
+  expandLeftBtn.classList.add('hidden');
 
   // Resize map after panel state changes
   setTimeout(() => {
@@ -711,13 +675,18 @@ document.addEventListener("DOMContentLoaded", function () {
   // ---------------------------
   if (radiusToggle) {
     radiusToggle.addEventListener("change", function() {
-      const categoryBtn = document.querySelector('[data-tab="live-map"]');
       const listViewBtn = document.querySelector('[data-tab="list-view"]');
-      
-      if (categoryBtn && categoryBtn.classList.contains('active')) {
-        displayCategoryList();
-      } else if (listViewBtn && listViewBtn.classList.contains('active')) {
-        showEventsList();
+      if (listViewBtn && listViewBtn.classList.contains('active')) {
+        handleSubTabAction('discovery', 'list-view');
+      }
+    });
+  }
+
+  if (radiusSlider) {
+    radiusSlider.addEventListener("input", function() {
+      const listViewBtn = document.querySelector('[data-tab="list-view"]');
+      if (listViewBtn && listViewBtn.classList.contains('active')) {
+        handleSubTabAction('discovery', 'list-view');
       }
     });
   }
@@ -744,77 +713,67 @@ document.addEventListener("DOMContentLoaded", function () {
   // 16) Panel Collapse/Expand with map.resize()
   // ---------------------------
   if (collapseLeftBtn) {
-    collapseLeftBtn.addEventListener("click", function() {
-        console.log("Collapse Left Button Clicked");
-        infoTab.classList.add("hidden");
-        expandLeftBtn.classList.remove("hidden");
-        collapseLeftBtn.classList.add("hidden");
-        if (map) {
-            setTimeout(() => { map.resize(); }, 300);
-        }
+    const newCollapseBtn = collapseLeftBtn.cloneNode(true);
+    collapseLeftBtn.parentNode.replaceChild(newCollapseBtn, collapseLeftBtn);
+    
+    newCollapseBtn.addEventListener("click", function() {
+      console.log("Collapse Left Button Clicked");
+      infoTab.classList.add("hidden");
+      expandLeftBtn.classList.remove("hidden");
+      this.classList.add("hidden");
+      if (map) {
+        setTimeout(() => { map.resize(); }, 300);
+      }
     });
   }
 
   if (expandLeftBtn) {
-    expandLeftBtn.addEventListener("click", function() {
-        console.log("Expand Left Button Clicked");
-        infoTab.classList.remove("hidden");
-        expandLeftBtn.classList.add("hidden");
-        collapseLeftBtn.classList.remove("hidden");
-        if (map) {
-            setTimeout(() => { map.resize(); }, 300);
-        }
+    const newExpandBtn = expandLeftBtn.cloneNode(true);
+    expandLeftBtn.parentNode.replaceChild(newExpandBtn, expandLeftBtn);
+    
+    newExpandBtn.addEventListener("click", function() {
+      console.log("Expand Left Button Clicked");
+      infoTab.classList.remove("hidden");
+      this.classList.add("hidden");
+      collapseLeftBtn.classList.remove("hidden");
+      if (map) {
+        setTimeout(() => { map.resize(); }, 300);
+      }
     });
   }
 
-  // Add mobile-specific panel handling
-  function handleMobilePanel() {
-    const isMobile = window.innerWidth <= 768;
-    const infoTab = document.querySelector('.info-tab');
-    const map = document.getElementById('map');
-    
-    if (isMobile) {
-        // On mobile, start with the panel hidden
-        infoTab.classList.add('hidden');
-        expandLeftBtn.classList.remove('hidden');
-        collapseLeftBtn.classList.add('hidden');
-        
-        // Add touch event listeners for swipe gestures
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        document.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, false);
-        
-        document.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, false);
-        
-        function handleSwipe() {
-            const swipeThreshold = 50;
-            const swipeDistance = touchEndX - touchStartX;
-            
-            // Swipe right to show panel
-            if (swipeDistance > swipeThreshold && infoTab.classList.contains('hidden')) {
-                infoTab.classList.remove('hidden');
-                expandLeftBtn.classList.add('hidden');
-                collapseLeftBtn.classList.remove('hidden');
-            }
-            // Swipe left to hide panel
-            else if (swipeDistance < -swipeThreshold && !infoTab.classList.contains('hidden')) {
-                infoTab.classList.add('hidden');
-                expandLeftBtn.classList.remove('hidden');
-                collapseLeftBtn.classList.add('hidden');
-            }
-        }
-    }
-  }
+  // Add touch swipe functionality
+  let touchStartX = 0;
+  let touchEndX = 0;
+  const swipeThreshold = 50;
 
-  // Call handleMobilePanel on load and resize
-  window.addEventListener('load', handleMobilePanel);
-  window.addEventListener('resize', handleMobilePanel);
+  document.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, false);
+  
+  document.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    const swipeDistance = touchEndX - touchStartX;
+    
+    // Swipe right to show panel
+    if (swipeDistance > swipeThreshold && infoTab.classList.contains('hidden')) {
+      infoTab.classList.remove('hidden');
+      expandLeftBtn.classList.add('hidden');
+      collapseLeftBtn.classList.remove('hidden');
+      if (map) {
+        setTimeout(() => { map.resize(); }, 300);
+      }
+    }
+    // Swipe left to hide panel
+    else if (swipeDistance < -swipeThreshold && !infoTab.classList.contains('hidden')) {
+      infoTab.classList.add('hidden');
+      expandLeftBtn.classList.remove('hidden');
+      collapseLeftBtn.classList.add('hidden');
+      if (map) {
+        setTimeout(() => { map.resize(); }, 300);
+      }
+    }
+  }, false);
 
   if (collapseRightBtn) {
     collapseRightBtn.addEventListener("click", function() {
@@ -914,6 +873,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const aboutContent = document.querySelector('.about-content');
     const aboutCredits = document.getElementById('about-credits');
     const aboutInfo = document.getElementById('about-info');
+    const myMementosContainer = document.querySelector('.my-mementos-container');
 
     if (journeyCaptureForm) journeyCaptureForm.classList.add('hidden');
     if (draftsContainer) draftsContainer.classList.add('hidden');
@@ -925,6 +885,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (aboutContent) aboutContent.classList.add('hidden');
     if (aboutCredits) aboutCredits.classList.add('hidden');
     if (aboutInfo) aboutInfo.classList.add('hidden');
+    if (myMementosContainer) myMementosContainer.classList.add('hidden');
 
     // Handle subtab actions
     if (activity === 'journey') {
@@ -938,6 +899,8 @@ document.addEventListener("DOMContentLoaded", function () {
             if (archiveContainer) archiveContainer.style.display = 'block';
         } else if (tabId === 'profile') {
             if (authContainer) authContainer.classList.remove('hidden');
+        } else if (tabId === 'my-mementos') {
+            if (myMementosContainer) myMementosContainer.classList.remove('hidden');
         }
     } else if (activity === 'discovery') {
         if (tabId === 'filter') {
@@ -1077,35 +1040,68 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initialize Google Places Autocomplete
     const locationInput = document.getElementById('memento-location');
     if (locationInput) {
-    const autocomplete = new google.maps.places.Autocomplete(locationInput, {
+      let locationMarker = null; // Variable to store the current marker
+
+      const autocomplete = new google.maps.places.Autocomplete(locationInput, {
         types: ['geocode', 'establishment'],
         fields: ['formatted_address', 'geometry', 'name']
-    });
+      });
 
-    // Handle place selection
-    autocomplete.addListener('place_changed', () => {
+      // Handle place selection
+      autocomplete.addListener('place_changed', () => {
         const place = autocomplete.getPlace();
         if (!place.geometry) {
-            showToast('Please select a location from the suggestions', 'error');
-            return;
+          showToast('Please select a location from the suggestions', 'error');
+          return;
         }
 
         // Store the selected location's coordinates
         const lat = place.geometry.location.lat();
         const lng = place.geometry.location.lng();
         selectedLocation = {
-            address: place.formatted_address || place.name,
-            coordinates: {
-                lat: lat,
-                lng: lng
-            }
+          address: place.formatted_address || place.name,
+          coordinates: {
+            lat: lat,
+            lng: lng
+          }
         };
         
         // Update the preview
         locationPreview.textContent = selectedLocation.address;
 
+        // Update or create marker on the map
+        if (map) {
+          // Remove existing marker if it exists
+          if (locationMarker) {
+            locationMarker.remove();
+          }
+
+          // Create new marker
+          locationMarker = new mapboxgl.Marker()
+            .setLngLat([lng, lat])
+            .addTo(map);
+
+          // Center map on the marker
+          map.flyTo({
+            center: [lng, lat],
+            zoom: 15,
+            essential: true
+          });
+        }
+
         showToast('Location selected', 'success');
-    });
+      });
+
+      // Handle input changes to update marker
+      locationInput.addEventListener('input', () => {
+        if (locationInput.value.trim() === '') {
+          // Remove marker if input is empty
+          if (locationMarker) {
+            locationMarker.remove();
+            locationMarker = null;
+          }
+        }
+      });
     }
     
     // Current location button
@@ -1507,7 +1503,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Handle save button
     const saveBtn = document.getElementById('save-memento-btn');
     if (saveBtn) {
-    saveBtn.addEventListener('click', async () => {
+      saveBtn.addEventListener('click', async () => {
         // Validate form
         if (!validateMementoForm()) {
           return;
@@ -1517,11 +1513,11 @@ document.addEventListener("DOMContentLoaded", function () {
           const mementoData = collectMementoData();
           
           // Save as published memento
-      const user = firebase.auth().currentUser;
-      if (!user) {
+          const user = firebase.auth().currentUser;
+          if (!user) {
             showToast('You need to be logged in to save mementos', 'error');
-        return;
-      }
+            return;
+          }
 
           // Upload media files first
           const mediaUrls = await uploadMediaFiles(uploadedFiles, user.uid);
@@ -1535,6 +1531,34 @@ document.addEventListener("DOMContentLoaded", function () {
           // Reset form
           resetMementoForm();
           captureForm.classList.add('hidden');
+
+          // Refresh markers and list view
+          await loadUserMementosOnMap();
+          await loadPublicMementosOnMap();
+          
+          // If we're in the my-mementos view, refresh that list
+          const myMementosContainer = document.querySelector('.my-mementos-container');
+          if (myMementosContainer && !myMementosContainer.classList.contains('hidden')) {
+            const mementosList = myMementosContainer.querySelector('.mementos-list');
+            if (mementosList) {
+              // Clear existing mementos
+              mementosList.innerHTML = '';
+              
+              // Get updated mementos from Firestore
+              const mementosSnapshot = await firebase.firestore()
+                .collection('mementos')
+                .where('userId', '==', user.uid)
+                .orderBy('timestamp', 'desc')
+                .get();
+
+              // Add each memento to the list
+              mementosSnapshot.forEach(doc => {
+                const memento = { id: doc.id, ...doc.data() };
+                const mementoElement = createMementoElement(memento);
+                mementosList.appendChild(mementoElement);
+              });
+            }
+          }
           
         } catch (error) {
           console.error('Error saving memento:', error);
@@ -1614,11 +1638,25 @@ document.addEventListener("DOMContentLoaded", function () {
         const fileExt = file.name.split('.').pop();
         const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
         
+        // Create a copy of the file to prevent modification during upload
+        const fileCopy = new File([file], file.name, { type: file.type });
+        
         // Update storage reference path to match storage rules
         const storageRef = firebase.storage().ref(`mementos/${userId}/${fileName}`);
         
         try {
-          const snapshot = await storageRef.put(file);
+          // Add metadata to the upload
+          const metadata = {
+            contentType: file.type,
+            customMetadata: {
+              uploadedBy: userId,
+              uploadedAt: new Date().toISOString(),
+              type: fileType
+            }
+          };
+
+          // Upload the file copy with metadata
+          const snapshot = await storageRef.put(fileCopy, metadata);
           const downloadURL = await snapshot.ref.getDownloadURL();
           
           return {
@@ -1628,7 +1666,15 @@ document.addEventListener("DOMContentLoaded", function () {
           };
         } catch (error) {
           console.error('Error uploading file:', error);
-          throw new Error(`Failed to upload ${fileType} file: ${error.message}`);
+          if (error.code === 'storage/unauthorized') {
+            throw new Error('You need to be logged in to upload files');
+          } else if (error.code === 'storage/canceled') {
+            throw new Error('Upload was canceled');
+          } else if (error.code === 'storage/unknown') {
+            throw new Error('An unknown error occurred during upload');
+          } else {
+            throw new Error(`Failed to upload ${fileType} file: ${error.message}`);
+          }
         }
       }));
       
@@ -1755,9 +1801,163 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Store markers globally for easy access
-  let developerActivityMarkers = []; // For Columbia events
-  let userActivityMarkers = []; // For user-created activities
+  let developerMementoMarkers = []; // For Columbia events
+  let userMementoMarkers = []; // For user mementos
+  let publicMementoMarkers = []; // For all public mementos
 
+  // Function to load and display user mementos on the map
+  async function loadUserMementosOnMap() {
+    try {
+      // Get current user from Firebase auth
+      const user = firebase.auth().currentUser;
+      if (!user) {
+        console.log('No user logged in, skipping user mementos');
+        return;
+      }
+
+      // Clear existing user memento markers
+      userMementoMarkers.forEach(marker => marker.remove());
+      userMementoMarkers = [];
+
+      // Get mementos from Firestore
+      const mementosSnapshot = await firebase.firestore()
+        .collection('mementos')
+        .where('userId', '==', user.uid)
+        .get();
+
+      if (mementosSnapshot.empty) {
+        console.log('No mementos found for user');
+        return;
+      }
+
+      // Create markers for each memento
+      mementosSnapshot.forEach(doc => {
+        const memento = { id: doc.id, ...doc.data() };
+        
+        // Only create marker if memento has location
+        if (memento.location && memento.location.coordinates) {
+          // Create marker element with memento image
+          const el = document.createElement('div');
+          el.className = 'user-memento-marker';
+          
+          // Set background image if available
+          if (memento.media && memento.media.length > 0) {
+            const firstMedia = memento.media[0];
+            const mediaUrl = typeof firstMedia === 'string' ? firstMedia : firstMedia.url;
+            el.style.backgroundImage = `url(${mediaUrl})`;
+          }
+
+          // Create marker
+          const marker = new mapboxgl.Marker({
+            element: el,
+            anchor: 'bottom'
+          })
+            .setLngLat([memento.location.coordinates.longitude, memento.location.coordinates.latitude])
+            .addTo(map);
+
+          // Create popup content
+          const popupContent = document.createElement('div');
+          popupContent.className = 'user-memento-popup';
+          popupContent.innerHTML = `
+            <div class="user-memento-popup-content">
+              ${memento.media && memento.media.length > 0 ? `
+                <div class="user-memento-popup-media">
+                  <img src="${typeof memento.media[0] === 'string' ? memento.media[0] : memento.media[0].url}" alt="${memento.name}">
+                </div>
+              ` : ''}
+              <div class="user-memento-popup-details">
+                <h3>${memento.name || 'Untitled Memento'}</h3>
+                <p>${memento.caption || 'No caption'}</p>
+                ${memento.location ? `
+                  <p class="memento-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    ${memento.location.address || 'Location added'}
+                  </p>
+                ` : ''}
+                <p><i class="fas fa-clock"></i> ${new Date(memento.timestamp).toLocaleDateString()}</p>
+                <div class="user-memento-popup-tags">
+                  ${memento.mementoTags ? memento.mementoTags.map(tag => `<span class="tag">${tag}</span>`).join('') : ''}
+                </div>
+              </div>
+            </div>
+          `;
+
+          // Create popup
+          const popup = new mapboxgl.Popup({
+            offset: 25,
+            closeButton: true,
+            closeOnClick: false
+          }).setDOMContent(popupContent);
+
+          // Add click event to marker
+          marker.getElement().addEventListener('click', () => {
+            if (map && typeof map.flyTo === 'function') {
+              marker.togglePopup();
+              map.flyTo({
+                center: [memento.location.coordinates.longitude, memento.location.coordinates.latitude],
+                zoom: 15,
+                essential: true
+              });
+              displayMementoInLiveFeed(memento);
+            }
+          });
+
+          // Add popup to marker
+          marker.setPopup(popup);
+
+          // Store marker reference
+          userMementoMarkers.push(marker);
+        }
+      });
+
+      // Update markers based on current filters
+      updateMarkersRadius();
+    } catch (error) {
+      console.error('Error loading user mementos:', error);
+    }
+  }
+
+  // Update the updateMarkersRadius function to include user mementos
+  function updateMarkersRadius() {
+    if (!map || !userLocation) return;
+
+    const radiusToggle = document.getElementById('radius-toggle');
+    const radiusSlider = document.getElementById('radius-slider');
+    const radiusMiles = radiusToggle && radiusToggle.checked && radiusSlider ? parseFloat(radiusSlider.value) : null;
+
+    // Update developer memento markers
+    developerMementoMarkers.forEach(marker => {
+      const markerLngLat = marker.getLngLat();
+      const isWithinRadius = !radiusMiles || isPointWithinRadius(
+        [markerLngLat.lng, markerLngLat.lat],
+        userLocation,
+        radiusMiles
+      );
+      marker.getElement().style.display = isWithinRadius ? 'block' : 'none';
+    });
+
+    // Update user memento markers
+    userMementoMarkers.forEach(marker => {
+      const markerLngLat = marker.getLngLat();
+      const isWithinRadius = !radiusMiles || isPointWithinRadius(
+        [markerLngLat.lng, markerLngLat.lat],
+        userLocation,
+        radiusMiles
+      );
+      marker.getElement().style.display = isWithinRadius ? 'block' : 'none';
+    });
+
+    // Update public memento markers
+    publicMementoMarkers.forEach(marker => {
+      const markerLngLat = marker.getLngLat();
+      const isWithinRadius = !radiusMiles || isPointWithinRadius(
+        [markerLngLat.lng, markerLngLat.lat],
+        userLocation,
+        radiusMiles
+      );
+      marker.getElement().style.display = isWithinRadius ? 'block' : 'none';
+    });
+  }
 
   // ---------------------------
   // 19) Update markers based on radius
@@ -1774,15 +1974,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const radiusMiles = parseFloat(radiusSlider.value);
     const center = userLocation || map.getCenter().toArray();
 
-    // Update developer activity markers
-    developerActivityMarkers.forEach(marker => {
+    // Update developer memento markers
+    developerMementoMarkers.forEach(marker => {
         const coordinates = marker.getLngLat().toArray();
         const isInRadius = !isRadiusEnabled || isPointWithinRadius(coordinates, center, radiusMiles);
         marker.getElement().classList.toggle('out-of-radius', !isInRadius);
     });
 
     // Update user activity markers
-    userActivityMarkers.forEach(marker => {
+    userMementoMarkers.forEach(marker => {
         const coordinates = marker.getLngLat().toArray();
         const isInRadius = !isRadiusEnabled || isPointWithinRadius(coordinates, center, radiusMiles);
         marker.getElement().classList.toggle('out-of-radius', !isInRadius);
@@ -1810,189 +2010,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-// ---------------------------
-// 21) Event list display
-// ---------------------------
-  // Add this function near your other event-related functions
-  function showEventsList() {
-    // First expand the right panel
-    const rightPanel = document.querySelector('.right-panel');
-    if (rightPanel) {
-        rightPanel.classList.remove('hidden');
-    }
-
-    // Fetch and display events
-    fetch('synthetic_event_dataset_manhattan_updated.json')
-        .then(response => response.json())
-        .then(data => {
-            let filteredEvents = data.events;
-            const isRadiusEnabled = document.getElementById('radius-toggle').checked;
-            const radiusMiles = parseFloat(document.getElementById('radius-slider').value);
-            const center = userLocation || map.getCenter().toArray();
-
-            // Filter events based on radius if enabled
-            if (isRadiusEnabled) {
-                filteredEvents = filteredEvents.filter(event => {
-                    const coordinates = [event.location.longitude, event.location.latitude];
-                    return isPointWithinRadius(coordinates, center, radiusMiles);
-                });
-            }
-
-            const listContent = `
-                <div class="event-list-container">
-                    <div class="event-list">
-                        ${filteredEvents.length > 0
-                            ? filteredEvents.map(event => {
-                                const isFav = isFavorited(event.id);
-                                return `
-                                    <div class="event-list-item" data-lat="${event.location.latitude}" data-lng="${event.location.longitude}">
-                                        <div class="event-list-item-header">
-                                            <div class="event-list-item-title">
-                                                <h3>${event.name}</h3>
-                                                <span class="event-category">${event.category}</span>
-                                            </div>
-                                            <button class="favorite-btn ${isFav ? 'favorited' : ''}" 
-                                                    data-event-id="${event.id}" 
-                                                    onclick='toggleFavorite(${JSON.stringify(event)})'>
-                                                <i class="fas fa-star"></i>
-                                            </button>
-                                        </div>
-                                        ${event.media ? `
-                                            <div class="event-list-item-media">
-                                                <img src="${event.media[0]}" 
-                                                    alt="${event.name}"
-                                                    ${event.media[0].includes('example.com') ? 'class="placeholder-img"' : ''}>
-                                            </div>
-                                        ` : ''}
-                                        <p class="event-description">${event.description || ''}</p>
-                                        <div class="event-time">
-                                            <span><i class="fas fa-clock"></i> ${new Date(event.start_time).toLocaleString()}</span>
-                                        </div>
-                                    </div>
-                                `;
-                            }).join('')
-                            : `
-                                <div class="event-list-empty">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <p>No events found${isRadiusEnabled ? ' within the selected radius' : ''}</p>
-                                </div>
-                            `
-                        }
-                    </div>
-                </div>
-            `;
-
-            // Update right panel content
-            rightPanel.innerHTML = listContent;
-
-            // Add click handlers to list items
-            document.querySelectorAll('.event-list-item').forEach(item => {
-                item.addEventListener('click', (e) => {
-                    // Don't trigger the click event if clicking the favorite button
-                    if (e.target.closest('.favorite-btn')) {
-                        return;
-                    }
-
-                    const lat = parseFloat(item.dataset.lat);
-                    const lng = parseFloat(item.dataset.lng);
-                    
-                    // Fly to the event location
-                    map.flyTo({
-                        center: [lng, lat],
-                        zoom: 16,
-                        essential: true
-                    });
-                });
-            });
-
-            // Resize map to account for the panel
-            if (map) {
-                setTimeout(() => { map.resize(); }, 300);
-            }
-        })
-        .catch(error => {
-            console.error('Error loading events:', error);
-            rightPanel.innerHTML = `
-                <div class="event-list-container">
-                    <div class="event-list-error">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <p>Error loading events. Please try again later.</p>
-                    </div>
-                </div>
-            `;
-        });
-  }
-
-  // Make sure the event listener is properly attached
-  document.getElementById('list-events-btn').addEventListener('click', showEventsList);
-
-
-
-
-  // ---------------------------
-// 32) Settings UI management
-// ---------------------------
-  // Add this function to update settings UI
-  function updateSettingsUI(settings) {
-    // Update marker size select
-    const markerSize = document.getElementById('markerSize');
-    if (markerSize) {
-        markerSize.value = settings.markerSize;
-    }
-
-    // Update marker type select
-    const markerType = document.getElementById('markerType');
-    if (markerType && settings.markerType) {
-        markerType.value = settings.markerType;
-    }
-  }
-
-  // Add this function to load default settings
-  function loadDefaultSettings() {
-        return {
-        markerSize: 'medium',
-        markerType: 'circle',
-        // Removed enable3DBuildings setting
-    };
-  }
-
-  // Function to update marker colors
-  function updateMarkerColors(mapStyle) {
-    const colors = getMarkerColorsForMapStyle(mapStyle);
-    document.querySelectorAll('.developer-activity-marker, .user-activity-marker').forEach(marker => {
-        const category = marker.getAttribute('data-category');
-        const color = colors[category] || colors.default;
-        marker.style.color = color; // Using color instead of backgroundColor
-    });
-  }
-
-  // ---------------------------
-// 33) Settings application
-// ---------------------------
-  // Add this function to apply settings
-  function applySettings(settings) {
-    if (!settings) return;
-
-    // Apply map style if map exists and style is different
-    if (map && settings.mapStyle && map.getStyle().sprite !== settings.mapStyle) {
-      map.setStyle(settings.mapStyle);
-    }
-
-    // Apply auto-close popups setting
-    if (settings.autoClosePopups !== undefined) {
-      if (settings.autoClosePopups) {
-        setupAutoClosePopups();
-      } else {
-        map && map.off('click'); // Remove existing click handlers
-      }
-    }
-
-    // Update settings UI if it's open
-    const settingsContainer = document.getElementById('settings-container');
-    if (settingsContainer && !settingsContainer.classList.contains('hidden')) {
-      updateSettingsUI(settings);
-    }
-  }
 
 // ---------------------------
 // 29) UI helper functions
@@ -2037,190 +2054,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 3000);
   }
 
-// ---------------------------
-// 35) UI interaction utilities
-// ---------------------------  
-  // Add this new function to handle popup auto-closing
-  function setupAutoClosePopups() {
-    map.on('click', (e) => {
-        // Check if we clicked on a radius circle
-        if (map.getLayer('radius-circle-fill')) {
-            const features = map.queryRenderedFeatures(e.point, { layers: ['radius-circle-fill'] });
-            if (features.length > 0) {
-                // Clicked inside radius circle, do nothing
-                return;
-            }
-        }
 
-        // If we have a currently open popup, close it
-        if (currentOpenPopup) {
-            currentOpenPopup.remove();
-            currentOpenPopup = null;
-        }
-    });
-  }
 
-// ---------------------------
-// 31) Favorites management
-// ---------------------------
-  // Favorites functionality
-  function displayFavorites() {
-    // Get current favorites from localStorage
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    
-    // Get the favorites list container
-    const favoritesList = document.getElementById('favorites-list');
-    const favoritesCount = document.querySelector('.favorites-count');
-    
-    if (!favoritesList || !favoritesCount) return;
-    
-    // Update favorites count
-    favoritesCount.textContent = `${favorites.length} items`;
-
-    // Display favorites content
-    if (favorites.length === 0) {
-        favoritesList.innerHTML = `
-            <div class="no-favorites">
-                <i class="fas fa-star"></i>
-                <p>No favorites yet</p>
-                <p class="favorites-hint">Click the star icon on any event to add it to your favorites</p>
-            </div>
-        `;
-    } else {
-        favoritesList.innerHTML = favorites.map(event => `
-            <div class="favorite-card" data-event-id="${event.id}" onclick="viewFavoriteOnMap(${event.location.longitude}, ${event.location.latitude})">
-                ${event.media ? `
-                    <div class="favorite-media">
-                        <img src="${event.media[0]}" alt="${event.name}" ${event.media[0].includes('example.com') ? 'class="placeholder-img"' : ''}>
-                    </div>
-                ` : ''}
-                <div class="favorite-content">
-                    <div class="favorite-header">
-                        <h3>${event.name}</h3>
-                        <button class="favorite-btn favorited" 
-                                data-event-id="${event.id}" 
-                                onclick="event.stopPropagation(); toggleFavorite(${JSON.stringify(event).replace(/"/g, '&quot;')})">
-                            <i class="fas fa-star"></i>
-                        </button>
-                    </div>
-                    ${event.category ? `<p class="category">${event.category}</p>` : ''}
-                    ${event.description ? `<p class="description">${event.description}</p>` : ''}
-                    <p class="location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        Columbia University
-                    </p>
-                    <p class="date">
-                        <i class="fas fa-calendar"></i>
-                        ${new Date(event.start_time).toLocaleDateString()}
-                    </p>
-                </div>
-            </div>
-        `).join('');
-    }
-  }
-
-  // Make toggleFavorite globally available
-  window.toggleFavorite = function(event) {
-    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    const eventIndex = favorites.findIndex(f => f.id === event.id);
-    
-    if (eventIndex === -1) {
-        // Add to favorites
-        favorites.push(event);
-        showToast('Added to favorites');
-    } else {
-        // Remove from favorites
-        favorites.splice(eventIndex, 1);
-        showToast('Removed from favorites');
-    }
-    
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-    
-    // Update the button state
-    const favoriteBtn = document.querySelector(`.favorite-btn[data-event-id="${event.id}"]`);
-    if (favoriteBtn) {
-        favoriteBtn.classList.toggle('favorited');
-    }
-    
-    // If we're on the favorites tab, refresh the display
-    const favoritesContainer = document.getElementById('favorites-container');
-    if (favoritesContainer && favoritesContainer.style.display === 'block') {
-        displayFavorites();
-    }
-    
-    return eventIndex === -1; // Return true if added, false if removed
-  };
-
-// ---------------------------
-// 31) Favorites management
-// ---------------------------
-  // Function to check if an event is favorited
-  function isFavorited(eventId) {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    return favorites.some(f => f.id === eventId);
-  }
-
-  // Function to view favorite on map
-  window.viewFavoriteOnMap = function(lng, lat) {
-    if (map) {
-        // Fly to the event location
-        map.flyTo({
-            center: [lng, lat],
-            zoom: 16,
-            essential: true
-        });
-
-        // Find and click the corresponding marker
-        const marker = eventMarkers.find(m => {
-            const pos = m.getLngLat();
-            return pos.lng === lng && pos.lat === lat;
-        });
-
-        if (marker) {
-            marker.getElement().click();
-        }
-    }
-  };
-
-  // ---------------------------
-  // 36) Help tab initialization
-  // ---------------------------
-  function initializeHelpTab() {
-    const helpItems = document.querySelectorAll('.help-container .help-item h4');
-    
-    helpItems.forEach(header => {
-        // Get the content div that follows this header
-        const content = header.nextElementSibling;
-        
-        // Show first section by default
-        if (header.textContent === 'Getting Started') {
-            content.classList.add('visible');
-            header.classList.add('expanded');
-        } else {
-            content.classList.remove('visible');
-            header.classList.remove('expanded');
-        }
-        
-        // Add click handler
-        header.addEventListener('click', () => {
-            // Toggle this section
-            const isExpanded = content.classList.contains('visible');
-            
-            // Close all other sections
-            helpItems.forEach(h => {
-                const c = h.nextElementSibling;
-                c.classList.remove('visible');
-                h.classList.remove('expanded');
-            });
-            
-            // Toggle current section
-            if (!isExpanded) {
-                content.classList.add('visible');
-                header.classList.add('expanded');
-            }
-        });
-    });
-  }
 
 // ---------------------------
 // 37) Explorer tab navigation
@@ -2586,35 +2421,33 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-// ---------------------------
-// 30) Activity management
-// ---------------------------
-  async function addActivityToMap(activity) {
-    // Removed marker creation functionality
-}
 
 // ---------------------------
 // 24) Firebase activity loading
 // ---------------------------
   async function loadUserActivitiesFromFirebase() {
     try {
+      // Wait for Firebase to be initialized
+      if (!firebase.apps.length) {
+        console.log('Firebase not initialized yet');
+        return;
+      }
+
       const user = firebase.auth().currentUser;
       if (!user) {
         console.log('User not logged in, activities will be loaded when user logs in');
         return;
       }
-
-      showToast('Loading your activities from Firebase...', 'info');
+      
+      // Initialize Firebase collections if needed
+      await initializeFirebase();
       
       // Get user activities from Firebase
       const activities = await window.Activities.getUserActivities(user.uid);
       
-      if (activities.length === 0) {
-        showToast('No activities found in your account', 'info');
+      if (!activities || activities.length === 0) {
         return;
       }
-      
-      showToast(`Loaded ${activities.length} activities from Firebase`, 'success');
       
       // Center map on the latest activity if any
       if (activities.length > 0 && activities[0].location && activities[0].location.coordinates) {
@@ -2629,8 +2462,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       }
     } catch (error) {
-      console.error('Error loading activities from Firebase:', error);
-      showToast('Error loading your activities', 'error');
+      console.error('Error loading activities:', error);
     }
   }
 
@@ -2647,7 +2479,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Initialize map and Firebase data
   initializeAndUpdateMap();
-  initializeMapWithFirebaseData();
+  // Remove the call to initializeMapWithFirebaseData since it's not defined
+  // initializeMapWithFirebaseData();
+
+  // Hook up the Firebase data loading with authentication events
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      // User is signed in
+      loadUserActivitiesFromFirebase();
+    } else {
+      // User is signed out - remove call to undefined function
+      // loadPublicActivitiesFromFirebase();
+    }
+  });
 
   // Pin on map button (now uses the main map for location selection)
   const pinOnMapBtn = document.getElementById('pin-on-map-btn');
@@ -2794,10 +2638,10 @@ document.addEventListener("DOMContentLoaded", function () {
       subtab.classList.remove('show');
     });
 
-    // Set right panel state
-    rightPanel.classList.add('hidden');
-    collapseRightBtn.classList.add('hidden');
-    expandRightBtn.classList.remove('hidden');
+    // Set left panel state to be expanded by default
+    infoTab.classList.remove('hidden');
+    collapseLeftBtn.classList.remove('hidden');
+    expandLeftBtn.classList.add('hidden');
 
     // Resize map after panel state changes
     setTimeout(() => {
@@ -2805,5 +2649,809 @@ document.addEventListener("DOMContentLoaded", function () {
         map.resize();
       }
     }, 300);
+  }
+
+  // Function to load developer memento markers from JSON
+  async function loadDeveloperMementoMarkers() {
+    try {
+      // Clear existing developer markers
+      developerMementoMarkers.forEach(marker => marker.remove());
+      developerMementoMarkers = [];
+
+      // Fetch the JSON file
+      const response = await fetch('developer-memento-markers/developer-memento-markers.json');
+      const data = await response.json();
+
+      // Create markers for each event
+      data.events.forEach(event => {
+        if (event.location && event.location.longitude && event.location.latitude) {
+          // Create marker element with event image
+          const el = document.createElement('div');
+          el.className = 'developer-memento-marker';
+          
+          // Set background image if available
+          if (event.media && event.media.length > 0) {
+            el.style.backgroundImage = `url(${event.media[0]})`;
+          }
+
+          // Create marker
+          const marker = new mapboxgl.Marker({
+            element: el,
+            anchor: 'bottom'
+          })
+            .setLngLat([event.location.longitude, event.location.latitude])
+            .addTo(map);
+
+          // Create popup content
+          const popupContent = document.createElement('div');
+          popupContent.className = 'developer-memento-popup';
+          popupContent.innerHTML = `
+            <div class="developer-memento-popup-content">
+              ${event.media && event.media.length > 0 ? `
+                <div class="developer-memento-popup-media">
+                  <img src="${event.media[0]}" alt="${event.name}">
+                </div>
+              ` : ''}
+              <div class="developer-memento-popup-details">
+                <h3>${event.name}</h3>
+                <p>${event.description}</p>
+                ${event.location ? `
+                  <p class="memento-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    ${event.location.address || 'Location added'}
+                  </p>
+                ` : ''}
+                <p><i class="fas fa-clock"></i> ${new Date(event.timestamp).toLocaleDateString()}</p>
+                <div class="developer-memento-popup-tags">
+                  ${event.mementoTags ? event.mementoTags.map(tag => `<span class="tag">${tag}</span>`).join('') : ''}
+                </div>
+              </div>
+            </div>
+          `;
+
+          // Create popup
+          const popup = new mapboxgl.Popup({
+            offset: 25,
+            closeButton: true,
+            closeOnClick: false
+          }).setDOMContent(popupContent);
+
+          // Add click event to marker
+          marker.getElement().addEventListener('click', () => {
+            marker.togglePopup();
+            map.flyTo({
+              center: [event.location.longitude, event.location.latitude],
+              zoom: 15,
+              essential: true
+            });
+            displayMementoInLiveFeed(event);
+          });
+
+          // Add popup to marker
+          marker.setPopup(popup);
+
+          // Store marker reference
+          developerMementoMarkers.push(marker);
+        }
+      });
+
+      // Update markers based on current filters
+      updateMarkersRadius();
+    } catch (error) {
+      console.error('Error loading developer memento markers:', error);
+    }
+  }
+
+  // Add styles for developer markers and popups
+  const developerStyle = document.createElement('style');
+  developerStyle.textContent = `
+    .developer-memento-popup, .user-memento-popup {
+      max-width: 300px;
+    }
+
+    .developer-memento-popup-content, .user-memento-popup-content {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .developer-memento-popup-media, .user-memento-popup-media {
+      width: 100%;
+      height: 150px;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    .developer-memento-popup-media img, .user-memento-popup-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .developer-memento-details, .user-memento-details {
+      padding: 10px;
+    }
+
+    .developer-memento-details h3, .user-memento-details h3 {
+      margin: 0 0 5px 0;
+      font-size: 16px;
+      color: #111827;
+    }
+
+    .developer-memento-details p, .user-memento-details p {
+      margin: 0 0 5px 0;
+      font-size: 14px;
+      color: #4b5563;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .developer-memento-details i, .user-memento-details i {
+      color: #FF0080;
+    }
+
+    .developer-memento-tags, .user-memento-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .developer-memento-tags .tag, .user-memento-tags .tag {
+      background-color: #FF0080;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+  `;
+  document.head.appendChild(developerStyle);
+
+  // ... existing code ...
+
+  // Function to load and display public mementos on the map
+  async function loadPublicMementosOnMap() {
+    try {
+      // Clear existing public memento markers
+      publicMementoMarkers.forEach(marker => marker.remove());
+      publicMementoMarkers = [];
+
+      // Get all public mementos from Firestore
+      const mementosSnapshot = await firebase.firestore()
+        .collection('mementos')
+        .where('isPublic', '==', true)
+        .get();
+
+      if (mementosSnapshot.empty) return;
+
+      // Create markers for each public memento
+      mementosSnapshot.forEach(doc => {
+        const memento = { id: doc.id, ...doc.data() };
+        
+        // Only create marker if memento has location
+        if (memento.location && memento.location.coordinates) {
+          // Create marker element with memento image
+          const el = document.createElement('div');
+          el.className = 'public-memento-marker';
+          
+          // Set background image if available
+          if (memento.media && memento.media.length > 0) {
+            const firstMedia = memento.media[0];
+            const mediaUrl = typeof firstMedia === 'string' ? firstMedia : firstMedia.url;
+            el.style.backgroundImage = `url(${mediaUrl})`;
+          }
+
+          // Create marker
+          const marker = new mapboxgl.Marker({
+            element: el,
+            anchor: 'bottom'
+          })
+            .setLngLat([memento.location.coordinates.longitude, memento.location.coordinates.latitude])
+            .addTo(map);
+
+          // Create popup content
+          const popupContent = document.createElement('div');
+          popupContent.className = 'public-memento-popup';
+          popupContent.innerHTML = `
+            <div class="public-memento-popup-content">
+              ${memento.media && memento.media.length > 0 ? `
+                <div class="public-memento-popup-media">
+                  <img src="${typeof memento.media[0] === 'string' ? memento.media[0] : memento.media[0].url}" alt="${memento.name}">
+                </div>
+              ` : ''}
+              <div class="public-memento-popup-details">
+                <h3>${memento.name || 'Untitled Memento'}</h3>
+                <p>${memento.caption || 'No caption'}</p>
+                ${memento.location ? `
+                  <p class="memento-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    ${memento.location.address || 'Location added'}
+                  </p>
+                ` : ''}
+                <p><i class="fas fa-clock"></i> ${new Date(memento.timestamp).toLocaleDateString()}</p>
+                <div class="public-memento-popup-tags">
+                  ${memento.mementoTags ? memento.mementoTags.map(tag => `<span class="tag">${tag}</span>`).join('') : ''}
+                </div>
+              </div>
+            </div>
+          `;
+
+          // Create popup
+          const popup = new mapboxgl.Popup({
+            offset: 25,
+            closeButton: true,
+            closeOnClick: false
+          }).setDOMContent(popupContent);
+
+          // Add click event to marker
+          marker.getElement().addEventListener('click', () => {
+            marker.togglePopup();
+            map.flyTo({
+              center: [memento.location.coordinates.longitude, memento.location.coordinates.latitude],
+              zoom: 15,
+              essential: true
+            });
+            displayMementoInLiveFeed(memento);
+          });
+
+          // Add popup to marker
+          marker.setPopup(popup);
+
+          // Store marker reference
+          publicMementoMarkers.push(marker);
+        }
+      });
+
+      // Update markers based on current filters
+      updateMarkersRadius();
+    } catch (error) {
+      console.error('Error loading public mementos:', error);
+    }
+  }
+
+  // ... existing code ...
+
+  // Function to scroll to live feed
+  function scrollToLiveFeed() {
+    const liveFeedContainer = document.querySelector('.live-feed-container');
+    if (liveFeedContainer) {
+      liveFeedContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  // Function to display memento details in live feed
+  async function displayMementoInLiveFeed(memento) {
+    const liveFeedContent = document.querySelector('.live-feed-content');
+    if (!liveFeedContent) return;
+
+    // Format date and time
+    const formattedDateTime = new Date(memento.timestamp).toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric'
+    });
+
+    // Create media HTML
+    let mediaHtml = `
+      <div class="placeholder-media">
+        <i class="fas fa-image"></i>
+      </div>
+    `;
+
+    if (memento.media && memento.media.length > 0) {
+      const firstMedia = memento.media[0];
+      const mediaUrl = typeof firstMedia === 'string' ? firstMedia : firstMedia.url;
+      mediaHtml = `<img src="${mediaUrl}" alt="${memento.name}">`;
+    }
+
+    // Fetch username if userId exists
+    let username = 'Unknown User';
+    if (memento.userId) {
+      try {
+        const userDoc = await db.collection('users').doc(memento.userId).get();
+        if (userDoc.exists && userDoc.data().username) {
+          username = userDoc.data().username;
+        }
+      } catch (error) {
+        console.error('Error fetching username:', error);
+      }
+    }
+
+    // Create memento HTML with all available details
+    const mementoHtml = `
+      <div class="memento-item">
+        <div class="memento-content">
+          <div class="media-section">
+            <div class="memento-media">
+              ${mediaHtml}
+            </div>
+          </div>
+          <div class="details-actions-container">
+            <div class="memento-details">
+              <h3 class="memento-name">
+                <i class="fas fa-tag"></i>
+                ${memento.name || 'Untitled Memento'}
+              </h3>
+              
+              <p class="memento-caption">
+                <i class="fas fa-quote-right"></i>
+                ${memento.caption || 'No caption'}
+              </p>
+
+              ${memento.description ? `
+                <p class="memento-description">
+                  <i class="fas fa-align-left"></i>
+                  ${memento.description}
+                </p>
+              ` : ''}
+
+              ${memento.location ? `
+                <p class="memento-location">
+                  <i class="fas fa-map-marker-alt"></i>
+                  ${memento.location.address || 'Location added'}
+                </p>
+              ` : ''}
+
+              <p class="memento-timestamp">
+                <i class="fas fa-clock"></i>
+                ${formattedDateTime}
+              </p>
+
+              ${memento.category ? `
+                <p class="memento-category">
+                  <i class="fas fa-folder"></i>
+                  ${memento.category}
+                </p>
+              ` : ''}
+
+              ${memento.duration ? `
+                <p class="memento-duration">
+                  <i class="fas fa-hourglass-half"></i>
+                  ${memento.duration}
+                </p>
+              ` : ''}
+
+              ${memento.mementoTags && memento.mementoTags.length > 0 ? `
+                <div class="memento-tags">
+                  <i class="fas fa-hashtag"></i>
+                  ${memento.mementoTags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                </div>
+              ` : ''}
+
+              ${memento.userId ? `
+                <p class="memento-author">
+                  <i class="fas fa-user"></i>
+                  Created by: ${username}
+                </p>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Clear existing content and add new memento
+    liveFeedContent.innerHTML = mementoHtml;
+
+    // Show live feed container
+    const liveFeedContainer = document.querySelector('.live-feed-container');
+    if (liveFeedContainer) {
+      liveFeedContainer.classList.remove('hidden');
+      // Scroll to live feed
+      scrollToLiveFeed();
+    }
+  }
+
+  // Update marker click handlers to scroll to live feed
+  userMementoMarkers.forEach(marker => {
+    marker.getElement().addEventListener('click', () => {
+      const memento = marker.memento;
+      if (memento) {
+        // Show popup
+        const popup = new mapboxgl.Popup({ offset: 25 })
+          .setLngLat([memento.location.lng, memento.location.lat])
+          .setHTML(`
+            <h3>${memento.name || 'Untitled Memento'}</h3>
+            <p>${memento.caption || 'No caption'}</p>
+            ${memento.location.address ? `<p><i class="fas fa-map-marker-alt"></i> ${memento.location.address}</p>` : ''}
+            <p><i class="fas fa-clock"></i> ${new Date(memento.timestamp).toLocaleDateString()}</p>
+            <div class="user-memento-popup-tags">
+              ${memento.mementoTags ? memento.mementoTags.map(tag => `<span class="tag">${tag}</span>`).join('') : ''}
+            </div>
+          `)
+          .addTo(map);
+
+        // Fly to marker location
+        map.flyTo({
+          center: [memento.location.lng, memento.location.lat],
+          zoom: 15,
+          duration: 2000
+        });
+
+        // Display in live feed and scroll to it
+        displayMementoInLiveFeed(memento);
+      }
+    });
+  });
+
+  developerMementoMarkers.forEach(marker => {
+    marker.getElement().addEventListener('click', () => {
+      const event = marker.event;
+      if (event) {
+        // Show popup
+        const popup = new mapboxgl.Popup({ offset: 25 })
+          .setLngLat([event.location.lng, event.location.lat])
+          .setHTML(`
+            <h3>${event.name}</h3>
+            <p>${event.description}</p>
+            ${event.location.address ? `<p><i class="fas fa-map-marker-alt"></i> ${event.location.address}</p>` : ''}
+            <p><i class="fas fa-clock"></i> ${new Date(event.timestamp).toLocaleDateString()}</p>
+            <div class="developer-memento-popup-tags">
+              ${event.tags ? event.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : ''}
+            </div>
+          `)
+          .addTo(map);
+
+        // Fly to marker location
+        map.flyTo({
+          center: [event.location.lng, event.location.lat],
+          zoom: 15,
+          duration: 2000
+        });
+
+        // Display in live feed and scroll to it
+        displayMementoInLiveFeed(event);
+      }
+    });
+  });
+
+  publicMementoMarkers.forEach(marker => {
+    marker.getElement().addEventListener('click', () => {
+      const memento = marker.memento;
+      if (memento) {
+        // Show popup
+        const popup = new mapboxgl.Popup({ offset: 25 })
+          .setLngLat([memento.location.lng, memento.location.lat])
+          .setHTML(`
+            <h3>${memento.name || 'Untitled Memento'}</h3>
+            <p>${memento.caption || 'No caption'}</p>
+            ${memento.location.address ? `<p><i class="fas fa-map-marker-alt"></i> ${memento.location.address}</p>` : ''}
+            <p><i class="fas fa-clock"></i> ${new Date(memento.timestamp).toLocaleDateString()}</p>
+            <div class="public-memento-popup-tags">
+              ${memento.mementoTags ? memento.mementoTags.map(tag => `<span class="tag">${tag}</span>`).join('') : ''}
+            </div>
+          `)
+          .addTo(map);
+
+        // Fly to marker location
+        map.flyTo({
+          center: [memento.location.lng, memento.location.lat],
+          zoom: 15,
+          duration: 2000
+        });
+
+        // Display in live feed and scroll to it
+        displayMementoInLiveFeed(memento);
+      }
+    });
+  });
+
+  // Function to edit memento
+  window.editMemento = async function(memento) {
+    try {
+      // Show the capture form
+      const captureForm = document.getElementById('journey-capture-form');
+      const journeyCaptureForm = document.getElementById('journey-capture-form');
+      
+      if (!journeyCaptureForm) {
+        throw new Error('Capture form not found');
+      }
+
+      // Update preview elements
+      const namePreview = journeyCaptureForm.querySelector('#name-preview');
+      const captionPreview = journeyCaptureForm.querySelector('#caption-preview');
+      const descriptionPreview = journeyCaptureForm.querySelector('#description-preview');
+      const locationPreview = journeyCaptureForm.querySelector('#location-preview');
+      const categoryPreview = journeyCaptureForm.querySelector('#category-preview');
+      const durationPreview = journeyCaptureForm.querySelector('#duration-preview');
+      const mediaPreview = journeyCaptureForm.querySelector('#media-preview');
+      const tagsPreview = journeyCaptureForm.querySelector('#tags-preview');
+
+      // Populate the form with memento data
+      if (namePreview) namePreview.textContent = memento.name || 'Add name';
+      if (captionPreview) captionPreview.textContent = memento.caption || 'Add caption';
+      if (descriptionPreview) descriptionPreview.textContent = memento.description || 'Add description';
+      if (locationPreview) locationPreview.textContent = memento.location ? memento.location.address : 'Add location';
+      if (categoryPreview) categoryPreview.textContent = memento.category || 'Select category';
+      if (durationPreview) durationPreview.textContent = memento.duration || 'Select duration';
+
+      // Handle media preview
+      if (mediaPreview) {
+        if (memento.media && memento.media.length > 0) {
+          // Clear existing preview
+          mediaPreview.innerHTML = '';
+          
+          // Add each media item to the preview
+          memento.media.forEach((mediaItem, index) => {
+            const mediaUrl = typeof mediaItem === 'string' ? mediaItem : mediaItem.url;
+            const mediaType = typeof mediaItem === 'object' && mediaItem.type ? mediaItem.type : 'image';
+            
+            const mediaElement = document.createElement('div');
+            mediaElement.className = 'media-preview-item';
+            
+            if (mediaType.startsWith('video/')) {
+              mediaElement.innerHTML = `
+                <video src="${mediaUrl}" controls></video>
+                <button type="button" class="remove-media-btn" data-index="${index}">
+                  <i class="fas fa-times"></i>
+                </button>
+              `;
+            } else {
+              mediaElement.innerHTML = `
+                <img src="${mediaUrl}" alt="Memento media ${index + 1}">
+                <button type="button" class="remove-media-btn" data-index="${index}">
+                  <i class="fas fa-times"></i>
+                </button>
+              `;
+            }
+            
+            mediaPreview.appendChild(mediaElement);
+          });
+        } else {
+          mediaPreview.innerHTML = '<div class="placeholder-media"><i class="fas fa-image"></i></div>';
+        }
+      }
+
+      // Handle tags preview and checkboxes
+      if (tagsPreview) {
+        if (memento.tags && memento.tags.length > 0) {
+          // Update preview text
+          tagsPreview.textContent = memento.tags.join(', ');
+          
+          // Check the corresponding tag checkboxes
+          memento.tags.forEach(tag => {
+            const checkbox = document.querySelector(`input[name="memento-tags"][value="${tag}"]`);
+            if (checkbox) {
+              checkbox.checked = true;
+            }
+          });
+        } else if (memento.mementoTags && memento.mementoTags.length > 0) {
+          // Update preview text
+          tagsPreview.textContent = memento.mementoTags.join(', ');
+          
+          // Check the corresponding tag checkboxes
+          memento.mementoTags.forEach(tag => {
+            const checkbox = document.querySelector(`input[name="memento-tags"][value="${tag}"]`);
+            if (checkbox) {
+              checkbox.checked = true;
+            }
+          });
+        } else {
+          tagsPreview.textContent = 'Select tags';
+          // Uncheck all tag checkboxes
+          document.querySelectorAll('input[name="memento-tags"]').forEach(checkbox => {
+            checkbox.checked = false;
+          });
+        }
+      }
+
+      // Store the memento ID for later use
+      captureForm.dataset.mementoId = memento.id;
+
+      // Show capture form and hide my mementos
+      captureForm.classList.remove('hidden');
+      document.querySelector('.my-mementos-container').classList.add('hidden');
+
+      // Handle category preview and radio buttons
+      if (categoryPreview) {
+        if (memento.category) {
+          // Update preview text
+          categoryPreview.textContent = memento.category;
+          
+          // Check the corresponding category radio button
+          const radio = document.querySelector(`input[name="memento-category"][value="${memento.category}"]`);
+          if (radio) {
+            radio.checked = true;
+          }
+        } else if (memento.mementoCategory) {
+          // Update preview text
+          categoryPreview.textContent = memento.mementoCategory;
+          
+          // Check the corresponding category radio button
+          const radio = document.querySelector(`input[name="memento-category"][value="${memento.mementoCategory}"]`);
+          if (radio) {
+            radio.checked = true;
+          }
+        } else {
+          categoryPreview.textContent = 'Select category';
+          // Uncheck all category radio buttons
+          document.querySelectorAll('input[name="memento-category"]').forEach(radio => {
+            radio.checked = false;
+          });
+        }
+      }
+
+      // Handle location preview and input
+      if (locationPreview) {
+        if (memento.location) {
+          // Update preview text
+          locationPreview.textContent = memento.location.address || 'Location added';
+          
+          // Update location input field
+          const locationInput = document.getElementById('memento-location');
+          if (locationInput) {
+            locationInput.value = memento.location.address || '';
+          }
+          
+          // Store the coordinates for later use
+          selectedLocation = {
+            address: memento.location.address,
+            coordinates: {
+              lat: memento.location.coordinates.latitude,
+              lng: memento.location.coordinates.longitude
+            }
+          };
+        } else {
+          locationPreview.textContent = 'Add location';
+          const locationInput = document.getElementById('memento-location');
+          if (locationInput) {
+            locationInput.value = '';
+          }
+          selectedLocation = null;
+        }
+      }
+
+      // Handle duration preview and radio buttons
+      if (durationPreview) {
+        if (memento.duration) {
+          // Update preview text
+          durationPreview.textContent = memento.duration;
+          
+          // Check the corresponding duration radio button
+          const radio = document.querySelector(`input[name="memento-duration"][value="${memento.duration}"]`);
+          if (radio) {
+            radio.checked = true;
+          }
+        } else if (memento.mementoDuration) {
+          // Update preview text
+          durationPreview.textContent = memento.mementoDuration;
+          
+          // Check the corresponding duration radio button
+          const radio = document.querySelector(`input[name="memento-duration"][value="${memento.mementoDuration}"]`);
+          if (radio) {
+            radio.checked = true;
+          }
+        } else {
+          durationPreview.textContent = 'Select duration';
+          // Uncheck all duration radio buttons
+          document.querySelectorAll('input[name="memento-duration"]').forEach(radio => {
+            radio.checked = false;
+          });
+        }
+      }
+
+    } catch (error) {
+      console.error('Error editing memento:', error);
+      showToast(`Error editing memento: ${error.message}`, 'error');
+    }
+  }
+
+  // Function to create memento element
+  function createMementoElement(memento) {
+    const mementoElement = document.createElement('div');
+    mementoElement.className = 'memento-item';
+    
+    const formattedDate = formatTimestamp(memento.timestamp);
+    
+    // Prepare media HTML
+    let mediaHtml = `
+      <div class="placeholder-media">
+        <i class="fas fa-image"></i>
+      </div>
+    `;
+    
+    if (memento.media && memento.media.length > 0) {
+      const firstMedia = memento.media[0];
+      const mediaUrl = typeof firstMedia === 'string' ? firstMedia : firstMedia.url;
+      mediaHtml = `<img src="${mediaUrl}" alt="${memento.name}">`;
+    }
+
+    mementoElement.innerHTML = `
+      <div class="memento-content">
+        <div class="media-section">
+          <div class="memento-media">
+            ${mediaHtml}
+          </div>
+        </div>
+        <div class="details-actions-container">
+          <div class="memento-details">
+            <h3 class="memento-name">
+              <i class="fas fa-tag"></i>
+              ${memento.name || 'Untitled Memento'}
+            </h3>
+            <p class="memento-caption">
+              <i class="fas fa-quote-right"></i>
+              ${memento.caption || 'No caption'}
+            </p>
+            ${memento.location ? `
+              <p class="memento-location">
+                <i class="fas fa-map-marker-alt"></i>
+                ${memento.location.address || 'Location added'}
+              </p>
+            ` : ''}
+            <p class="memento-timestamp">
+              <i class="fas fa-clock"></i>
+              ${formattedDate}
+            </p>
+            ${memento.category ? `
+              <p class="memento-category">
+                <i class="fas fa-folder"></i>
+                ${memento.category}
+              </p>
+            ` : ''}
+            ${memento.duration ? `
+              <p class="memento-duration">
+                <i class="fas fa-hourglass-half"></i>
+                ${memento.duration}
+              </p>
+            ` : ''}
+            ${memento.mementoTags && memento.mementoTags.length > 0 ? `
+              <div class="memento-tags">
+                <i class="fas fa-hashtag"></i>
+                ${memento.mementoTags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+              </div>
+            ` : ''}
+          </div>
+          <div class="memento-actions">
+            ${memento.location && memento.location.coordinates ? `
+              <button class="view-on-map-btn" title="View on map">
+                <i class="fas fa-map-marker-alt"></i>
+              </button>
+            ` : ''}
+            <button class="edit-memento-btn" title="Edit">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="delete-memento-btn" title="Delete">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Add event listeners
+    const viewOnMapBtn = mementoElement.querySelector('.view-on-map-btn');
+    if (viewOnMapBtn) {
+      viewOnMapBtn.addEventListener('click', () => {
+        if (memento.location && memento.location.coordinates) {
+          showLocationOnMap(memento.location.coordinates);
+        }
+      });
+    }
+
+    const editBtn = mementoElement.querySelector('.edit-memento-btn');
+    editBtn.addEventListener('click', () => {
+      editMemento(memento);
+    });
+
+    const deleteBtn = mementoElement.querySelector('.delete-memento-btn');
+    deleteBtn.addEventListener('click', async () => {
+      const confirmed = await showConfirmationDialog('Delete Memento', 'Are you sure you want to delete this memento?');
+      if (confirmed) {
+        try {
+          await deleteMemento(memento.id);
+          mementoElement.remove();
+          showToast('Memento deleted successfully', 'success');
+        } catch (error) {
+          console.error('Error deleting memento:', error);
+          showToast('Failed to delete memento. Please try again.', 'error');
+        }
+      }
+    });
+
+    return mementoElement;
   }
 }); // End of DOMContentLoaded event listener

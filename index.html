@@ -37,6 +37,8 @@
   <link rel="stylesheet" href="styles/help-container.css">
   <link rel="stylesheet" href="styles/toast-notification.css">
   <link rel="stylesheet" href="styles/my-mementos-container.css">
+  <link rel="stylesheet" href="styles/animations.css">
+  <link rel="stylesheet" href="styles/memento-markers.css">
 
   <!-- Additional Meta Tags -->
   <meta name="forced-colors-adjust" content="none">
@@ -699,12 +701,12 @@
           </ul>
         </nav>
 
-        <!-- Navigation Toggle Buttons -->
-        <button id="collapse-left" aria-label="Collapse Menu">
-          <i class="fas fa-chevron-left"></i>
+        <!-- Left Panel Collapse/Expand Buttons -->
+        <button id="collapse-left" class="panel-control-btn" aria-label="Collapse left panel">
+          <i class="fas fa-bars"></i>
         </button>
-        <button id="expand-left" class="hidden" aria-label="Expand Menu">
-          <i class="fas fa-chevron-right"></i>
+        <button id="expand-left" class="panel-control-btn" aria-label="Expand left panel">
+          <i class="fas fa-bars"></i>
         </button>
       </div>
 
@@ -737,25 +739,12 @@
           <div id="map"></div>
         </div>
       </main>
-
-      <!-- ========== RIGHT PANEL SECTION ========== -->
-      <div class="right-section">
-        <aside class="right-panel hidden" aria-label="Event Details">
-          <!-- Content will be dynamically inserted here -->
-        </aside>
-        <button id="collapse-right" aria-label="Collapse Insights" class="hidden">
-          <i class="fas fa-chevron-right"></i>
-        </button>
-        <button id="expand-right" aria-label="Expand Insights">
-          <i class="fas fa-chevron-left"></i>
-        </button>
-      </div>
     </div>
   </div>
 
   <!-- ========== EXTERNAL SCRIPTS ========== -->
   <!-- Turf.js for geospatial analysis -->
-  <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6.5.0/turf.min.js"></script>
 
   <!-- Firebase Scripts -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -787,6 +776,7 @@
   <script src="scripts/info-container.js"></script>
   <script src="scripts/live-feed-container.js"></script>
   <script src="scripts/profile-container.js"></script>
+  <script src="scripts/my-mementos.js"></script>
 
   <!-- Main script last -->
   <script src="scripts/script.js"></script>

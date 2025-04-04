@@ -719,8 +719,8 @@ document.addEventListener("DOMContentLoaded", function () {
     newCollapseBtn.addEventListener("click", function() {
       console.log("Collapse Left Button Clicked");
       infoTab.classList.add("hidden");
-      expandLeftBtn.classList.remove("hidden");
       this.classList.add("hidden");
+      expandLeftBtn.classList.remove("hidden");
       if (map) {
         setTimeout(() => { map.resize(); }, 300);
       }
@@ -742,6 +742,45 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // Function to handle panel expansion
+  function expandPanel() {
+    console.log("Expanding panel");
+    infoTab.classList.remove("hidden");
+    expandLeftBtn.style.display = "none";
+    collapseLeftBtn.style.display = "flex";
+    if (map) {
+      setTimeout(() => { map.resize(); }, 300);
+    }
+  }
+
+  // Function to handle panel collapse
+  function collapsePanel() {
+    console.log("Collapsing panel");
+    infoTab.classList.add("hidden");
+    expandLeftBtn.style.display = "flex";
+    collapseLeftBtn.style.display = "none";
+    if (map) {
+      setTimeout(() => { map.resize(); }, 300);
+    }
+  }
+
+  // Add click handlers for panel control buttons
+  if (expandLeftBtn) {
+    expandLeftBtn.addEventListener("click", function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      expandPanel();
+    });
+  }
+
+  if (collapseLeftBtn) {
+    collapseLeftBtn.addEventListener("click", function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      collapsePanel();
+    });
+  }
+
   // Add touch swipe functionality
   let touchStartX = 0;
   let touchEndX = 0;
@@ -757,23 +796,22 @@ document.addEventListener("DOMContentLoaded", function () {
     
     // Swipe right to show panel
     if (swipeDistance > swipeThreshold && infoTab.classList.contains('hidden')) {
-      infoTab.classList.remove('hidden');
-      expandLeftBtn.classList.add('hidden');
-      collapseLeftBtn.classList.remove('hidden');
-      if (map) {
-        setTimeout(() => { map.resize(); }, 300);
-      }
+      expandPanel();
     }
     // Swipe left to hide panel
     else if (swipeDistance < -swipeThreshold && !infoTab.classList.contains('hidden')) {
-      infoTab.classList.add('hidden');
-      expandLeftBtn.classList.remove('hidden');
-      collapseLeftBtn.classList.add('hidden');
-      if (map) {
-        setTimeout(() => { map.resize(); }, 300);
-      }
+      collapsePanel();
     }
   }, false);
+
+  // Set initial state
+  if (infoTab && !infoTab.classList.contains('hidden')) {
+    expandLeftBtn.style.display = "none";
+    collapseLeftBtn.style.display = "flex";
+  } else {
+    expandLeftBtn.style.display = "flex";
+    collapseLeftBtn.style.display = "none";
+  }
 
   if (collapseRightBtn) {
     collapseRightBtn.addEventListener("click", function() {
@@ -3453,5 +3491,30 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     return mementoElement;
+  }
+
+  // Add click handlers for panel control buttons
+  if (expandLeftBtn) {
+    expandLeftBtn.onclick = function() {
+      console.log("Expand Left Button Clicked");
+      infoTab.classList.remove("hidden");
+      this.classList.add("hidden");
+      collapseLeftBtn.classList.remove("hidden");
+      if (map) {
+        setTimeout(() => { map.resize(); }, 300);
+      }
+    };
+  }
+
+  if (collapseLeftBtn) {
+    collapseLeftBtn.onclick = function() {
+      console.log("Collapse Left Button Clicked");
+      infoTab.classList.add("hidden");
+      this.classList.add("hidden");
+      expandLeftBtn.classList.remove("hidden");
+      if (map) {
+        setTimeout(() => { map.resize(); }, 300);
+      }
+    };
   }
 }); // End of DOMContentLoaded event listener

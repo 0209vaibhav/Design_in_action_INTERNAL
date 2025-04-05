@@ -24,20 +24,74 @@ document.addEventListener("DOMContentLoaded", function () {
   // ---------------------------
   // 3) Panel expansion function
   // ---------------------------
-  function expandLeftPanel() {
-    const infoTab = document.querySelector('.info-tab');
-    const expandLeftBtn = document.getElementById('expand-left');
-    const collapseLeftBtn = document.getElementById('collapse-left');
-    
-    if (infoTab && expandLeftBtn && collapseLeftBtn) {
-      infoTab.classList.remove('hidden');
-      expandLeftBtn.classList.add('hidden');
-      collapseLeftBtn.classList.remove('hidden');
-      // Resize map after panel expansion
-      if (map) {
-        setTimeout(() => { map.resize(); }, 300);
+  function handlePanelControl(button, action) {
+    button.addEventListener("touchstart", function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log(`${action} button touched`);
+      
+      const infoTab = document.querySelector('.info-tab');
+      const expandBtn = document.getElementById('expand-left');
+      const collapseBtn = document.getElementById('collapse-left');
+      
+      if (infoTab && expandBtn && collapseBtn) {
+        if (action === 'expand') {
+          infoTab.style.visibility = 'visible';
+          infoTab.classList.remove('hidden');
+          expandBtn.classList.add('hidden');
+          collapseBtn.classList.remove('hidden');
+        } else {
+          infoTab.style.visibility = 'hidden';
+          infoTab.classList.add('hidden');
+          collapseBtn.classList.add('hidden');
+          expandBtn.classList.remove('hidden');
+        }
+        
+        if (map) {
+          setTimeout(() => { map.resize(); }, 300);
+        }
       }
-    }
+    }, { passive: false });
+    
+    button.addEventListener("click", function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log(`${action} button clicked`);
+      
+      const infoTab = document.querySelector('.info-tab');
+      const expandBtn = document.getElementById('expand-left');
+      const collapseBtn = document.getElementById('collapse-left');
+      
+      if (infoTab && expandBtn && collapseBtn) {
+        if (action === 'expand') {
+          infoTab.style.visibility = 'visible';
+          infoTab.classList.remove('hidden');
+          expandBtn.classList.add('hidden');
+          collapseBtn.classList.remove('hidden');
+        } else {
+          infoTab.style.visibility = 'hidden';
+          infoTab.classList.add('hidden');
+          collapseBtn.classList.add('hidden');
+          expandBtn.classList.remove('hidden');
+        }
+        
+        if (map) {
+          setTimeout(() => { map.resize(); }, 300);
+        }
+      }
+    });
+  }
+
+  // Initialize panel controls
+  const panelExpandBtn = document.getElementById('expand-left');
+  const panelCollapseBtn = document.getElementById('collapse-left');
+
+  if (panelExpandBtn) {
+    handlePanelControl(panelExpandBtn, 'expand');
+  }
+
+  if (panelCollapseBtn) {
+    handlePanelControl(panelCollapseBtn, 'collapse');
   }
 
   // ---------------------------
@@ -713,104 +767,81 @@ document.addEventListener("DOMContentLoaded", function () {
   // 16) Panel Collapse/Expand with map.resize()
   // ---------------------------
   if (collapseLeftBtn) {
+    // Remove any existing listeners
     const newCollapseBtn = collapseLeftBtn.cloneNode(true);
     collapseLeftBtn.parentNode.replaceChild(newCollapseBtn, collapseLeftBtn);
     
-    newCollapseBtn.addEventListener("click", function() {
+    // Add fresh event listeners
+    newCollapseBtn.addEventListener("touchend", function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log("Collapse Left Button Touched");
+      const infoTab = document.querySelector('.info-tab');
+      if (infoTab) {
+        infoTab.style.visibility = 'hidden';
+        infoTab.classList.add('hidden');
+        newCollapseBtn.classList.add('hidden');
+        document.getElementById('expand-left').classList.remove('hidden');
+        if (map) {
+          setTimeout(() => { map.resize(); }, 300);
+        }
+      }
+    }, { passive: false });
+
+    newCollapseBtn.addEventListener("click", function(e) {
+      e.preventDefault();
+      e.stopPropagation();
       console.log("Collapse Left Button Clicked");
-      infoTab.classList.add("hidden");
-      this.classList.add("hidden");
-      expandLeftBtn.classList.remove("hidden");
-      if (map) {
-        setTimeout(() => { map.resize(); }, 300);
+      const infoTab = document.querySelector('.info-tab');
+      if (infoTab) {
+        infoTab.style.visibility = 'hidden';
+        infoTab.classList.add('hidden');
+        newCollapseBtn.classList.add('hidden');
+        document.getElementById('expand-left').classList.remove('hidden');
+        if (map) {
+          setTimeout(() => { map.resize(); }, 300);
+        }
       }
     });
   }
 
   if (expandLeftBtn) {
+    // Remove any existing listeners
     const newExpandBtn = expandLeftBtn.cloneNode(true);
     expandLeftBtn.parentNode.replaceChild(newExpandBtn, expandLeftBtn);
     
-    newExpandBtn.addEventListener("click", function() {
+    // Add fresh event listeners
+    newExpandBtn.addEventListener("touchend", function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log("Expand Left Button Touched");
+      const infoTab = document.querySelector('.info-tab');
+      if (infoTab) {
+        infoTab.style.visibility = 'visible';
+        infoTab.classList.remove('hidden');
+        newExpandBtn.classList.add('hidden');
+        document.getElementById('collapse-left').classList.remove('hidden');
+        if (map) {
+          setTimeout(() => { map.resize(); }, 300);
+        }
+      }
+    }, { passive: false });
+
+    newExpandBtn.addEventListener("click", function(e) {
+      e.preventDefault();
+      e.stopPropagation();
       console.log("Expand Left Button Clicked");
-      infoTab.classList.remove("hidden");
-      this.classList.add("hidden");
-      collapseLeftBtn.classList.remove("hidden");
-      if (map) {
-        setTimeout(() => { map.resize(); }, 300);
+      const infoTab = document.querySelector('.info-tab');
+      if (infoTab) {
+        infoTab.style.visibility = 'visible';
+        infoTab.classList.remove('hidden');
+        newExpandBtn.classList.add('hidden');
+        document.getElementById('collapse-left').classList.remove('hidden');
+        if (map) {
+          setTimeout(() => { map.resize(); }, 300);
+        }
       }
     });
-  }
-
-  // Function to handle panel expansion
-  function expandPanel() {
-    console.log("Expanding panel");
-    infoTab.classList.remove("hidden");
-    expandLeftBtn.style.display = "none";
-    collapseLeftBtn.style.display = "flex";
-    if (map) {
-      setTimeout(() => { map.resize(); }, 300);
-    }
-  }
-
-  // Function to handle panel collapse
-  function collapsePanel() {
-    console.log("Collapsing panel");
-    infoTab.classList.add("hidden");
-    expandLeftBtn.style.display = "flex";
-    collapseLeftBtn.style.display = "none";
-    if (map) {
-      setTimeout(() => { map.resize(); }, 300);
-    }
-  }
-
-  // Add click handlers for panel control buttons
-  if (expandLeftBtn) {
-    expandLeftBtn.addEventListener("click", function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      expandPanel();
-    });
-  }
-
-  if (collapseLeftBtn) {
-    collapseLeftBtn.addEventListener("click", function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      collapsePanel();
-    });
-  }
-
-  // Add touch swipe functionality
-  let touchStartX = 0;
-  let touchEndX = 0;
-  const swipeThreshold = 50;
-
-  document.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-  }, false);
-  
-  document.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    const swipeDistance = touchEndX - touchStartX;
-    
-    // Swipe right to show panel
-    if (swipeDistance > swipeThreshold && infoTab.classList.contains('hidden')) {
-      expandPanel();
-    }
-    // Swipe left to hide panel
-    else if (swipeDistance < -swipeThreshold && !infoTab.classList.contains('hidden')) {
-      collapsePanel();
-    }
-  }, false);
-
-  // Set initial state
-  if (infoTab && !infoTab.classList.contains('hidden')) {
-    expandLeftBtn.style.display = "none";
-    collapseLeftBtn.style.display = "flex";
-  } else {
-    expandLeftBtn.style.display = "flex";
-    collapseLeftBtn.style.display = "none";
   }
 
   if (collapseRightBtn) {
@@ -1930,12 +1961,40 @@ document.addEventListener("DOMContentLoaded", function () {
           // Add click event to marker
           marker.getElement().addEventListener('click', () => {
             if (map && typeof map.flyTo === 'function') {
+              // Show popup
               marker.togglePopup();
+              
+              // Fly to marker location
               map.flyTo({
                 center: [memento.location.coordinates.longitude, memento.location.coordinates.latitude],
                 zoom: 15,
                 essential: true
               });
+
+              // Expand left panel
+              const infoTab = document.querySelector('.info-tab');
+              const expandLeftBtn = document.getElementById('expand-left');
+              const collapseLeftBtn = document.getElementById('collapse-left');
+              
+              if (infoTab && expandLeftBtn && collapseLeftBtn) {
+                infoTab.style.visibility = 'visible';
+                infoTab.classList.remove('hidden');
+                expandLeftBtn.classList.add('hidden');
+                collapseLeftBtn.classList.remove('hidden');
+                
+                // Resize map after panel expansion
+                if (map) {
+                  setTimeout(() => { map.resize(); }, 300);
+                }
+              }
+
+              // Show live feed tab
+              const liveFeedTab = document.querySelector('.explorer-tab-btn[data-tab="live-feed"]');
+              if (liveFeedTab) {
+                liveFeedTab.click();
+              }
+
+              // Display memento in live feed
               displayMementoInLiveFeed(memento);
             }
           });
@@ -3491,30 +3550,5 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     return mementoElement;
-  }
-
-  // Add click handlers for panel control buttons
-  if (expandLeftBtn) {
-    expandLeftBtn.onclick = function() {
-      console.log("Expand Left Button Clicked");
-      infoTab.classList.remove("hidden");
-      this.classList.add("hidden");
-      collapseLeftBtn.classList.remove("hidden");
-      if (map) {
-        setTimeout(() => { map.resize(); }, 300);
-      }
-    };
-  }
-
-  if (collapseLeftBtn) {
-    collapseLeftBtn.onclick = function() {
-      console.log("Collapse Left Button Clicked");
-      infoTab.classList.add("hidden");
-      this.classList.add("hidden");
-      expandLeftBtn.classList.remove("hidden");
-      if (map) {
-        setTimeout(() => { map.resize(); }, 300);
-      }
-    };
   }
 }); // End of DOMContentLoaded event listener

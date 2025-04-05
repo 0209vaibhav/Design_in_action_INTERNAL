@@ -445,98 +445,135 @@
   }
   
   /* --- Panel Control Buttons --- */
-  #collapse-left,
-  #expand-left {
-    position: absolute;
-    top: 20px;
-    transform: none;
-    background: transparent;
-    border: none;
-    padding: 12px;
-    cursor: pointer;
-    z-index: 1000;
-    box-shadow: none;
-    display: none;
-    width: 40px;
-    height: 40px;
+  .panel-control-btn {
+    position: fixed;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4px;
+    width: 52px;
+    height: 52px;
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    box-shadow: none;
+    cursor: pointer;
+    z-index: 1001;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    pointer-events: auto;
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .panel-control-btn.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-100%);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .panel-control-btn:active {
+    transform: scale(0.95);
+    background-color: transparent;
+  }
+  
+  .panel-control-btn i {
+    font-size: 28px;
+    color: #FF0080;
+    pointer-events: none;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .panel-control-btn:active i {
+    transform: scale(0.9);
+  }
+  
+  #expand-left {
+    left: 20px;
+    top: 20px;
+    transform: translateX(0);
+    background-color: transparent;
+  }
+  
+  #expand-left.hidden {
+    transform: translateX(-100%);
+    opacity: 0;
+    visibility: hidden;
   }
   
   #collapse-left {
-    right: 10px;
+    right: 20px;
+    top: 20px;
+    transform: translateX(0);
+    background-color: transparent;
   }
   
-  #expand-left {
-    left: 10px;
+  #collapse-left.hidden {
+    transform: translateX(100%);
+    opacity: 0;
+    visibility: hidden;
   }
   
-  #collapse-left i,
-  #expand-left i {
-    font-size: 1.2rem;
-    color: #FF0080;
-    transition: color 0.2s ease;
+  .info-tab {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    z-index: 1000;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    pointer-events: auto;
+    opacity: 1;
+    transform: translateX(0);
+    visibility: visible;
   }
   
-  #collapse-left:hover i,
-  #expand-left:hover i {
-    color: #FF0080;
+  .info-tab.hidden {
+    transform: translateX(-100%);
+    visibility: hidden;
+    opacity: 0;
   }
   
-  /* --- Button Visibility States --- */
-  .info-tab:not(.hidden) ~ #collapse-left {
-    display: flex;
+  /* Media query for mobile devices */
+  @media (max-width: 768px) {
+    .panel-control-btn {
+      width: 56px;
+      height: 56px;
+    }
+    
+    .panel-control-btn i {
+      font-size: 32px;
+      color: #FF0080;
+    }
+    
+    #expand-left {
+      left: 24px;
+      top: 24px;
+      background-color: transparent;
+    }
+    
+    #collapse-left {
+      right: 24px;
+      top: 24px;
+      background-color: transparent;
+    }
+    
+    .info-tab {
+      width: 100%;
+      touch-action: pan-y;
+    }
   }
-  
-  .info-tab.hidden ~ #expand-left {
-    display: flex;
-  }
-  
   
   /* --- Sub Tab Content --- */
-  .sub-tab-content {
-    display: none;
-    padding: 10px;
-    background: #f5f5f5;
-    border-top: 1px solid #ddd;
-  }
-
-    /* Update the hidden state styles for the info-tab */
-  .info-tab.hidden {
-    width: 0;
-    padding: 0;
-    margin: 0;
-    overflow: hidden;
-    opacity: 0;
-    visibility: hidden; /* Add this for better hiding */
-  }
-  
-  /* --- Panel Control Buttons --- */
-  #collapse-left,
-  #expand-left {
-    position: absolute;
-    top: 20px;
-    transform: none;
-    background: transparent;
-    border: none;
-    padding: 12px;
-    cursor: pointer;
-    z-index: 1000;
-    box-shadow: none;
-    display: none;
-  }
-  
-  /* --- Button Visibility States --- */
-  .info-tab:not(.hidden) ~ #collapse-left {
-    display: flex;
-  }
-  
-  .info-tab.hidden ~ #expand-left {
-    display: flex;
-  }
-    /* --- Sub Tab Content --- */
   .sub-tab-content {
     display: none;
     padding: 10px;
@@ -708,68 +745,8 @@
   }
   
   /* --- Panel Button Positioning --- */
-  #collapse-left,
-  #expand-left {
+  .panel-control-btn {
     margin-top: auto;
-  }
-
-  /* --- Mobile Responsive Styles --- */
-  @media screen and (max-width: 768px) {
-    .info-tab {
-        width: 100%;
-        height: 100%;
-        position: fixed;
-        z-index: 1000;
-        transform: translateX(0);
-        transition: transform 0.3s ease;
-    }
-
-    .info-tab.hidden {
-        transform: translateX(-100%);
-    }
-
-    .panel-control-btn {
-        position: fixed;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 44px;
-        height: 44px;
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 50%;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        z-index: 1001;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        cursor: pointer;
-        opacity: 1;
-        visibility: visible;
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-    }
-
-    #collapse-left {
-        right: 10px;
-    }
-
-    #expand-left {
-        left: 10px;
-    }
-
-    .panel-control-btn i {
-        font-size: 1.4rem;
-        color: #FF0080;
-        pointer-events: none;
-    }
-
-    .panel-control-btn:active {
-        background: rgba(255, 255, 255, 1);
-        transform: translateY(-50%) scale(0.95);
-    }
-
-    .right-panel {
-        display: none;
-    }
   }
 
   /* --- Tablet Styles --- */

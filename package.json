@@ -1,7 +1,7 @@
 {
-  "name": "odyssey",
+  "name": "memento",
   "version": "1.0.0",
-  "description": "Odyssey - Transform Your Commute into interactive journeys",
+  "description": "MEMENTO - Transform Your Commute into interactive journeys",
   "main": "js/main.js",
   "scripts": {
     "start": "serve",

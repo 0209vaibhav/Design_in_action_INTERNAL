@@ -1,60 +1,59 @@
-const CACHE_NAME = 'memento-v2';
-const BASE_PATH = '/Memento/';
+const CACHE_NAME = 'memento-v3';
 const ASSETS_TO_CACHE = [
-  BASE_PATH,
-  BASE_PATH + 'index.html',
-  BASE_PATH + 'manifest.json',
-  BASE_PATH + 'data/logo/Logo.svg',
-  BASE_PATH + 'data/logo/icon-512x512.png',
-  BASE_PATH + 'data/logo/icon-192x192.png',
-  BASE_PATH + 'data/logo/icon-180x180.png',
-  BASE_PATH + 'data/logo/icon-167x167.png',
-  BASE_PATH + 'data/logo/icon-152x152.png',
-  BASE_PATH + 'data/logo/icon-96x96.png',
-  BASE_PATH + 'data/logo/favicon-32x32.png',
-  BASE_PATH + 'data/logo/favicon-16x16.png',
-  BASE_PATH + 'styles/memento-details.css',
-  BASE_PATH + 'styles/layout.css',
-  BASE_PATH + 'styles/navigation.css',
-  BASE_PATH + 'styles/map-container.css',
-  BASE_PATH + 'styles/marker.css',
-  BASE_PATH + 'styles/filter-settings.css',
-  BASE_PATH + 'styles/profile-container.css',
-  BASE_PATH + 'styles/auth-container.css',
-  BASE_PATH + 'styles/capture-form.css',
-  BASE_PATH + 'styles/info-container.css',
-  BASE_PATH + 'styles/live-feed-container.css',
-  BASE_PATH + 'styles/drafts-container.css',
-  BASE_PATH + 'styles/archive-container.css',
-  BASE_PATH + 'styles/curated-container.css',
-  BASE_PATH + 'styles/favorites-container.css',
-  BASE_PATH + 'styles/credits-container.css',
-  BASE_PATH + 'styles/help-container.css',
-  BASE_PATH + 'styles/toast-notification.css',
-  BASE_PATH + 'styles/my-mementos-container.css',
-  BASE_PATH + 'styles/animations.css',
-  BASE_PATH + 'styles/memento-markers.css',
-  BASE_PATH + 'scripts/script.js',
-  BASE_PATH + 'scripts/firebase-config.js',
-  BASE_PATH + 'scripts/firebase-setup.js',
-  BASE_PATH + 'scripts/toast-notification.js',
-  BASE_PATH + 'scripts/layout.js',
-  BASE_PATH + 'scripts/navigation.js',
-  BASE_PATH + 'scripts/map-container.js',
-  BASE_PATH + 'scripts/auth-container.js',
-  BASE_PATH + 'scripts/activities.js',
-  BASE_PATH + 'scripts/capture-form.js',
-  BASE_PATH + 'scripts/credits-container.js',
-  BASE_PATH + 'scripts/curated-container.js',
-  BASE_PATH + 'scripts/drafts-container.js',
-  BASE_PATH + 'scripts/favorites-container.js',
-  BASE_PATH + 'scripts/filter-settings.js',
-  BASE_PATH + 'scripts/help-container.js',
-  BASE_PATH + 'scripts/info-container.js',
-  BASE_PATH + 'scripts/live-feed-container.js',
-  BASE_PATH + 'scripts/profile-container.js',
-  BASE_PATH + 'scripts/my-mementos.js',
-  BASE_PATH + 'scripts/confirmation-dialog.js',
+  './',
+  './index.html',
+  './manifest.json',
+  './data/logo/Logo.svg',
+  './data/logo/icon-512x512.png',
+  './data/logo/icon-192x192.png',
+  './data/logo/icon-180x180.png',
+  './data/logo/icon-167x167.png',
+  './data/logo/icon-152x152.png',
+  './data/logo/icon-96x96.png',
+  './data/logo/favicon-32x32.png',
+  './data/logo/favicon-16x16.png',
+  './styles/memento-details.css',
+  './styles/layout.css',
+  './styles/navigation.css',
+  './styles/map-container.css',
+  './styles/marker.css',
+  './styles/filter-settings.css',
+  './styles/profile-container.css',
+  './styles/auth-container.css',
+  './styles/capture-form.css',
+  './styles/info-container.css',
+  './styles/live-feed-container.css',
+  './styles/drafts-container.css',
+  './styles/archive-container.css',
+  './styles/curated-container.css',
+  './styles/favorites-container.css',
+  './styles/credits-container.css',
+  './styles/help-container.css',
+  './styles/toast-notification.css',
+  './styles/my-mementos-container.css',
+  './styles/animations.css',
+  './styles/memento-markers.css',
+  './scripts/script.js',
+  './scripts/firebase-config.js',
+  './scripts/firebase-setup.js',
+  './scripts/toast-notification.js',
+  './scripts/layout.js',
+  './scripts/navigation.js',
+  './scripts/map-container.js',
+  './scripts/auth-container.js',
+  './scripts/activities.js',
+  './scripts/capture-form.js',
+  './scripts/credits-container.js',
+  './scripts/curated-container.js',
+  './scripts/drafts-container.js',
+  './scripts/favorites-container.js',
+  './scripts/filter-settings.js',
+  './scripts/help-container.js',
+  './scripts/info-container.js',
+  './scripts/live-feed-container.js',
+  './scripts/profile-container.js',
+  './scripts/my-mementos.js',
+  './scripts/confirmation-dialog.js',
   'https://api.mapbox.com/mapbox-gl-js/v3.1.0/mapbox-gl.js',
   'https://api.mapbox.com/mapbox-gl-js/v3.1.0/mapbox-gl.css',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css',
@@ -65,8 +64,17 @@ const ASSETS_TO_CACHE = [
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(ASSETS_TO_CACHE))
-      .then(() => self.skipWaiting())
+      .then(cache => {
+        console.log('Opened cache');
+        return cache.addAll(ASSETS_TO_CACHE);
+      })
+      .then(() => {
+        console.log('All resources have been cached');
+        return self.skipWaiting();
+      })
+      .catch(error => {
+        console.error('Cache addAll error:', error);
+      })
   );
 });
 
@@ -79,6 +87,7 @@ self.addEventListener('activate', event => {
         return Promise.all(
           cacheNames.map(cache => {
             if (cache !== CACHE_NAME) {
+              console.log('Deleting old cache:', cache);
               return caches.delete(cache);
             }
           })
@@ -92,6 +101,11 @@ self.addEventListener('activate', event => {
 
 // Fetch event - serve from cache or network
 self.addEventListener('fetch', event => {
+  // Skip cross-origin requests
+  if (!event.request.url.startsWith(self.location.origin)) {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then(response => {
@@ -121,6 +135,14 @@ self.addEventListener('fetch', event => {
               });
 
             return response;
+          })
+          .catch(error => {
+            console.error('Fetch failed:', error);
+            // You could return a custom offline page here
+            return new Response('Network error occurred', {
+              status: 408,
+              headers: { 'Content-Type': 'text/plain' }
+            });
           });
       })
   );

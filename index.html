@@ -807,7 +807,8 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/Memento/sw.js')
+        // Use relative path for service worker
+        navigator.serviceWorker.register('./sw.js', { scope: './' })
           .then(registration => {
             console.log('ServiceWorker registration successful');
             

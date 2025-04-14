@@ -18,7 +18,7 @@
   </noscript>
   
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="styles/memento-details.css">
   <link rel="stylesheet" href="styles/layout.css">
   <link rel="stylesheet" href="styles/navigation.css">
   <link rel="stylesheet" href="styles/map-container.css">
@@ -53,13 +53,26 @@
   <div class="container">
     <!-- ========== LEFT NAVIGATION PANEL ========== -->
     <div class="left-section">
+      <!-- Expand button outside the info-tab -->
+      <button id="expand-left" class="panel-control-btn" aria-label="Expand left panel">
+        <i class="fas fa-bars"></i>
+      </button>
+      
       <nav class="info-tab" aria-label="Main Navigation">
         <!-- Header with Logo -->
         <div class="header-content">
-          <h1>
-            <span class="logo-text">MEMENTO</span>
-          </h1>
-          <p class="tagline">from disconnected <strong>OBLIVIAN</strong> commute,<br>to an engaging <strong>ODYSSEY</strong> journey</p>
+          <div class="logo-container">
+            <img src="data/logo/Logo.svg" alt="Memento Logo">
+          </div>
+          <div class="header-text">
+            <h1>
+              <span class="logo-text">MEMENTO</span>
+            </h1>
+            <p class="tagline">from disconnected <strong>OBLIVIAN</strong> commute,<br>to an engaging <strong>ODYSSEY</strong> journey</p>
+          </div>
+          <button id="collapse-left" class="panel-control-btn" aria-label="Collapse left panel">
+            <i class="fas fa-bars"></i>
+          </button>
         </div>
         
         <!-- ========== MAIN NAVIGATION TABS ========== -->
@@ -454,9 +467,9 @@
               </div>
 
               <!-- ========== DRAFTS SECTION ========== -->
-              <div id="journey-drafts-container" class="capture-form hidden">
+              <div id="journey-drafts-container" class="drafts-container hidden">
                 <div class="capture-form-header">
-                  <h2><i class="fas fa-edit"></i>Memento Drafts </h2>
+                  <h2><i class="fas fa-edit"></i> Memento Drafts</h2>
                 </div>
                 <div class="drafts-content">
                   <!-- Drafts will be dynamically loaded here -->
@@ -464,18 +477,19 @@
               </div>
 
               <!-- ========== ARCHIVE SECTION ========== -->
-              <div id="archive-container" class="capture-form hidden">
-                <div class="capture-form-header">
+              <div id="archive-container" class="archive-container hidden">
+                <div class="archive-header">
                   <h2><i class="fas fa-archive"></i> Archive</h2>
                 </div>
                 <div class="archive-content">
-                  <!-- Archive content will be dynamically loaded here -->
+                  <!-- Archive items will be dynamically added here -->
                 </div>
               </div>
 
+
               <!-- ========== MY MEMENTOS SECTION ========== -->
               <div class="my-mementos-container hidden">
-                <div class="capture-form-header">
+                <div class="my-mementos-header">
                   <h2><i class="fas fa-bookmark"></i> My Mementos</h2>
                 </div>
                 <div class="my-mementos-content">
@@ -506,18 +520,8 @@
               <!-- ========== FILTER SETTINGS SECTION ========== -->
               <div class="filter-settings-container">
                 <!-- Filter Header -->
-                <div class="capture-form-header">
+                <div class="filter-header">
                   <h2><i class="fas fa-filter"></i> Filter Settings</h2>
-                </div>
-                
-                <!-- Search Bar -->
-                <div class="filter-group">
-                  <div class="search-bar-container">
-                    <input type="text" id="event-search" placeholder="Search events..." class="search-input">
-                    <button class="search-button">
-                      <i class="fas fa-search"></i>
-                    </button>
-                  </div>
                 </div>
 
                 <!-- Radius Filter -->
@@ -542,44 +546,22 @@
                            min="0.00189394" 
                            max="1" 
                            step="0.00189394" 
-                           value="0.75">
+                           value="0.5">
                     <div class="radius-value-container">
                       <span class="min-value">10 ft</span>
-                      <span id="radius-value">0.75 mi</span>
+                      <span id="radius-value">0.5 mi</span>
                       <span class="max-value">1 mi</span>
                     </div>
                   </div>
                 </div>
 
-                <!-- Category Filter -->
-                <div class="filter-group">
-                  <h3 style="display: flex; justify-content: space-between; align-items: center;">
-                    <span>Filter by Category</span>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                      <input type="checkbox" id="category-toggle">
-                      <i class="fas fa-chevron-down"></i>
-                    </div>
-                  </h3>
-                </div>
-
-                <!-- Date and Time Filter -->
-                <div class="filter-group">
-                  <h3 style="display: flex; justify-content: space-between; align-items: center;">
-                    <span>Filter by Date & Time</span>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                      <input type="checkbox" id="datetime-toggle">
-                      <i class="fas fa-chevron-down"></i>
-                    </div>
-                  </h3>
-                </div>
-
                 <!-- Filter Actions -->
                 <div class="filter-actions">
-                  <button id="reset-filters" class="reset-filter-button" onclick="resetFilters()">
+                  <button id="reset-filters" class="reset-filter-button">
                     <i class="fas fa-times"></i>
                     Reset Filters
                   </button>
-                  <button id="save-filters" class="save-filter-button" onclick="saveFilters()">
+                  <button id="save-filters" class="save-filter-button">
                     <i class="fas fa-check"></i>
                     Save Filters
                   </button>
@@ -591,6 +573,13 @@
                 <div class="capture-form-header">
                   <h2><i class="fas fa-stream"></i> Live Feed</h2>
                 </div>
+                <!-- Search Bar -->
+                <div class="search-bar-container">
+                  <input type="text" id="event-search" placeholder="Search events..." class="search-input">
+                  <button class="search-button">
+                    <i class="fas fa-search"></i>
+                  </button>
+                </div>
                 <div class="live-feed-content">
                   <!-- Live feed content will be dynamically loaded here -->
                 </div>
@@ -598,7 +587,7 @@
 
               <!-- ========== CURATED SECTION ========== -->
               <div class="curated-container hidden">
-                <div class="capture-form-header">
+                <div class="curated-header">
                   <h2><i class="fas fa-heart"></i> Curated Mementos</h2>
                 </div>
                 <div class="curated-content">
@@ -688,8 +677,8 @@
                 <!-- Info Section -->
                 <div class="about-section hidden" id="about-info">
                   <div class="info-container">
-                    <div class="capture-form-header">
-                      <h2><i class="fas fa-info-circle"></i> About CITY-SENS</h2>
+                    <div class="info-header">
+                      <h2><i class="fas fa-info-circle"></i> About MEMENTO</h2>
                     </div>
                     <div class="info-content">
                       <!-- Info content will be dynamically loaded here -->
@@ -700,14 +689,6 @@
             </li>
           </ul>
         </nav>
-
-        <!-- Panel Control Buttons -->
-        <button id="collapse-left" class="panel-control-btn" aria-label="Collapse left panel">
-          <i class="fas fa-bars"></i>
-        </button>
-        <button id="expand-left" class="panel-control-btn" aria-label="Expand left panel">
-          <i class="fas fa-bars"></i>
-        </button>
       </div>
 
       <!-- ========== MAIN CONTENT SECTION ========== -->
@@ -780,5 +761,8 @@
 
   <!-- Main script last -->
   <script src="scripts/script.js"></script>
+
+  <!-- Confirmation Dialog Script -->
+  <script src="scripts/confirmation-dialog.js"></script>
 </body>
 </html>

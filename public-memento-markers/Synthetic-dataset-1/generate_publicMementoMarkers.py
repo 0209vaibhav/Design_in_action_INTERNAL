@@ -96,7 +96,7 @@ random.shuffle(all_events)
 all_events = all_events[:200]
 
 # Create the folder if it doesn't exist
-output_folder = "developer-memento-markers"
+output_folder = "public-memento-markers"
 os.makedirs(output_folder, exist_ok=True)
 
 # Save the dataset

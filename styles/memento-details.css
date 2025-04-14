@@ -1,4 +1,7 @@
+/* ========== MEMENTO DETAILS STYLES ========== */
+
 .details-actions-container {
+  height: 100%;
   flex: 1;
   display: flex;
   flex-direction: row;
@@ -23,9 +26,9 @@
   flex-direction: column;
   gap: 8px;
   padding-left: 16px;
-  border-left: 1px solid #E5E7EB;
 }
 
+/* Memento Text Elements */
 .memento-name {
   font-size: 1.25rem;
   font-weight: 600;
@@ -49,6 +52,7 @@
   align-items: flex-start;
   gap: 8px;
   line-height: 1.5;
+  text-align: left;
 }
 
 .memento-caption i {
@@ -71,6 +75,7 @@
   margin-top: 4px;
 }
 
+/* Memento Metadata Elements */
 .memento-location {
   font-size: 0.95rem;
   color: #4B5563;
@@ -127,6 +132,7 @@
   color: #FF0080;
 }
 
+/* Tags Section */
 .memento-tags {
   display: flex;
   flex-wrap: wrap;
@@ -159,6 +165,7 @@
   box-shadow: 0 2px 4px rgba(255, 0, 128, 0.3);
 }
 
+/* Author Section */
 .memento-author {
   font-size: 0.9rem;
   color: #6B7280;
@@ -172,4 +179,4 @@
 
 .memento-author i {
   color: #FF0080;
-}
+} 

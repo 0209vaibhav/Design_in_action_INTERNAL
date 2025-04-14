@@ -2,21 +2,24 @@
 
   /* Info Container Styles */
   .info-container {
+    margin-bottom: 15px;
+    margin-top: 15px;
     position: absolute;
-    top: 300px;
-    left: 15px;
-    right: 15px;
-    bottom: 20px;
+    top: 125px;
+    left: 0px;
+    right: 0px;
+    bottom: 75px;
     background: white;
+    padding-left: 15px;
+    padding-right: 15px;
     z-index: 900;
-    width: calc(100% - 30px);
+    width: 100%;
     box-sizing: border-box;
     overflow-y: auto;
     overflow-x: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    border-radius: 12px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
   }
 
   .info-container.hidden {
@@ -29,14 +32,17 @@
     padding: 15px;
   }
 
-  .info-container .capture-form-header {
-    padding: 15px;
+  /* Info Header Styles */
+  .info-header {
     border-bottom: 1px solid #f0f0f0;
     width: 100%;
     box-sizing: border-box;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
   }
 
-  .info-container .capture-form-header h2 {
+  .info-header h2 {
     margin: 0;
     font-size: 1.2rem;
     font-weight: 600;
@@ -46,12 +52,9 @@
     gap: 8px;
   }
 
-  .info-container .capture-form-header h2::before {
-    content: none !important;  /* Remove any inherited icon */
-  }
-
-  .info-container .capture-form-header h2 i {
+  .info-header h2 i {
     color: #FF0080;
+    font-size: 1.2rem;
   }
 
   .live-feed-container .capture-form-header h2 i {

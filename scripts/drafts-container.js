@@ -196,17 +196,25 @@ function initializeDraftsContainer() {
 
     const deleteBtn = draftElement.querySelector('.delete-draft-btn');
     deleteBtn.addEventListener('click', async () => {
-        const confirmed = await showConfirmationDialog('Delete Draft', 'Are you sure you want to delete this draft?');
+      try {
+        const confirmed = await showConfirmationDialog({
+          title: 'Delete Draft',
+          message: 'Are you sure you want to delete this draft?',
+          confirmText: 'Delete',
+          cancelText: 'Cancel'
+        });
+
         if (confirmed) {
-            try {
-                await deleteDraft(draft.id);
-                draftElement.remove();
-                showToast('Draft deleted successfully', 'success');
-            } catch (error) {
-                console.error('Error deleting draft:', error);
-                showToast('Failed to delete draft. Please try again.', 'error');
-            }
+          await deleteDraft(draft.id);
+          draftElement.remove();
+          showToast('Draft deleted successfully', 'success');
         }
+      } catch (error) {
+        if (error !== false) { // Only log if it's not a cancellation
+          console.error('Error deleting draft:', error);
+          showToast('Failed to delete draft. Please try again.', 'error');
+        }
+      }
     });
 
     return draftElement;

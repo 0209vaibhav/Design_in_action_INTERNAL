@@ -2,22 +2,26 @@
 
   /* --- Authentication Container --- */
   .auth-container {
+    margin-bottom: 15px;
+    margin-top: 15px;
     position: absolute;
-    top: 300px;
-    left: 15px;
-    right: 15px;
-    bottom: 20px;
+    top: 125px;
+    left: 0px;
+    right: 0px;
+    bottom: 75px;
     background: white;
-    padding: 0;
+    padding-left: 15px;
+    padding-right: 15px;
     z-index: 900;
-    width: calc(100% - 30px);
+    width: 100%;
     box-sizing: border-box;
     overflow-y: auto;
     overflow-x: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
-    scrollbar-width: thin; /* For Firefox */
-    scrollbar-color: rgba(0, 0, 0, 0.2) transparent; /* For Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
   }
+
   
   /* Custom scrollbar for Webkit browsers */
   .auth-container::-webkit-scrollbar {

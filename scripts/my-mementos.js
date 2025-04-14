@@ -253,13 +253,24 @@ function initializeMyMementos() {
                 return;
               }
 
-              // Switch to the map view
-              const mapViewBtn = document.querySelector('[data-tab="map-view"]');
-              if (mapViewBtn) {
-                mapViewBtn.click();
+              // Collapse the info panel
+              const infoTab = document.querySelector('.info-tab');
+              const expandLeftBtn = document.getElementById('expand-left');
+              const collapseLeftBtn = document.getElementById('collapse-left');
+              
+              if (infoTab && expandLeftBtn && collapseLeftBtn) {
+                infoTab.style.visibility = 'hidden';
+                infoTab.classList.add('hidden');
+                expandLeftBtn.classList.remove('hidden');
+                collapseLeftBtn.classList.add('hidden');
+                
+                // Resize map after panel collapse
+                if (mapInstance) {
+                  setTimeout(() => { mapInstance.resize(); }, 300);
+                }
               }
 
-              // Fly to the memento's location
+              // Fly to the location
               mapInstance.flyTo({
                 center: [memento.location.coordinates.longitude, memento.location.coordinates.latitude],
                 zoom: 15,
@@ -280,6 +291,8 @@ function initializeMyMementos() {
                 if (marker.element) {
                   marker.element.classList.add('highlighted-marker');
                 }
+                // Show popup
+                marker.togglePopup();
               }
 
               // Display memento details in live feed
@@ -307,8 +320,16 @@ function initializeMyMementos() {
     if (deleteMementoBtn) {
       deleteMementoBtn.addEventListener('click', async (e) => {
         e.stopPropagation();
-        if (confirm('Are you sure you want to delete this memento?')) {
-          try {
+        
+        try {
+          const confirmed = await showConfirmationDialog({
+            title: 'Delete Memento',
+            message: 'Are you sure you want to delete this memento?',
+            confirmText: 'Delete',
+            cancelText: 'Cancel'
+          });
+
+          if (confirmed) {
             await firebase.firestore().collection('mementos').doc(memento.id).delete();
             mementoElement.remove();
             showToast('Memento deleted successfully', 'success');
@@ -322,7 +343,9 @@ function initializeMyMementos() {
                 </div>
               `;
             }
-          } catch (error) {
+          }
+        } catch (error) {
+          if (error !== false) { // Only log if it's not a cancellation
             console.error('Error deleting memento:', error);
             showToast('Error deleting memento', 'error');
           }
@@ -338,4 +361,74 @@ function initializeMyMementos() {
 document.addEventListener('DOMContentLoaded', () => {
   console.log('DOM Content Loaded - initializing My Mementos...');
   initializeMyMementos();
-}); 
+});
+
+// Function to show location on map
+function showLocationOnMap(coordinates) {
+  try {
+    // Get the map element
+    const mapElement = document.getElementById('map');
+    if (!mapElement) {
+      console.warn('Map element not found');
+      showToast('Map not found. Please try again.', 'warning');
+      return;
+    }
+
+    // Get the map instance from the element's data
+    const mapInstance = mapElement._mapboxgl_map;
+    if (!mapInstance || typeof mapInstance.flyTo !== 'function') {
+      console.warn('Map instance not properly initialized');
+      showToast('Map is not properly initialized. Please try again.', 'warning');
+      return;
+    }
+
+    // Collapse the info panel
+    const infoTab = document.querySelector('.info-tab');
+    const expandLeftBtn = document.getElementById('expand-left');
+    const collapseLeftBtn = document.getElementById('collapse-left');
+    
+    if (infoTab && expandLeftBtn && collapseLeftBtn) {
+      infoTab.style.visibility = 'hidden';
+      infoTab.classList.add('hidden');
+      expandLeftBtn.classList.remove('hidden');
+      collapseLeftBtn.classList.add('hidden');
+      
+      // Resize map after panel collapse
+      if (mapInstance) {
+        setTimeout(() => { mapInstance.resize(); }, 300);
+      }
+    }
+
+    // Fly to the location
+    mapInstance.flyTo({
+      center: [coordinates.longitude, coordinates.latitude],
+      zoom: 15,
+      essential: true
+    });
+
+    // Find and highlight the corresponding marker
+    const markers = window.markers || [];
+    const marker = markers.find(m => 
+      m.getLngLat().lng === coordinates.longitude && 
+      m.getLngLat().lat === coordinates.latitude
+    );
+    
+    if (marker) {
+      // Remove highlight from all markers
+      markers.forEach(m => {
+        if (m.element) {
+          m.element.classList.remove('highlighted-marker');
+        }
+      });
+      // Add highlight to the selected marker
+      if (marker.element) {
+        marker.element.classList.add('highlighted-marker');
+      }
+      // Show popup
+      marker.togglePopup();
+    }
+  } catch (error) {
+    console.error('Error showing location on map:', error);
+    showToast('Error displaying location on map. Please try again.', 'error');
+  }
+} 

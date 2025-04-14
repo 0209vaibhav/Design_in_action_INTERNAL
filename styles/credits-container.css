@@ -1,24 +1,25 @@
 /* ========== CREDITS CONTAINER STYLES ========== */
 
 .credits-container {
-    position: absolute;
-    top: 300px;
-    left: 15px;
-    right: 15px;
-    bottom: 20px;
-    background: white;
-    z-index: 900;
-    width: calc(100% - 30px);
-    box-sizing: border-box;
-    overflow-y: auto;
-    overflow-x: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    border-radius: 12px;
-    scrollbar-width: thin; /* For Firefox */
-    scrollbar-color: rgba(0, 0, 0, 0.2) transparent; /* For Firefox */
-  }
+  margin-bottom: 15px;
+  margin-top: 15px;
+  position: absolute;
+  top: 125px;
+  left: 0px;
+  right: 0px;
+  bottom: 75px;
+  background: white;
+  padding-left: 15px;
+  padding-right: 15px;
+  z-index: 900;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
   
   /* Custom scrollbar for Webkit browsers */
   .credits-container::-webkit-scrollbar {
@@ -39,16 +40,13 @@
   }
   
   .credits-header {
-    font-family: Arial, sans-serif;
-    color: #333333;
-    list-style: none;
-    margin-bottom: 15px;
-    position: relative;
-    padding: 15px;
-    border-bottom: 1px solid #f0f0f0;
-    width: 100%;
-    box-sizing: border-box;
-  }
+  border-bottom: 1px solid #f0f0f0;
+  width: 100%;
+  box-sizing: border-box;
+  padding-bottom: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
   
   .credits-header h2 {
     margin: 0;
@@ -71,6 +69,8 @@
   .credits-content {
     flex: 1;
     overflow-y: auto;
+    margin-bottom: 15px;
+    margin-top: 15px;
   }
 
   .credits-section {

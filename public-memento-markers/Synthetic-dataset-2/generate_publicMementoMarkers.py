@@ -2,6 +2,29 @@
 import json
 import random
 import numpy as np
+import os
+from datetime import datetime
+
+# Memento Tags list
+memento_tags = [
+    "🌀 Ephemeral", "📍 Unmapped", "🧬 Niche/Cult", "💫 Emotionally Charged",
+    "🕵️ Hidden Gem", "🎭 Unexpected Encounter", "🪞 Reflective", 
+    "💔 Unpleasant Truth", "⏳ Once-in-a-While"
+]
+
+# Memento Category list
+memento_categories = [
+    "🏛️ Architecture", "🌿 Urban Nature", "🌈 Sky & Weather", "🎭 Cultural Spotlight",
+    "🎧 Mood & Music", "🐾 Creature Sighting", "🍴 Street Food", "🎊 Social Gathering",
+    "⚽ Sport in Action", "✍️ Poetic Reflection", "💡 Urban Folklore", "🏗️ City in Transition",
+    "⚠️ Unpleasant Spot", "👥 Public Event", "🗂️ Other"
+]
+
+# Memento Duration list
+memento_duration = [
+    "Less than 15 minutes", "15 minutes - 1 hour", "1 - 2 hours",
+    "2 - 6 hours", "6 - 12 hours", "12 - 24 hours", "Eternal"
+]
 
 # Expanded list of varied event types
 event_categories = {
@@ -50,17 +73,19 @@ event_id = 1
 for category, events in event_categories.items():
     for event_name in events:
         all_events.append({
-            "id": event_id,
-            "name": event_name,
-            "category": category,
-            "caption": f"A unique moment in the city: {event_name}.",
-            "description": f"This event captured the essence of city life: {event_name}.",
-            "media": [f"https://example.com/{event_name.lower().replace(' ', '_')}.jpg"],
+            "userId": f"user_{event_id}",
             "location": {
-                "latitude": round(np.random.uniform(40.701, 40.879), 6),
-                "longitude": round(np.random.uniform(-74.020, -73.907), 6)
+                "longitude": round(np.random.uniform(-74.020, -73.907), 6),
+                "latitude": round(np.random.uniform(40.701, 40.879), 6)
             },
-            "timestamp": f"2025-03-{random.randint(1, 30)}T{random.randint(0, 23)}:{random.randint(0, 59)}:00"
+            "media": [f"https://example.com/{event_name.lower().replace(' ', '_')}.jpg"],
+            "name": event_name,
+            "description": f"This event captured the essence of city life: {event_name}.",
+            "category": random.choice(memento_categories),
+            "timestamp": datetime.now().isoformat(),
+            "isPublic": random.choice([True, False]),
+            "mementoTags": random.sample(memento_tags, random.randint(1, 3)),
+            "mementoDuration": random.choice(memento_duration)
         })
         event_id += 1
 
@@ -70,12 +95,17 @@ random.shuffle(all_events)
 # Trim to exactly 200 events
 all_events = all_events[:200]
 
-# Save the dataset
-fixed_dataset = {"events": all_events}
-fixed_dataset_path = "synthetic_event_dataset_manhattan.json"
+# Create the folder if it doesn't exist
+output_folder = "public-memento-markers/Synthetic-dataset-2"
+os.makedirs(output_folder, exist_ok=True)
 
+# Save the dataset
+fixed_dataset_path = os.path.join(output_folder, "public-memento-markers_without-media.json")
 with open(fixed_dataset_path, "w", encoding="utf-8") as f:
-    json.dump(fixed_dataset, f, indent=4)
+    json.dump({"events": all_events}, f, indent=4)
+
+# Print the absolute path where the file was saved
+print(f"Dataset saved to: {os.path.abspath(fixed_dataset_path)}")
 
 # Return file path for download
 fixed_dataset_path

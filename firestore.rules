@@ -28,7 +28,7 @@ service cloud.firestore {
       allow write: if isAuthenticated() && isOwner(userId);
     }
     
-    // Mementos collection
+    // Mementos collection - all authenticated users can read all mementos
     match /mementos/{mementoId} {
       allow read: if isAuthenticated();
       allow create: if isAuthenticated() && 

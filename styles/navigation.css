@@ -8,39 +8,93 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    position: relative;
-    transition: width 0.3s ease, padding 0.3s ease;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1000;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
-    flex: 1;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    pointer-events: auto;
+    opacity: 1;
+    transform: translateX(0);
+    visibility: visible;
   }
+
+  /* Remove duplicate info-tab styles */
+  .info-tab.hidden {
+    transform: translateX(-100%);
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+    /* --- Header Content --- */
+    .header-content {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        box-sizing: border-box;
+        background-color: #333333;
+        height: 75px;
+        position: fixed;
+        top: 0;
+        z-index: 100;
+    }
+
+    .logo-container {
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 15px;
+    }
+
+    .logo-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .header-text {
+        flex: 1;
+        text-align: center;
+        margin-right: 57px; /* To balance with logo container width */
+    }
 
     /* --- Typography for Left Panel --- */
     .info-tab h1 {
-        font-size: 1.8rem;
+        font-size: 1.3rem;
         font-weight: bold;
-        margin-bottom: 10px;
-        color: #333333;
-      }
-      
-      .info-tab p {
-        font-size: 1rem;
+        color: #ffffff;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+    
+    .info-tab p {
+        font-size: 0.75rem;
         max-width: 100%;
-        line-height: 1.4;
+        line-height: 1.2;
         color: #666666;
-      }
+        margin: 0;
+        padding: 0;
+        white-space: normal;
+        word-wrap: break-word;
+        text-align: left;
+    }
 
         /* --- Navigation Lists --- */
   .info-tab ul {
     margin: 0;
-    padding: 0;
     list-style: none;
     width: 100%;
   }
   
   .info-tab ul li {
     margin: 0;
-    padding: 0;
     width: 100%;
   }
   
@@ -113,7 +167,7 @@
   #collapse-right,
   #expand-left,
   #expand-right {
-    position: absolute;
+    position: fixed;
     top: 50%;
     transform: translateY(-50%);
     background: rgba(51, 51, 51, 0.1);
@@ -132,13 +186,25 @@
   
   /* --- Left Panel Button Positioning --- */
   #collapse-left {
-    right: 0;
-    border-radius: 4px 0 0 4px;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    display: flex !important;
   }
   
+  /* Position expand button to match header container height */
   #expand-left {
-    left: 0;
-    border-radius: 0 4px 4px 0;
+    position: fixed;
+    left: 30px;
+    transform: translateX(-50%);  /* Adjust for center alignment */
+    top: 15px;  /* Align with header */
+    background-color: transparent;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    display: none;
+    z-index: 2000;
   }
   
   /* --- Right Panel Button Positioning --- */
@@ -167,7 +233,7 @@
   #collapse-right,
   #expand-left,
   #expand-right {
-    display: none;
+    position: fixed;
   }
   
   .info-tab:not(.hidden) ~ #collapse-left,
@@ -246,17 +312,16 @@
   
   /* --- Explorer Subtabs --- */
   .explorer-subtabs {
-    position: absolute;
+    position: fixed;
     left: 0;
     right: 0;
-    margin-top: 85px;
-    margin-bottom: 0;
+    top: 75px;
+    margin: 0;
     display: none;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
-    padding: 10px 20px;
     background-color: #ffffff;
-    z-index: 1000;
+    z-index: 999;
     width: 100%;
     box-sizing: border-box;
   }
@@ -295,7 +360,7 @@
     height: 48px;
     background-color: #ffffff;
     border-radius: 6px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid transparent;
     transition: all 0.3s ease;
     flex: 1;
     max-width: 120px;
@@ -331,9 +396,8 @@
     background-color: #ffffff;
     color: #FF0080;
     border-radius: 4px;
-    border: 1px solid #FF0080;
+    border: 1px solid transparent;
     transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
   .explorer-subtabs .explorer-tab-btn.active i,
@@ -344,10 +408,13 @@
   /* --- Activity Tabs Container --- */
   .activity-tabs-container {
     width: 100%;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 0 10px;
     box-sizing: border-box;
     background-color: #333333;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    margin-top: auto; /* This will push it to the bottom of its container */
   }
   
   /* --- Activity Tabs List --- */
@@ -361,6 +428,7 @@
     list-style: none;
     width: 100%;
     max-width: 100%;
+    height: 100%;
   }
   
   .activity-tabs-container li {
@@ -368,8 +436,10 @@
     padding: 0;
     display: flex;
     justify-content: center;
+    align-items: center;
     flex: 1;
     max-width: 120px;
+    height: 100%;
   }
   
   /* --- Activity Tab Buttons --- */
@@ -380,27 +450,28 @@
     justify-content: center;
     background-color: #333333;
     color: #ffffff;
-    padding: 12px 8px;
+    padding: 4px;
     border-radius: 8px;
     text-decoration: none;
     font-weight: 500;
     transition: all 0.3s ease;
     height: 50px;
-    border: 1px solid #ffffff;
+    border: 1px solid #333333;
     width: 100%;
     min-width: 0;
   }
   
   .activity-tabs-container .activity-tab i {
-    margin: 0 0 6px 0;
+    margin: 0 0 2px 0;
     font-size: 1.2rem;
     color: #ffffff;
   }
   
   .activity-tabs-container .activity-tab span {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     text-align: center;
     color: #ffffff;
+    line-height: 1.1;
   }
   
   /* --- Activity Tab States --- */
@@ -425,7 +496,6 @@
   /* --- Info Tab Lists --- */
   .info-tab ul {
     margin: 0;
-    padding: 10px 0;
     list-style: none;
   }
   
@@ -447,90 +517,47 @@
   /* --- Panel Control Buttons --- */
   .panel-control-btn {
     position: fixed;
+    background: transparent !important;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 52px;
-    height: 52px;
-    background-color: transparent;
-    border: none;
-    border-radius: 8px;
-    box-shadow: none;
-    cursor: pointer;
-    z-index: 1001;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    pointer-events: auto;
-    opacity: 1;
-    visibility: visible;
+    transition: all 0.3s ease;
+    z-index: 2000;
+    color: white;
+    box-shadow: none !important;
   }
   
-  .panel-control-btn.hidden {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateX(-100%);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  .panel-control-btn i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+    color: #FF0080; /* Magenta color */
+  }
+  
+  .panel-control-btn:hover {
+    transform: scale(1.1);
   }
   
   .panel-control-btn:active {
     transform: scale(0.95);
-    background-color: transparent;
   }
   
-  .panel-control-btn i {
-    font-size: 28px;
-    color: #FF0080;
-    pointer-events: none;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .panel-control-btn:active i {
-    transform: scale(0.9);
-  }
-  
-  #expand-left {
-    left: 20px;
-    top: 20px;
-    transform: translateX(0);
-    background-color: transparent;
-  }
-  
-  #expand-left.hidden {
-    transform: translateX(-100%);
-    opacity: 0;
-    visibility: hidden;
-  }
-  
-  #collapse-left {
-    right: 20px;
-    top: 20px;
-    transform: translateX(0);
-    background-color: transparent;
-  }
-  
-  #collapse-left.hidden {
-    transform: translateX(100%);
-    opacity: 0;
-    visibility: hidden;
+  .panel-control-btn.hidden {
+    display: none;
   }
   
   .info-tab {
     position: fixed;
     top: 0;
     left: 0;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 25vw;
     background-color: white;
     z-index: 1000;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-y;
+    overflow: hidden;
     pointer-events: auto;
     opacity: 1;
     transform: translateX(0);
@@ -541,35 +568,39 @@
     transform: translateX(-100%);
     visibility: hidden;
     opacity: 0;
+    pointer-events: none;
   }
   
   /* Media query for mobile devices */
   @media (max-width: 768px) {
     .panel-control-btn {
-      width: 56px;
-      height: 56px;
+      width: 40px;
+      height: 40px;
+      background: transparent !important;
     }
     
     .panel-control-btn i {
-      font-size: 32px;
-      color: #FF0080;
+      font-size: 1.4rem; /* Slightly larger for mobile */
+      color: #FF0080; /* Magenta color */
     }
     
     #expand-left {
-      left: 24px;
-      top: 24px;
-      background-color: transparent;
+      left: 30px;
+      transform: translateX(-50%);  /* Adjust for center alignment */
+      top: 15px;
+      z-index: 3000;
+      background-color: transparent !important;
+      display: none;
     }
     
-    #collapse-left {
-      right: 24px;
-      top: 24px;
-      background-color: transparent;
+    .header-content #collapse-left {
+      right: 20px;
+      background-color: transparent !important;
     }
     
     .info-tab {
       width: 100%;
-      touch-action: pan-y;
+      overflow: hidden;
     }
   }
   
@@ -741,7 +772,7 @@
   /* --- Info Tab --- */
   .info-tab {
     flex: 1;
-    overflow-y: auto;
+    overflow: hidden;
   }
   
   /* --- Panel Button Positioning --- */
@@ -769,4 +800,60 @@
     .right-panel {
         width: 25vw;
     }
+  }
+
+  /* Position collapse button inside header */
+  .header-content #collapse-left {
+    position: absolute;
+    right: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2000;
+    background-color: transparent !important;
+  }
+
+  /* Show/hide button states */
+  .info-tab.hidden ~ #expand-left,
+  body:has(.info-tab.hidden) #expand-left {
+    display: flex !important;
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .info-tab:not(.hidden) ~ #expand-left,
+  body:not(:has(.info-tab.hidden)) #expand-left {
+    display: none !important;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Mobile styles */
+  @media (max-width: 768px) {
+    .panel-control-btn {
+      width: 40px;
+      height: 40px;
+    }
+
+    .header-content #collapse-left {
+      right: 20px;
+      z-index: 2000;
+    }
+
+    .info-tab.hidden ~ #expand-left {
+      display: flex !important;
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  /* Specific styles for expand button */
+  #expand-left i {
+    color: #FF0080; /* Magenta color */
+  }
+
+  /* Specific styles for collapse button */
+  #collapse-left i {
+    color: #FF0080; /* Magenta color */
   }

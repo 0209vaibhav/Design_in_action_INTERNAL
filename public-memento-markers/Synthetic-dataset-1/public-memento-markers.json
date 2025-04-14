@@ -1,0 +1,1075 @@
+{
+    "events": [
+        {
+            "userId": "user_15",
+            "location": {
+                "longitude": -73.924109,
+                "latitude": 40.81047
+            },
+            "media": [
+                "https://images.pexels.com/photos/2188012/pexels-photo-2188012.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Salsa Dance Flashmob",
+            "description": "This event captured the essence of city life: Salsa Dance Flashmob.",
+            "category": "\ud83d\udca1 Urban Folklore",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83d\udc94 Unpleasant Truth",
+                "\ud83d\udccd Unmapped",
+                "\ud83e\ude9e Reflective"
+            ],
+            "mementoDuration": "Eternal"
+        },
+        {
+            "userId": "user_48",
+            "location": {
+                "longitude": -73.95001,
+                "latitude": 40.858657
+            },
+            "media": [
+                "https://images.pexels.com/photos/19272729/pexels-photo-19272729.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Street Lined with Colorful Umbrellas",
+            "description": "This event captured the essence of city life: Street Lined with Colorful Umbrellas.",
+            "category": "\u270d\ufe0f Poetic Reflection",
+            "timestamp": "2025-03-30T22:14:13.208461",
+            "mementoTags": [
+                "\ud83d\udc94 Unpleasant Truth",
+                "\ud83e\ude9e Reflective",
+                "\ud83d\udccd Unmapped"
+            ],
+            "mementoDuration": "12 - 24 hours"
+        },
+        {
+            "userId": "user_2",
+            "location": {
+                "longitude": -73.932393,
+                "latitude": 40.804682
+            },
+            "media": [
+                "https://images.pexels.com/photos/2422588/pexels-photo-2422588.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Street Violinist in Times Square",
+            "description": "This event captured the essence of city life: Street Violinist in Times Square.",
+            "category": "\u270d\ufe0f Poetic Reflection",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83d\udc94 Unpleasant Truth"
+            ],
+            "mementoDuration": "15 minutes - 1 hour"
+        },
+        {
+            "userId": "user_8",
+            "location": {
+                "longitude": -73.940538,
+                "latitude": 40.72795
+            },
+            "media": [
+                "https://images.pexels.com/photos/12505092/pexels-photo-12505092.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Drum Circle Gathering",
+            "description": "This event captured the essence of city life: Drum Circle Gathering.",
+            "category": "\ud83d\uddc2\ufe0f Other",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83c\udfad Unexpected Encounter",
+                "\ud83c\udf00 Ephemeral",
+                "\ud83d\udcab Emotionally Charged"
+            ],
+            "mementoDuration": "Eternal"
+        },
+        {
+            "userId": "user_1",
+            "location": {
+                "longitude": -74.01775,
+                "latitude": 40.707695
+            },
+            "media": [
+                "https://images.pexels.com/photos/31356636/pexels-photo-31356636.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Rooftop Jazz Night",
+            "description": "This event captured the essence of city life: Rooftop Jazz Night.",
+            "category": "\ud83c\udfdb\ufe0f Architecture",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83e\ude9e Reflective",
+                "\ud83d\udcab Emotionally Charged"
+            ],
+            "mementoDuration": "15 minutes - 1 hour"
+        },
+        {
+            "userId": "user_45",
+            "location": {
+                "longitude": -73.950747,
+                "latitude": 40.77311
+            },
+            "media": [
+                "https://images.pexels.com/photos/9065164/pexels-photo-9065164.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Mystery Notes Found on Park Benches",
+            "description": "This event captured the essence of city life: Mystery Notes Found on Park Benches.",
+            "category": "\ud83c\udf74 Street Food",
+            "timestamp": "2025-03-30T22:14:13.208461",
+            "mementoTags": [
+                "\ud83c\udfad Unexpected Encounter"
+            ],
+            "mementoDuration": "Eternal"
+        },
+        {
+            "userId": "user_25",
+            "location": {
+                "longitude": -73.965877,
+                "latitude": 40.823379
+            },
+            "media": [
+                "https://images.pexels.com/photos/3379129/pexels-photo-3379129.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Hundreds Dancing in a Silent Disco",
+            "description": "This event captured the essence of city life: Hundreds Dancing in a Silent Disco.",
+            "category": "\ud83c\udfd7\ufe0f City in Transition",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83d\udc94 Unpleasant Truth",
+                "\ud83e\uddec Niche/Cult"
+            ],
+            "mementoDuration": "6 - 12 hours"
+        },
+        {
+            "userId": "user_29",
+            "location": {
+                "longitude": -73.951953,
+                "latitude": 40.848081
+            },
+            "media": [
+                "https://images.pexels.com/photos/8404561/pexels-photo-8404561.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Surprise Opera Performance",
+            "description": "This event captured the essence of city life: Surprise Opera Performance.",
+            "category": "\ud83d\udca1 Urban Folklore",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83e\uddec Niche/Cult",
+                "\ud83d\udc94 Unpleasant Truth",
+                "\ud83d\udcab Emotionally Charged"
+            ],
+            "mementoDuration": "1 - 2 hours"
+        },
+        {
+            "userId": "user_5",
+            "location": {
+                "longitude": -73.908608,
+                "latitude": 40.82663
+            },
+            "media": [
+                "https://images.pexels.com/photos/7520751/pexels-photo-7520751.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Gospel Choir Flashmob",
+            "description": "This event captured the essence of city life: Gospel Choir Flashmob.",
+            "category": "\ud83c\udfad Cultural Spotlight",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83d\udccd Unmapped"
+            ],
+            "mementoDuration": "1 - 2 hours"
+        },
+        {
+            "userId": "user_31",
+            "location": {
+                "longitude": -73.937761,
+                "latitude": 40.743608
+            },
+            "media": [
+                "https://images.pexels.com/photos/4066288/pexels-photo-4066288.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Speakeasy Hidden Behind a Bookshelf",
+            "description": "This event captured the essence of city life: Speakeasy Hidden Behind a Bookshelf.",
+            "category": "\ud83c\udfa7 Mood & Music",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83d\udccd Unmapped"
+            ],
+            "mementoDuration": "1 - 2 hours"
+        },
+        {
+            "userId": "user_26",
+            "location": {
+                "longitude": -73.984774,
+                "latitude": 40.819983
+            },
+            "media": [
+                "https://images.pexels.com/photos/14055017/pexels-photo-14055017.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Skyscraper Window Projection Show",
+            "description": "This event captured the essence of city life: Skyscraper Window Projection Show.",
+            "category": "\ud83c\udf8a Social Gathering",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83c\udf00 Ephemeral",
+                "\ud83d\udcab Emotionally Charged",
+                "\ud83d\udc94 Unpleasant Truth"
+            ],
+            "mementoDuration": "Eternal"
+        },
+        {
+            "userId": "user_39",
+            "location": {
+                "longitude": -73.914093,
+                "latitude": 40.732812
+            },
+            "media": [
+                "https://images.pexels.com/photos/4481036/pexels-photo-4481036.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Underground Ramen Spot",
+            "description": "This event captured the essence of city life: Underground Ramen Spot.",
+            "category": "\ud83c\udfd7\ufe0f City in Transition",
+            "timestamp": "2025-03-30T22:14:13.208461",
+            "mementoTags": [
+                "\ud83c\udf00 Ephemeral"
+            ],
+            "mementoDuration": "Less than 15 minutes"
+        },
+        {
+            "userId": "user_7",
+            "location": {
+                "longitude": -73.920309,
+                "latitude": 40.841294
+            },
+            "media": [
+                "https://images.pexels.com/photos/5684009/pexels-photo-5684009.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Pop-Up Blues Performance",
+            "description": "This event captured the essence of city life: Pop-Up Blues Performance.",
+            "category": "\ud83d\udc3e Creature Sighting",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83c\udfad Unexpected Encounter",
+                "\ud83d\udccd Unmapped"
+            ],
+            "mementoDuration": "6 - 12 hours"
+        },
+        {
+            "userId": "user_42",
+            "location": {
+                "longitude": -73.919144,
+                "latitude": 40.839706
+            },
+            "media": [
+                "https://images.pexels.com/photos/2883704/pexels-photo-2883704.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Food Cart Selling Rare International Dishes",
+            "description": "This event captured the essence of city life: Food Cart Selling Rare International Dishes.",
+            "category": "\ud83c\udfad Cultural Spotlight",
+            "timestamp": "2025-03-30T22:14:13.208461",
+            "mementoTags": [
+                "\ud83d\udccd Unmapped"
+            ],
+            "mementoDuration": "1 - 2 hours"
+        },
+        {
+            "userId": "user_51",
+            "location": {
+                "longitude": -73.997661,
+                "latitude": 40.848181
+            },
+            "media": [
+                "https://images.pexels.com/photos/30807934/pexels-photo-30807934.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Roller Skating Crew in Central Park",
+            "description": "This event captured the essence of city life: Roller Skating Crew in Central Park.",
+            "category": "\ud83c\udf8a Social Gathering",
+            "timestamp": "2025-03-30T22:14:13.208461",
+            "mementoTags": [
+                "\ud83c\udf00 Ephemeral"
+            ],
+            "mementoDuration": "Eternal"
+        },
+        {
+            "userId": "user_37",
+            "location": {
+                "longitude": -73.987057,
+                "latitude": 40.824611
+            },
+            "media": [
+                "https://images.pexels.com/photos/7991492/pexels-photo-7991492.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Hidden Gelato Stand",
+            "description": "This event captured the essence of city life: Hidden Gelato Stand.",
+            "category": "\u26a0\ufe0f Unpleasant Spot",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83d\udd75\ufe0f Hidden Gem",
+                "\ud83c\udfad Unexpected Encounter"
+            ],
+            "mementoDuration": "Less than 15 minutes"
+        },
+        {
+            "userId": "user_3",
+            "location": {
+                "longitude": -74.012922,
+                "latitude": 40.746577
+            },
+            "media": [
+                "https://images.pexels.com/photos/5169663/pexels-photo-5169663.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Subway Saxophonist",
+            "description": "This event captured the essence of city life: Subway Saxophonist.",
+            "category": "\ud83d\udc3e Creature Sighting",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83d\udcab Emotionally Charged"
+            ],
+            "mementoDuration": "12 - 24 hours"
+        },
+        {
+            "userId": "user_54",
+            "location": {
+                "longitude": -73.934336,
+                "latitude": 40.823945
+            },
+            "media": [
+                "https://images.pexels.com/photos/1268130/pexels-photo-1268130.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "People Racing on Citi Bikes",
+            "description": "This event captured the essence of city life: People Racing on Citi Bikes.",
+            "category": "\u26a0\ufe0f Unpleasant Spot",
+            "timestamp": "2025-03-30T22:14:13.208461",
+            "mementoTags": [
+                "\ud83d\udd75\ufe0f Hidden Gem"
+            ],
+            "mementoDuration": "1 - 2 hours"
+        },
+        {
+            "userId": "user_43",
+            "location": {
+                "longitude": -73.979333,
+                "latitude": 40.817776
+            },
+            "media": [
+                "https://images.pexels.com/photos/31320335/pexels-photo-31320335.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Artisanal Coffee Stand Under a Bridge",
+            "description": "This event captured the essence of city life: Artisanal Coffee Stand Under a Bridge.",
+            "category": "\ud83c\udf08 Sky & Weather",
+            "timestamp": "2025-03-30T22:14:13.208461",
+            "mementoTags": [
+                "\ud83d\udccd Unmapped"
+            ],
+            "mementoDuration": "12 - 24 hours"
+        },
+        {
+            "userId": "user_19",
+            "location": {
+                "longitude": -73.90846,
+                "latitude": 40.772345
+            },
+            "media": [
+                "https://images.pexels.com/photos/879585/pexels-photo-879585.png?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Statue Dressed in Flowers",
+            "description": "This event captured the essence of city life: Statue Dressed in Flowers.",
+            "category": "\ud83d\udc65 Public Event",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83d\udcab Emotionally Charged"
+            ],
+            "mementoDuration": "15 minutes - 1 hour"
+        },
+        {
+            "userId": "user_56",
+            "location": {
+                "longitude": -73.955117,
+                "latitude": 40.817628
+            },
+            "media": [
+                "https://images.pexels.com/photos/5864761/pexels-photo-5864761.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Public Rock Climbing Challenge",
+            "description": "This event captured the essence of city life: Public Rock Climbing Challenge.",
+            "category": "\ud83c\udfa7 Mood & Music",
+            "timestamp": "2025-03-30T22:14:13.208461",
+            "mementoTags": [
+                "\ud83c\udf00 Ephemeral",
+                "\ud83e\uddec Niche/Cult",
+                "\u23f3 Once-in-a-While"
+            ],
+            "mementoDuration": "Eternal"
+        },
+        {
+            "userId": "user_22",
+            "location": {
+                "longitude": -73.934495,
+                "latitude": 40.857038
+            },
+            "media": [
+                "https://images.pexels.com/photos/5745009/pexels-photo-5745009.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Recycled Material Sculpture Display",
+            "description": "This event captured the essence of city life: Recycled Material Sculpture Display.",
+            "category": "\ud83d\udca1 Urban Folklore",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83e\uddec Niche/Cult",
+                "\ud83c\udfad Unexpected Encounter"
+            ],
+            "mementoDuration": "1 - 2 hours"
+        },
+        {
+            "userId": "user_52",
+            "location": {
+                "longitude": -74.002511,
+                "latitude": 40.780623
+            },
+            "media": [
+                "https://images.pexels.com/photos/31360839/pexels-photo-31360839.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Basketball 3-on-3 Tournament",
+            "description": "This event captured the essence of city life: Basketball 3-on-3 Tournament.",
+            "category": "\u26a0\ufe0f Unpleasant Spot",
+            "timestamp": "2025-03-30T22:14:13.208461",
+            "mementoTags": [
+                "\ud83e\uddec Niche/Cult",
+                "\u23f3 Once-in-a-While",
+                "\ud83d\udd75\ufe0f Hidden Gem"
+            ],
+            "mementoDuration": "15 minutes - 1 hour"
+        },
+        {
+            "userId": "user_9",
+            "location": {
+                "longitude": -74.010459,
+                "latitude": 40.784189
+            },
+            "media": [
+                "https://images.pexels.com/photos/6599586/pexels-photo-6599586.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Breakdance Battle in Union Square",
+            "description": "This event captured the essence of city life: Breakdance Battle in Union Square.",
+            "category": "\ud83c\udf8a Social Gathering",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83d\udd75\ufe0f Hidden Gem"
+            ],
+            "mementoDuration": "Less than 15 minutes"
+        },
+        {
+            "userId": "user_18",
+            "location": {
+                "longitude": -73.922892,
+                "latitude": 40.749835
+            },
+            "media": [
+                "https://images.pexels.com/photos/1340502/pexels-photo-1340502.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Artist Live Painting a Mural",
+            "description": "This event captured the essence of city life: Artist Live Painting a Mural.",
+            "category": "\ud83c\udfad Cultural Spotlight",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83e\uddec Niche/Cult"
+            ],
+            "mementoDuration": "2 - 6 hours"
+        },
+        {
+            "userId": "user_24",
+            "location": {
+                "longitude": -73.971663,
+                "latitude": 40.777149
+            },
+            "media": [
+                "https://images.pexels.com/photos/5985284/pexels-photo-5985284.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Massive Pillow Fight in the Park",
+            "description": "This event captured the essence of city life: Massive Pillow Fight in the Park.",
+            "category": "\ud83c\udfdb\ufe0f Architecture",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83c\udf00 Ephemeral"
+            ],
+            "mementoDuration": "Eternal"
+        },
+        {
+            "userId": "user_57",
+            "location": {
+                "longitude": -74.007388,
+                "latitude": 40.772905
+            },
+            "media": [
+                "https://images.pexels.com/photos/8425972/pexels-photo-8425972.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Rooftop Yoga Session at Sunrise",
+            "description": "This event captured the essence of city life: Rooftop Yoga Session at Sunrise.",
+            "category": "\u270d\ufe0f Poetic Reflection",
+            "timestamp": "2025-03-30T22:14:13.208461",
+            "mementoTags": [
+                "\u23f3 Once-in-a-While",
+                "\ud83d\udc94 Unpleasant Truth",
+                "\ud83e\ude9e Reflective"
+            ],
+            "mementoDuration": "6 - 12 hours"
+        },
+        {
+            "userId": "user_28",
+            "location": {
+                "longitude": -74.008062,
+                "latitude": 40.70485
+            },
+            "media": [
+                "https://images.pexels.com/photos/4881672/pexels-photo-4881672.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Rooftop Film Screening",
+            "description": "This event captured the essence of city life: Rooftop Film Screening.",
+            "category": "\ud83d\udca1 Urban Folklore",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83d\udd75\ufe0f Hidden Gem",
+                "\ud83c\udf00 Ephemeral"
+            ],
+            "mementoDuration": "1 - 2 hours"
+        },
+        {
+            "userId": "user_12",
+            "location": {
+                "longitude": -73.966117,
+                "latitude": 40.705325
+            },
+            "media": [
+                "https://images.pexels.com/photos/5135110/pexels-photo-5135110.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Fire Dancer Performance",
+            "description": "This event captured the essence of city life: Fire Dancer Performance.",
+            "category": "\ud83c\udfa7 Mood & Music",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83e\ude9e Reflective"
+            ],
+            "mementoDuration": "6 - 12 hours"
+        },
+        {
+            "userId": "user_17",
+            "location": {
+                "longitude": -73.960135,
+                "latitude": 40.740326
+            },
+            "media": [
+                "https://images.pexels.com/photos/13813479/pexels-photo-13813479.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Sidewalk Chalk Festival",
+            "description": "This event captured the essence of city life: Sidewalk Chalk Festival.",
+            "category": "\ud83c\udf3f Urban Nature",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83e\uddec Niche/Cult",
+                "\ud83e\ude9e Reflective",
+                "\ud83d\udc94 Unpleasant Truth"
+            ],
+            "mementoDuration": "Eternal"
+        },
+        {
+            "userId": "user_41",
+            "location": {
+                "longitude": -73.990429,
+                "latitude": 40.717927
+            },
+            "media": [
+                "https://images.pexels.com/photos/30691986/pexels-photo-30691986.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Street Vendor Making Giant Crepes",
+            "description": "This event captured the essence of city life: Street Vendor Making Giant Crepes.",
+            "category": "\ud83c\udf3f Urban Nature",
+            "timestamp": "2025-03-30T22:14:13.208461",
+            "mementoTags": [
+                "\ud83d\udccd Unmapped",
+                "\ud83c\udfad Unexpected Encounter"
+            ],
+            "mementoDuration": "2 - 6 hours"
+        },
+        {
+            "userId": "user_50",
+            "location": {
+                "longitude": -73.927497,
+                "latitude": 40.878606
+            },
+            "media": [
+                "https://images.pexels.com/photos/7925209/pexels-photo-7925209.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Elderly Man Telling Stories to Kids in the Subway",
+            "description": "This event captured the essence of city life: Elderly Man Telling Stories to Kids in the Subway.",
+            "category": "\ud83c\udf3f Urban Nature",
+            "timestamp": "2025-03-30T22:14:13.208461",
+            "mementoTags": [
+                "\ud83c\udfad Unexpected Encounter",
+                "\ud83d\udd75\ufe0f Hidden Gem",
+                "\ud83d\udccd Unmapped"
+            ],
+            "mementoDuration": "2 - 6 hours"
+        },
+        {
+            "userId": "user_53",
+            "location": {
+                "longitude": -73.916965,
+                "latitude": 40.743726
+            },
+            "media": [
+                "https://images.pexels.com/photos/7646192/pexels-photo-7646192.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Late Night Skateboard Meetup",
+            "description": "This event captured the essence of city life: Late Night Skateboard Meetup.",
+            "category": "\ud83d\udc65 Public Event",
+            "timestamp": "2025-03-30T22:14:13.208461",
+            "mementoTags": [
+                "\ud83d\udd75\ufe0f Hidden Gem"
+            ],
+            "mementoDuration": "1 - 2 hours"
+        },
+        {
+            "userId": "user_47",
+            "location": {
+                "longitude": -73.991376,
+                "latitude": 40.766513
+            },
+            "media": [
+                "https://images.pexels.com/photos/11408636/pexels-photo-11408636.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Random Act of Kindness: Free Ice Cream",
+            "description": "This event captured the essence of city life: Random Act of Kindness: Free Ice Cream.",
+            "category": "\ud83c\udfa7 Mood & Music",
+            "timestamp": "2025-03-30T22:14:13.208461",
+            "mementoTags": [
+                "\ud83d\udc94 Unpleasant Truth"
+            ],
+            "mementoDuration": "1 - 2 hours"
+        },
+        {
+            "userId": "user_46",
+            "location": {
+                "longitude": -73.94745,
+                "latitude": 40.738397
+            },
+            "media": [
+                "https://images.pexels.com/photos/8438918/pexels-photo-8438918.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Someone Playing Chess with Strangers",
+            "description": "This event captured the essence of city life: Someone Playing Chess with Strangers.",
+            "category": "\ud83d\udc3e Creature Sighting",
+            "timestamp": "2025-03-30T22:14:13.208461",
+            "mementoTags": [
+                "\ud83c\udf00 Ephemeral"
+            ],
+            "mementoDuration": "15 minutes - 1 hour"
+        },
+        {
+            "userId": "user_4",
+            "location": {
+                "longitude": -74.013882,
+                "latitude": 40.874279
+            },
+            "media": [
+                "https://images.pexels.com/photos/6193908/pexels-photo-6193908.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Live Acapella Group",
+            "description": "This event captured the essence of city life: Live Acapella Group.",
+            "category": "\ud83d\uddc2\ufe0f Other",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83d\udccd Unmapped",
+                "\ud83e\uddec Niche/Cult",
+                "\ud83d\udd75\ufe0f Hidden Gem"
+            ],
+            "mementoDuration": "2 - 6 hours"
+        },
+        {
+            "userId": "user_10",
+            "location": {
+                "longitude": -74.011429,
+                "latitude": 40.831265
+            },
+            "media": [
+                "https://images.pexels.com/photos/18326108/pexels-photo-18326108.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Mime Artist at Bryant Park",
+            "description": "This event captured the essence of city life: Mime Artist at Bryant Park.",
+            "category": "\ud83c\udfdb\ufe0f Architecture",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83d\udd75\ufe0f Hidden Gem",
+                "\ud83d\udcab Emotionally Charged",
+                "\ud83e\uddec Niche/Cult"
+            ],
+            "mementoDuration": "1 - 2 hours"
+        },
+        {
+            "userId": "user_40",
+            "location": {
+                "longitude": -73.957223,
+                "latitude": 40.79405
+            },
+            "media": [
+                "https://images.pexels.com/photos/31325378/pexels-photo-31325378.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Vegan Pop-Up Kitchen",
+            "description": "This event captured the essence of city life: Vegan Pop-Up Kitchen.",
+            "category": "\ud83d\udc3e Creature Sighting",
+            "timestamp": "2025-03-30T22:14:13.208461",
+            "mementoTags": [
+                "\ud83c\udf00 Ephemeral"
+            ],
+            "mementoDuration": "15 minutes - 1 hour"
+        },
+        {
+            "userId": "user_23",
+            "location": {
+                "longitude": -74.008963,
+                "latitude": 40.790426
+            },
+            "media": [
+                "https://images.pexels.com/photos/5076320/pexels-photo-5076320.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Sunset Rooftop Picnic",
+            "description": "This event captured the essence of city life: Sunset Rooftop Picnic.",
+            "category": "\ud83c\udf8a Social Gathering",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83e\ude9e Reflective",
+                "\ud83d\udc94 Unpleasant Truth"
+            ],
+            "mementoDuration": "12 - 24 hours"
+        },
+        {
+            "userId": "user_34",
+            "location": {
+                "longitude": -73.978811,
+                "latitude": 40.747171
+            },
+            "media": [
+                "https://images.pexels.com/photos/31385930/pexels-photo-31385930.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Rooftop Greenhouse Cafe",
+            "description": "This event captured the essence of city life: Rooftop Greenhouse Cafe.",
+            "category": "\ud83d\uddc2\ufe0f Other",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83d\udd75\ufe0f Hidden Gem"
+            ],
+            "mementoDuration": "2 - 6 hours"
+        },
+        {
+            "userId": "user_20",
+            "location": {
+                "longitude": -73.957578,
+                "latitude": 40.781014
+            },
+            "media": [
+                "https://images.pexels.com/photos/12334547/pexels-photo-12334547.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Immersive Light Installation",
+            "description": "This event captured the essence of city life: Immersive Light Installation.",
+            "category": "\ud83c\udfa7 Mood & Music",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83d\udccd Unmapped",
+                "\ud83d\udc94 Unpleasant Truth"
+            ],
+            "mementoDuration": "12 - 24 hours"
+        },
+        {
+            "userId": "user_38",
+            "location": {
+                "longitude": -73.978042,
+                "latitude": 40.723092
+            },
+            "media": [
+                "https://images.pexels.com/photos/6187450/pexels-photo-6187450.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Secret Midnight Taco Truck",
+            "description": "This event captured the essence of city life: Secret Midnight Taco Truck.",
+            "category": "\ud83c\udf08 Sky & Weather",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83e\uddec Niche/Cult",
+                "\ud83d\udc94 Unpleasant Truth"
+            ],
+            "mementoDuration": "1 - 2 hours"
+        },
+        {
+            "userId": "user_11",
+            "location": {
+                "longitude": -73.953809,
+                "latitude": 40.709617
+            },
+            "media": [
+                "https://images.pexels.com/photos/5801331/pexels-photo-5801331.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Spontaneous Theatre Play",
+            "description": "This event captured the essence of city life: Spontaneous Theatre Play.",
+            "category": "\ud83c\udfd7\ufe0f City in Transition",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83c\udfad Unexpected Encounter"
+            ],
+            "mementoDuration": "12 - 24 hours"
+        },
+        {
+            "userId": "user_14",
+            "location": {
+                "longitude": -74.016557,
+                "latitude": 40.876304
+            },
+            "media": [
+                "https://images.pexels.com/photos/2924429/pexels-photo-2924429.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Magician Performing on Sidewalk",
+            "description": "This event captured the essence of city life: Magician Performing on Sidewalk.",
+            "category": "\ud83c\udf08 Sky & Weather",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\u23f3 Once-in-a-While",
+                "\ud83d\udc94 Unpleasant Truth",
+                "\ud83e\ude9e Reflective"
+            ],
+            "mementoDuration": "12 - 24 hours"
+        },
+        {
+            "userId": "user_32",
+            "location": {
+                "longitude": -73.945929,
+                "latitude": 40.790186
+            },
+            "media": [
+                "https://images.pexels.com/photos/1117153/pexels-photo-1117153.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Underground Bookstore",
+            "description": "This event captured the essence of city life: Underground Bookstore.",
+            "category": "\u270d\ufe0f Poetic Reflection",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83d\udcab Emotionally Charged",
+                "\ud83d\udccd Unmapped",
+                "\ud83e\uddec Niche/Cult"
+            ],
+            "mementoDuration": "2 - 6 hours"
+        },
+        {
+            "userId": "user_13",
+            "location": {
+                "longitude": -74.003908,
+                "latitude": 40.701566
+            },
+            "media": [
+                "https://images.pexels.com/photos/10319436/pexels-photo-10319436.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Acrobatic Stunt Show",
+            "description": "This event captured the essence of city life: Acrobatic Stunt Show.",
+            "category": "\ud83c\udfdb\ufe0f Architecture",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83e\ude9e Reflective",
+                "\ud83d\udd75\ufe0f Hidden Gem"
+            ],
+            "mementoDuration": "1 - 2 hours"
+        },
+        {
+            "userId": "user_33",
+            "location": {
+                "longitude": -73.997779,
+                "latitude": 40.701996
+            },
+            "media": [
+                "https://images.pexels.com/photos/309724/pexels-photo-309724.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Floating Tea House on the Hudson",
+            "description": "This event captured the essence of city life: Floating Tea House on the Hudson.",
+            "category": "\ud83c\udfa7 Mood & Music",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83d\udcab Emotionally Charged",
+                "\ud83d\udccd Unmapped",
+                "\ud83c\udfad Unexpected Encounter"
+            ],
+            "mementoDuration": "12 - 24 hours"
+        },
+        {
+            "userId": "user_21",
+            "location": {
+                "longitude": -73.918707,
+                "latitude": 40.778652
+            },
+            "media": [
+                "https://images.pexels.com/photos/7270936/pexels-photo-7270936.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Pop-Up Art Gallery in an Alley",
+            "description": "This event captured the essence of city life: Pop-Up Art Gallery in an Alley.",
+            "category": "\ud83c\udfad Cultural Spotlight",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83e\uddec Niche/Cult"
+            ],
+            "mementoDuration": "Less than 15 minutes"
+        },
+        {
+            "userId": "user_36",
+            "location": {
+                "longitude": -73.94827,
+                "latitude": 40.741233
+            },
+            "media": [
+                "https://images.pexels.com/photos/2079452/pexels-photo-2079452.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Cozy Attic Reading Nook in a Caf\u00e9",
+            "description": "This event captured the essence of city life: Cozy Attic Reading Nook in a Caf\u00e9.",
+            "category": "\ud83c\udf8a Social Gathering",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83d\udd75\ufe0f Hidden Gem",
+                "\ud83c\udf00 Ephemeral"
+            ],
+            "mementoDuration": "Less than 15 minutes"
+        },
+        {
+            "userId": "user_27",
+            "location": {
+                "longitude": -73.918111,
+                "latitude": 40.854708
+            },
+            "media": [
+                "https://images.pexels.com/photos/265823/pexels-photo-265823.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Floating Lantern Festival",
+            "description": "This event captured the essence of city life: Floating Lantern Festival.",
+            "category": "\ud83c\udf3f Urban Nature",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83d\udcab Emotionally Charged",
+                "\ud83c\udf00 Ephemeral"
+            ],
+            "mementoDuration": "15 minutes - 1 hour"
+        },
+        {
+            "userId": "user_16",
+            "location": {
+                "longitude": -73.934253,
+                "latitude": 40.806057
+            },
+            "media": [
+                "https://images.pexels.com/photos/1029696/pexels-photo-1029696.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Hidden Graffiti Mural",
+            "description": "This event captured the essence of city life: Hidden Graffiti Mural.",
+            "category": "\ud83d\udca1 Urban Folklore",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83d\udcab Emotionally Charged"
+            ],
+            "mementoDuration": "2 - 6 hours"
+        },
+        {
+            "userId": "user_44",
+            "location": {
+                "longitude": -73.965994,
+                "latitude": 40.738921
+            },
+            "media": [
+                "https://images.pexels.com/photos/5530626/pexels-photo-5530626.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Stranger Leaving Free Books in the Park",
+            "description": "This event captured the essence of city life: Stranger Leaving Free Books in the Park.",
+            "category": "\ud83c\udf3f Urban Nature",
+            "timestamp": "2025-03-30T22:14:13.208461",
+            "mementoTags": [
+                "\ud83d\udcab Emotionally Charged"
+            ],
+            "mementoDuration": "Eternal"
+        },
+        {
+            "userId": "user_49",
+            "location": {
+                "longitude": -73.919817,
+                "latitude": 40.707518
+            },
+            "media": [
+                "https://images.pexels.com/photos/7210698/pexels-photo-7210698.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Lost Dog Reunited with Owner",
+            "description": "This event captured the essence of city life: Lost Dog Reunited with Owner.",
+            "category": "\u270d\ufe0f Poetic Reflection",
+            "timestamp": "2025-03-30T22:14:13.208461",
+            "mementoTags": [
+                "\u23f3 Once-in-a-While"
+            ],
+            "mementoDuration": "2 - 6 hours"
+        },
+        {
+            "userId": "user_55",
+            "location": {
+                "longitude": -73.932061,
+                "latitude": 40.716099
+            },
+            "media": [
+                "https://images.pexels.com/photos/1564868/pexels-photo-1564868.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Spontaneous Soccer Game in a Parking Lot",
+            "description": "This event captured the essence of city life: Spontaneous Soccer Game in a Parking Lot.",
+            "category": "\ud83d\udc65 Public Event",
+            "timestamp": "2025-03-30T22:14:13.208461",
+            "mementoTags": [
+                "\ud83c\udf00 Ephemeral",
+                "\ud83d\udcab Emotionally Charged"
+            ],
+            "mementoDuration": "6 - 12 hours"
+        },
+        {
+            "userId": "user_30",
+            "location": {
+                "longitude": -73.980432,
+                "latitude": 40.729633
+            },
+            "media": [
+                "https://images.pexels.com/photos/10033222/pexels-photo-10033222.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Secret Garden Behind the Library",
+            "description": "This event captured the essence of city life: Secret Garden Behind the Library.",
+            "category": "\ud83c\udf74 Street Food",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83d\udccd Unmapped",
+                "\ud83d\udcab Emotionally Charged"
+            ],
+            "mementoDuration": "Less than 15 minutes"
+        },
+        {
+            "userId": "user_6",
+            "location": {
+                "longitude": -73.947449,
+                "latitude": 40.752089
+            },
+            "media": [
+                "https://images.pexels.com/photos/5118728/pexels-photo-5118728.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "DJ Spinning Vinyl in the Park",
+            "description": "This event captured the essence of city life: DJ Spinning Vinyl in the Park.",
+            "category": "\ud83c\udf08 Sky & Weather",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83c\udfad Unexpected Encounter"
+            ],
+            "mementoDuration": "15 minutes - 1 hour"
+        },
+        {
+            "userId": "user_35",
+            "location": {
+                "longitude": -74.016012,
+                "latitude": 40.817125
+            },
+            "media": [
+                "https://images.pexels.com/photos/31338881/pexels-photo-31338881.jpeg?auto=compress&cs=tinysrgb&h=350"
+            ],
+            "name": "Street Filled with Vintage Posters",
+            "description": "This event captured the essence of city life: Street Filled with Vintage Posters.",
+            "category": "\u26a0\ufe0f Unpleasant Spot",
+            "timestamp": "2025-03-30T22:14:13.207458",
+            "mementoTags": [
+                "\ud83e\ude9e Reflective"
+            ],
+            "mementoDuration": "1 - 2 hours"
+        }
+    ]
+}

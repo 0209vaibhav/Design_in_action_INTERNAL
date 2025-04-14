@@ -1,0 +1,336 @@
+/* ========== MY MEMENTOS CONTAINER STYLES ========== */
+
+.my-mementos-container {
+  margin-bottom: 15px;
+  margin-top: 15px;
+  position: absolute;
+  top: 125px;
+  left: 0px;
+  right: 0px;
+  bottom: 75px;
+  background: white;
+  padding-left: 15px;
+  padding-right: 15px;
+  z-index: 900;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.my-mementos-container.hidden {
+    display: none;
+}
+
+/* My Mementos Header Styles */
+.my-mementos-header {
+    border-bottom: 1px solid #f0f0f0;
+    width: 100%;
+    box-sizing: border-box;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+.my-mementos-header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.my-mementos-header h2 i {
+    color: #FF0080;
+    font-size: 1.2rem;
+}
+
+.my-mementos-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* Scrollbar Styles */
+.my-mementos-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.my-mementos-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.my-mementos-content::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.my-mementos-content::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Memento Item Styles */
+.memento-item {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.memento-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.memento-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Media section */
+.media-section {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    background: #f5f5f5;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.memento-media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f5f5f5;
+}
+
+.memento-media img,
+.memento-media video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.placeholder-media {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f5f5f5;
+    color: #9ca3af;
+}
+
+.placeholder-media i {
+    font-size: 32px;
+}
+
+/* Memento Actions Styles */
+.memento-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 4px;
+    margin-left: auto;
+    height: auto;
+}
+
+.memento-actions button {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    background: white;
+    border: 1px solid #e5e7eb;
+    color: #6b7280;
+}
+
+.memento-actions button:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+    color: #111827;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.memento-actions .view-on-map-btn:hover {
+    color: #FF0080;
+    border-color: #FF0080;
+}
+
+.memento-actions .edit-memento-btn:hover {
+    color: #3b82f6;
+    border-color: #3b82f6;
+}
+
+.memento-actions .delete-memento-btn:hover {
+    color: #ef4444;
+    border-color: #ef4444;
+}
+
+/* Loading and Message States */
+.loading,
+.no-mementos-message,
+.error-message {
+    text-align: center;
+    padding: 40px;
+    color: #6b7280;
+}
+
+.no-mementos-message p,
+.error-message p {
+    margin: 0 0 15px 0;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.error-message .retry-button {
+    background: #FF0080;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.error-message .retry-button:hover {
+    background: #e5006f;
+}
+
+.error-message .admin-note {
+    margin-top: 20px;
+    font-size: 13px;
+    color: #9ca3af;
+}
+
+.error-message .admin-note a {
+    color: #FF0080;
+    text-decoration: none;
+}
+
+/* Confirmation Dialog Styles */
+.confirmation-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.confirmation-dialog.hidden {
+  display: none;
+}
+
+.confirmation-dialog-content {
+  background-color: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.confirmation-dialog-header {
+  padding: 15px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.confirmation-dialog-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.close-dialog-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.close-dialog-btn:hover {
+  color: #333;
+}
+
+.confirmation-dialog-body {
+  padding: 20px;
+  text-align: center;
+}
+
+.confirmation-dialog-body p {
+  margin: 0;
+  color: #666;
+  font-size: 1rem;
+}
+
+.confirmation-dialog-footer {
+  padding: 15px 20px;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.confirmation-dialog-footer button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.confirmation-dialog-footer .cancel-btn {
+  background-color: transparent;
+  border: 1px solid #f0f0f0;
+  color: #666;
+}
+
+.confirmation-dialog-footer .cancel-btn:hover {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.confirmation-dialog-footer .confirm-btn {
+  background-color: #FF0080;
+  border: none;
+  color: white;
+}
+
+.confirmation-dialog-footer .confirm-btn:hover {
+  background-color: #e5006f;
+} 

@@ -1,0 +1,11 @@
+{
+  "name": "memento",
+  "version": "1.0.0",
+  "description": "MEMENTO - Urban Experiences",
+  "scripts": {
+    "generate-icons": "node scripts/generate-icons.js"
+  },
+  "dependencies": {
+    "sharp": "^0.33.2"
+  }
+}

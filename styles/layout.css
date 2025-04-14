@@ -1,0 +1,192 @@
+/* --- Global Reset & Container Layout --- */
+:root {
+    --safe-area-inset-top: env(safe-area-inset-top, 0px);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    padding-top: var(--safe-area-inset-top);
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    background-color: #000000;
+    color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+}
+
+html {
+    height: -webkit-fill-available;
+}
+
+.container {
+    height: 100vh;
+    height: -webkit-fill-available;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Adjust main content area */
+.main-content {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    padding-bottom: var(--safe-area-inset-bottom);
+}
+
+/* Adjust navigation bar positioning */
+.info-tab {
+    padding-top: var(--safe-area-inset-top);
+}
+
+/* Ensure bottom navigation respects safe area */
+.bottom-nav {
+    padding-bottom: var(--safe-area-inset-bottom);
+}
+
+/* A utility class to hide elements */
+.hidden {
+    display: none;
+}
+
+/* --- Panel Section Wrappers --- */
+.left-section {
+    position: relative;
+    height: 100%;
+    display: flex;
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Header Styles --- */
+.header-content {
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 0;
+    background: #333333;
+}
+
+.header-content h1 {
+    text-align: center;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* --- Logo Styles --- */
+.logo-text {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #FF0080;
+    text-shadow: 1px 1px 2px rgba(255, 0, 128, 0.2);
+    line-height: 1;
+}
+
+/* --- Tagline Styles --- */
+.tagline {
+    font-size: 1rem;
+    text-align: center !important;
+    font-weight: 400;
+    margin: 0 0 0 0;
+    padding: 0;
+    line-height: 1.6;
+    max-width: none;
+    font-style: italic;
+    background: linear-gradient(135deg, #ffffff, #ffffff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: block;
+    width: 100%;
+}
+
+.tagline strong {
+    font-weight: 700;
+    font-style: italic;
+}
+
+.tagline br {
+    display: block;
+    content: "";
+}
+
+/* --- Responsive Layout --- */
+@media screen and (max-width: 768px) {
+    .left-section {
+        width: 100%;
+        height: auto;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        background: transparent;
+        pointer-events: none;
+    }
+
+    .info-tab {
+        width: 100%;
+        height: auto;
+        background: white;
+        transition: transform 0.3s ease;
+        pointer-events: auto;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+    }
+
+    .info-tab.hidden {
+        transform: translateY(100%);
+        pointer-events: none;
+    }
+
+    .main-content {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: calc(100% - 80px); /* Adjust height to account for bottom tab bar */
+        z-index: 1;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+/* --- Tablet Layout --- */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .info-tab {
+        width: 100%;
+        height: auto;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+    }
+}
+
+/* --- Desktop Layout --- */
+@media screen and (min-width: 1025px) {
+    .info-tab {
+        width: 100%;
+        height: auto;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+    }
+}

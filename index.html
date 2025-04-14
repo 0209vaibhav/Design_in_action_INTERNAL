@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ========== HEAD SECTION: Meta Tags and External Resources ========== -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>MEMENTO - from disconnected <strong>OBLIVIAN</strong> commute,<br>to an engaging <strong>ODYSSEY</strong> journey</title>
+  
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/Memento/manifest.json">
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="MEMENTO">
+  
+  <!-- App Icons -->
+  <!-- iOS Icons -->
+  <link rel="apple-touch-icon" href="/Memento/data/logo/icon-192x192.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/Memento/data/logo/icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/Memento/data/logo/icon-180x180.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="/Memento/data/logo/icon-167x167.png">
+  
+  <!-- Android Icons -->
+  <link rel="icon" type="image/png" sizes="192x192" href="/Memento/data/logo/icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/Memento/data/logo/icon-512x512.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/Memento/data/logo/icon-96x96.png">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/Memento/data/logo/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/Memento/data/logo/favicon-16x16.png">
+  <link rel="shortcut icon" href="/Memento/favicon.ico">
+  
+  <!-- Splash Screen Icons for iOS -->
+  <link rel="apple-touch-startup-image" href="/Memento/data/logo/splash-2048x2732.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="/Memento/data/logo/splash-1668x2388.png" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="/Memento/data/logo/splash-1536x2048.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="/Memento/data/logo/splash-1125x2436.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="/Memento/data/logo/splash-1242x2688.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  
+  <!-- External Libraries -->
+  <!-- Mapbox GL JS -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.1.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.1.0/mapbox-gl.css" rel="stylesheet" />
+  
+  <!-- Font Awesome -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  </noscript>
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles/splash-screen.css">
+  <link rel="stylesheet" href="styles/memento-details.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/navigation.css">
+  <link rel="stylesheet" href="styles/map-container.css">
+  <link rel="stylesheet" href="styles/marker.css">
+  <link rel="stylesheet" href="styles/filter-settings.css">
+  <link rel="stylesheet" href="styles/profile-container.css">
+  <link rel="stylesheet" href="styles/auth-container.css">
+  <link rel="stylesheet" href="styles/capture-form.css">
+  <link rel="stylesheet" href="styles/info-container.css">
+  <link rel="stylesheet" href="styles/live-feed-container.css">
+  <link rel="stylesheet" href="styles/drafts-container.css">
+  <link rel="stylesheet" href="styles/archive-container.css">
+  <link rel="stylesheet" href="styles/curated-container.css">
+  <link rel="stylesheet" href="styles/favorites-container.css">
+  <link rel="stylesheet" href="styles/credits-container.css">
+  <link rel="stylesheet" href="styles/help-container.css">
+  <link rel="stylesheet" href="styles/toast-notification.css">
+  <link rel="stylesheet" href="styles/my-mementos-container.css">
+  <link rel="stylesheet" href="styles/animations.css">
+  <link rel="stylesheet" href="styles/memento-markers.css">
+
+  <!-- Additional Meta Tags -->
+  <meta name="forced-colors-adjust" content="none">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Google Maps API -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGoOiUDU6r002oO_I34A006W32q8gbR0o&libraries=places"></script>
+</head>
+
+<body>
+  <!-- Splash Screen -->
+  <div class="splash-screen">
+    <img src="data/logo/Logo.svg" alt="MEMENTO Logo" class="splash-logo">
+    <div class="splash-text">MEMENTO</div>
+  </div>
+
+  <!-- ========== MAIN CONTAINER ========== -->
+  <div class="container">
+    <!-- ========== LEFT NAVIGATION PANEL ========== -->
+    <div class="left-section">
+      <!-- Expand button outside the info-tab -->
+      <button id="expand-left" class="panel-control-btn" aria-label="Expand left panel">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <nav class="info-tab" aria-label="Main Navigation">
+        <!-- Header with Logo -->
+        <div class="header-content">
+          <div class="logo-container">
+            <img src="data/logo/Logo.svg" alt="Memento Logo">
+          </div>
+          <div class="header-text">
+            <h1>
+              <span class="logo-text">MEMENTO</span>
+            </h1>
+            <p class="tagline">from disconnected <strong>OBLIVIAN</strong> commute,<br>to an engaging <strong>ODYSSEY</strong> journey</p>
+          </div>
+          <button id="collapse-left" class="panel-control-btn" aria-label="Collapse left panel">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+        
+        <!-- ========== MAIN NAVIGATION TABS ========== -->
+        <div class="activity-tabs-container">
+          <ul>
+            <!-- Explorer Tab -->
+            <li><a href="#" class="activity-tab" data-activity="explorer">
+              <i class="fas fa-user"></i><span>Explorer</span></a>
+              <!-- Explorer Subtabs -->
+              <div class="explorer-subtabs hidden">
+                  <button class="explorer-tab-btn active" data-tab="profile">
+                      <i class="fas fa-id-card"></i>
+                      <span>Profile</span>
+                  </button>
+                  <button class="explorer-tab-btn" data-tab="archive">
+                      <i class="fas fa-archive"></i>
+                      <span>Archive</span>
+                  </button>
+                  <button class="explorer-tab-btn" data-tab="my-mementos">
+                      <i class="fas fa-bookmark"></i>
+                      <span>My Mementos</span>
+                  </button>
+              </div>
+            </li>
+
+            <!-- Journey/Capture Tab -->
+            <li><a href="#" class="activity-tab" data-activity="journey">
+              <i class="fas fa-camera"></i><span>Capture</span></a>
+              <!-- Journey Subtabs -->
+              <div class="explorer-subtabs hidden">
+                <button class="explorer-tab-btn active" data-tab="capture">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Create</span>
+                </button>
+                <button class="explorer-tab-btn" data-tab="drafts">
+                    <i class="fas fa-edit"></i>
+                    <span>Drafts</span>
+                </button>
+              </div>
+
+              <!-- ========== CAPTURE FORM SECTION ========== -->
+              <div id="journey-capture-form" class="capture-form hidden">
+                <!-- Form Header -->
+                <div class="capture-form-header">
+                  <h2><i class="fas fa-plus-circle"></i> Create Memento</h2>
+                </div>
+                
+                <!-- Memento Preview Container -->
+                <div id="memento-preview-container" class="memento-preview-container">
+                  <div class="detail-section">
+                    <!-- Media Upload Preview -->
+                    <div class="detail-row" data-type="media">
+                      <span><i class="fas fa-camera"></i> Memento Media</span>
+                      <span class="detail-value" id="media-preview-text">Add photo/video</span>
+                      <button class="chevron-btn"></button>
+                    </div>
+                    
+                    <!-- Name -->
+                    <div class="detail-row" data-type="name">
+                      <span><i class="fas fa-tag"></i> Name</span>
+                      <span class="detail-value" id="name-preview">Add name</span>
+                      <button class="chevron-btn"></button>
+                    </div>
+                    
+                    <!-- Caption -->
+                    <div class="detail-row" data-type="caption">
+                      <span><i class="fas fa-quote-right"></i> Caption</span>
+                      <span class="detail-value" id="caption-preview">Add caption</span>
+                      <button class="chevron-btn"></button>
+                    </div>
+                    
+                    <!-- Description -->
+                    <div class="detail-row" data-type="description">
+                      <span><i class="fas fa-align-left"></i> Description</span>
+                      <span class="detail-value" id="description-preview">Add description</span>
+                      <button class="chevron-btn"></button>
+                    </div>
+                    
+                    <!-- Tags -->
+                    <div class="detail-row" data-type="tags">
+                      <span><i class="fas fa-tags"></i> Memento Tags</span>
+                      <span class="detail-value" id="tags-preview">Select tags</span>
+                      <button class="chevron-btn"></button>
+                    </div>
+                    
+                    <!-- Category -->
+                    <div class="detail-row" data-type="category">
+                      <span><i class="fas fa-folder"></i> Memento Category</span>
+                      <span class="detail-value" id="category-preview">Select category</span>
+                      <button class="chevron-btn"></button>
+                    </div>
+                    
+                    <!-- Location -->
+                    <div class="detail-row" data-type="location">
+                      <span><i class="fas fa-map-marker-alt"></i> Location</span>
+                      <span class="detail-value" id="location-preview">Add location</span>
+                      <button class="chevron-btn"></button>
+                    </div>
+                    
+                    <!-- Timestamp -->
+                    <div class="detail-row" data-type="timestamp">
+                      <span><i class="fas fa-clock"></i> Timestamp</span>
+                      <span class="detail-value" id="timestamp-preview">Current time</span>
+                      <button class="chevron-btn"></button>
+                    </div>
+                    
+                    <!-- Duration -->
+                    <div class="detail-row" data-type="duration">
+                      <span><i class="fas fa-hourglass-half"></i> Memento Duration</span>
+                      <span class="detail-value" id="duration-preview">Select duration</span>
+                      <button class="chevron-btn"></button>
+                    </div>
+                  </div>
+                  
+                  <!-- Form Actions -->
+                  <div class="memento-actions">
+                    <div class="memento-actions-row">
+                      <button type="button" id="cancel-memento-btn" class="memento-action-btn cancel-btn">
+                        <i class="fas fa-times"></i> Cancel Memento
+                      </button>
+                      <button type="button" id="draft-memento-btn" class="memento-action-btn draft-btn">
+                        <i class="fas fa-save"></i> Draft Memento
+                      </button>
+                    </div>
+                    <button type="button" id="save-memento-btn" class="memento-action-btn">
+                      <i class="fas fa-check"></i> Save Memento
+                    </button>
+                  </div>
+                </div>
+                
+                <!-- Edit Screens - Initially Hidden -->
+                <!-- Media Edit Screen -->
+                <div id="media-edit-screen" class="edit-screen hidden">
+                  <div class="edit-screen-header">
+                    <button class="back-btn">‹</button>
+                    <h3>Memento Media</h3>
+                  </div>
+                  <div class="edit-field-group">
+                    <label for="activity-media">Upload Media</label>
+                    <div class="media-upload-container">
+                      <div class="media-upload-box" id="media-upload-box">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop files here or</p>
+                        <input type="file" id="activity-media" accept="image/*,video/*" multiple>
+                        <label for="activity-media" class="upload-button">
+                          <i class="fas fa-plus"></i>
+                          Choose Files
+                        </label>
+                      </div>
+                      <div id="media-preview" class="media-preview-container"></div>
+                    </div>
+                    <button type="button" class="save-field-btn">Save</button>
+                  </div>
+                </div>
+                
+                <!-- Name Edit Screen -->
+                <div id="name-edit-screen" class="edit-screen hidden">
+                  <div class="edit-screen-header">
+                    <button class="back-btn">‹</button>
+                    <h3>Memento Name</h3>
+                  </div>
+                  <div class="edit-field-group">
+                    <label for="memento-name">Name</label>
+                    <input type="text" id="memento-name" placeholder="Enter a name for your memento">
+                    <button type="button" class="save-field-btn">Save</button>
+                  </div>
+                </div>
+                
+                <!-- Caption Edit Screen -->
+                <div id="caption-edit-screen" class="edit-screen hidden">
+                  <div class="edit-screen-header">
+                    <button class="back-btn">‹</button>
+                    <h3>Caption</h3>
+                  </div>
+                  <div class="edit-field-group">
+                    <label for="memento-caption">Caption</label>
+                    <input type="text" id="memento-caption" placeholder="Add a short caption">
+                    <button type="button" class="save-field-btn">Save</button>
+                  </div>
+                </div>
+                
+                <!-- Description Edit Screen -->
+                <div id="description-edit-screen" class="edit-screen hidden">
+                  <div class="edit-screen-header">
+                    <button class="back-btn">‹</button>
+                    <h3>Description</h3>
+                  </div>
+                  <div class="edit-field-group">
+                    <label for="memento-description">Description</label>
+                    <textarea id="memento-description" rows="4" placeholder="Add a detailed description"></textarea>
+                    <button type="button" class="save-field-btn">Save</button>
+                  </div>
+                </div>
+                
+                <!-- Tags Edit Screen -->
+                <div id="tags-edit-screen" class="edit-screen hidden">
+                  <div class="edit-screen-header">
+                    <button class="back-btn">‹</button>
+                    <h3>Memento Tags</h3>
+                  </div>
+                  <div class="edit-field-group">
+                    <div class="tags-container">
+                      <div class="tag-item">
+                        <input type="checkbox" id="tag-ephemeral" name="memento-tags" value="ephemeral">
+                        <label for="tag-ephemeral">🌀 Ephemeral</label>
+                      </div>
+                      <div class="tag-item">
+                        <input type="checkbox" id="tag-unmapped" name="memento-tags" value="unmapped">
+                        <label for="tag-unmapped">📍 Unmapped</label>
+                      </div>
+                      <div class="tag-item">
+                        <input type="checkbox" id="tag-niche" name="memento-tags" value="niche">
+                        <label for="tag-niche">🧬 Niche/Cult</label>
+                      </div>
+                      <div class="tag-item">
+                        <input type="checkbox" id="tag-emotional" name="memento-tags" value="emotional">
+                        <label for="tag-emotional">💫 Emotionally Charged</label>
+                      </div>
+                      <div class="tag-item">
+                        <input type="checkbox" id="tag-hidden" name="memento-tags" value="hidden">
+                        <label for="tag-hidden">🕵️ Hidden Gem</label>
+                      </div>
+                      <div class="tag-item">
+                        <input type="checkbox" id="tag-unexpected" name="memento-tags" value="unexpected">
+                        <label for="tag-unexpected">🎭 Unexpected Encounter</label>
+                      </div>
+                      <div class="tag-item">
+                        <input type="checkbox" id="tag-reflective" name="memento-tags" value="reflective">
+                        <label for="tag-reflective">🪞 Reflective</label>
+                      </div>
+                      <div class="tag-item">
+                        <input type="checkbox" id="tag-unpleasant" name="memento-tags" value="unpleasant">
+                        <label for="tag-unpleasant">💔 Unpleasant Truth</label>
+                      </div>
+                      <div class="tag-item">
+                        <input type="checkbox" id="tag-rare" name="memento-tags" value="rare">
+                        <label for="tag-rare">⏳ Once-in-a-While</label>
+                      </div>
+                    </div>
+                    <button type="button" class="save-field-btn">Save</button>
+                  </div>
+                </div>
+                
+                <!-- Category Edit Screen -->
+                <div id="category-edit-screen" class="edit-screen hidden">
+                  <div class="edit-screen-header">
+                    <button class="back-btn">‹</button>
+                    <h3>Memento Category</h3>
+                  </div>
+                  <div class="edit-field-group">
+                    <div class="category-container">
+                      <div class="category-item">
+                        <input type="radio" id="category-architecture" name="memento-category" value="architecture">
+                        <label for="category-architecture">🏛️ Architecture</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-urban-nature" name="memento-category" value="urban-nature">
+                        <label for="category-urban-nature">🌿 Urban Nature</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-sky-weather" name="memento-category" value="sky-weather">
+                        <label for="category-sky-weather">🌈 Sky & Weather</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-cultural" name="memento-category" value="cultural">
+                        <label for="category-cultural">🎭 Cultural Spotlight</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-mood-music" name="memento-category" value="mood-music">
+                        <label for="category-mood-music">🎧 Mood & Music</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-creature" name="memento-category" value="creature">
+                        <label for="category-creature">🐾 Creature Sighting</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-street-food" name="memento-category" value="street-food">
+                        <label for="category-street-food">🍴 Street Food</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-social" name="memento-category" value="social">
+                        <label for="category-social">🎊 Social Gathering</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-sport" name="memento-category" value="sport">
+                        <label for="category-sport">⚽ Sport in Action</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-poetic" name="memento-category" value="poetic">
+                        <label for="category-poetic">✍️ Poetic Reflection</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-folklore" name="memento-category" value="folklore">
+                        <label for="category-folklore">💡 Urban Folklore</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-transition" name="memento-category" value="transition">
+                        <label for="category-transition">🏗️ City in Transition</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-unpleasant" name="memento-category" value="unpleasant">
+                        <label for="category-unpleasant">⚠️ Unpleasant Spot</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-public-event" name="memento-category" value="public-event">
+                        <label for="category-public-event">👥 Public Event</label>
+                      </div>
+                      <div class="category-item">
+                        <input type="radio" id="category-other" name="memento-category" value="other">
+                        <label for="category-other">🗂️ Other</label>
+                      </div>
+                    </div>
+                    <button type="button" class="save-field-btn">Save</button>
+                  </div>
+                </div>
+                
+                <!-- Location Edit Screen -->
+                <div id="location-edit-screen" class="edit-screen hidden">
+                  <div class="edit-screen-header">
+                    <button class="back-btn">‹</button>
+                    <h3>Location</h3>
+                  </div>
+                  <div class="edit-field-group">
+                    <label for="memento-location">Enter Location</label>
+                    <div class="location-input-group">
+                      <input type="text" id="memento-location" placeholder="Search for a location">
+                      <button type="button" id="use-current-location-btn" class="location-btn" title="Use my current location">
+                        <i class="fas fa-crosshairs"></i>
+                      </button>
+                    </div>
+                    <p class="location-helper-text">Search for a location or use your current location</p>
+                    
+                    <button type="button" class="save-field-btn">Save</button>
+                  </div>
+                </div>
+                
+                <!-- Timestamp Edit Screen -->
+                <div id="timestamp-edit-screen" class="edit-screen hidden">
+                  <div class="edit-screen-header">
+                    <button class="back-btn">‹</button>
+                    <h3>Timestamp</h3>
+                  </div>
+                  <div class="edit-field-group">
+                    <label for="memento-timestamp">Date and Time</label>
+                    <input type="datetime-local" id="memento-timestamp">
+                    <button type="button" id="use-current-time-btn" class="time-btn">Use Current Time</button>
+                    <button type="button" class="save-field-btn">Save</button>
+                  </div>
+                </div>
+                
+                <!-- Duration Edit Screen -->
+                <div id="duration-edit-screen" class="edit-screen hidden">
+                  <div class="edit-screen-header">
+                    <button class="back-btn">‹</button>
+                    <h3>Memento Duration</h3>
+                  </div>
+                  <div class="edit-field-group">
+                    <div class="duration-container">
+                      <div class="duration-item">
+                        <input type="radio" id="duration-15min" name="memento-duration" value="less-than-15min">
+                        <label for="duration-15min">Less than 15 minutes</label>
+                      </div>
+                      <div class="duration-item">
+                        <input type="radio" id="duration-1hr" name="memento-duration" value="15min-1hr">
+                        <label for="duration-1hr">15 minutes - 1 hour</label>
+                      </div>
+                      <div class="duration-item">
+                        <input type="radio" id="duration-2hrs" name="memento-duration" value="1-2hrs">
+                        <label for="duration-2hrs">1 - 2 hours</label>
+                      </div>
+                      <div class="duration-item">
+                        <input type="radio" id="duration-6hrs" name="memento-duration" value="2-6hrs">
+                        <label for="duration-6hrs">2 - 6 hours</label>
+                      </div>
+                      <div class="duration-item">
+                        <input type="radio" id="duration-12hrs" name="memento-duration" value="6-12hrs">
+                        <label for="duration-12hrs">6 - 12 hours</label>
+                      </div>
+                      <div class="duration-item">
+                        <input type="radio" id="duration-24hrs" name="memento-duration" value="12-24hrs">
+                        <label for="duration-24hrs">12 - 24 hours</label>
+                      </div>
+                      <div class="duration-item">
+                        <input type="radio" id="duration-eternal" name="memento-duration" value="eternal">
+                        <label for="duration-eternal">Eternal</label>
+                      </div>
+                    </div>
+                    <button type="button" class="save-field-btn">Save</button>
+                  </div>
+                </div>
+                
+              </div>
+
+              <!-- ========== DRAFTS SECTION ========== -->
+              <div id="journey-drafts-container" class="drafts-container hidden">
+                <div class="capture-form-header">
+                  <h2><i class="fas fa-edit"></i> Memento Drafts</h2>
+                </div>
+                <div class="drafts-content">
+                  <!-- Drafts will be dynamically loaded here -->
+                </div>
+              </div>
+
+              <!-- ========== ARCHIVE SECTION ========== -->
+              <div id="archive-container" class="archive-container hidden">
+                <div class="archive-header">
+                  <h2><i class="fas fa-archive"></i> Archive</h2>
+                </div>
+                <div class="archive-content">
+                  <!-- Archive items will be dynamically added here -->
+                </div>
+              </div>
+
+
+              <!-- ========== MY MEMENTOS SECTION ========== -->
+              <div class="my-mementos-container hidden">
+                <div class="my-mementos-header">
+                  <h2><i class="fas fa-bookmark"></i> My Mementos</h2>
+                </div>
+                <div class="my-mementos-content">
+                  <!-- Content will be dynamically populated -->
+                </div>
+              </div>
+            </li>
+
+            <!-- ========== DISCOVERY TAB ========== -->
+            <li><a href="#" class="activity-tab active" data-activity="discovery">
+              <i class="fas fa-map-marked-alt"></i><span>Discovery</span></a>
+              <!-- Discovery Subtabs -->
+              <div class="explorer-subtabs show">
+                <button class="explorer-tab-btn active" data-tab="live-feed">
+                  <i class="fas fa-stream"></i>
+                  <span>Live Feed</span>
+                </button>
+                <button class="explorer-tab-btn" data-tab="filter">
+                  <i class="fas fa-filter"></i>
+                  <span>Filter</span>
+                </button>
+                <button class="explorer-tab-btn" data-tab="curated">
+                  <i class="fas fa-heart"></i>
+                  <span>Curated</span>
+                </button>
+              </div>
+              
+              <!-- ========== FILTER SETTINGS SECTION ========== -->
+              <div class="filter-settings-container">
+                <!-- Filter Header -->
+                <div class="filter-header">
+                  <h2><i class="fas fa-filter"></i> Filter Settings</h2>
+                </div>
+
+                <!-- Radius Filter -->
+                <div class="filter-group">
+                  <h3>
+                    <span>Filter by Radius</span>
+                    <div class="radius-toggle-container">
+                      <input type="checkbox" id="radius-toggle" checked>
+                      <i class="fas fa-chevron-down"></i>
+                    </div>
+                  </h3>
+                  <div class="radius-interaction-container">
+                    <label>Radius Range:</label>
+                    <select id="radius-range-toggle">
+                      <option value="short">Short Range (10ft - 1mi)</option>
+                      <option value="long">Long Range (1mi - 5mi)</option>
+                    </select>
+                  </div>
+                  <div class="slider-container">
+                    <input type="range" 
+                           id="radius-slider" 
+                           min="0.00189394" 
+                           max="1" 
+                           step="0.00189394" 
+                           value="0.5">
+                    <div class="radius-value-container">
+                      <span class="min-value">10 ft</span>
+                      <span id="radius-value">0.5 mi</span>
+                      <span class="max-value">1 mi</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Filter Actions -->
+                <div class="filter-actions">
+                  <button id="reset-filters" class="reset-filter-button">
+                    <i class="fas fa-times"></i>
+                    Reset Filters
+                  </button>
+                  <button id="save-filters" class="save-filter-button">
+                    <i class="fas fa-check"></i>
+                    Save Filters
+                  </button>
+                </div>
+              </div>
+
+              <!-- ========== LIVE FEED SECTION ========== -->
+              <div class="live-feed-container">
+                <div class="capture-form-header">
+                  <h2><i class="fas fa-stream"></i> Live Feed</h2>
+                </div>
+                <!-- Search Bar -->
+                <div class="search-bar-container">
+                  <input type="text" id="event-search" placeholder="Search events..." class="search-input">
+                  <button class="search-button">
+                    <i class="fas fa-search"></i>
+                  </button>
+                </div>
+                <div class="live-feed-content">
+                  <!-- Live feed content will be dynamically loaded here -->
+                </div>
+              </div>
+
+              <!-- ========== CURATED SECTION ========== -->
+              <div class="curated-container hidden">
+                <div class="curated-header">
+                  <h2><i class="fas fa-heart"></i> Curated Mementos</h2>
+                </div>
+                <div class="curated-content">
+                  <!-- Curated content will be dynamically loaded here -->
+                </div>
+              </div>
+            </li>
+
+            <!-- ========== ABOUT TAB ========== -->
+            <li><a href="#" class="activity-tab" data-activity="about">
+              <i class="fas fa-info-circle"></i><span>About</span></a>
+              <!-- About Subtabs -->
+              <div class="explorer-subtabs hidden">
+                <button class="explorer-tab-btn active" data-tab="info">
+                  <i class="fas fa-info-circle"></i>
+                  <span>Info</span>
+                </button>
+                <button class="explorer-tab-btn" data-tab="credits">
+                  <i class="fas fa-user-friends"></i>
+                  <span>Credits</span>
+                </button>
+              </div>
+              
+              <!-- About Content Sections -->
+              <div class="about-content hidden">
+                <!-- Credits Section -->
+                <div class="about-section active" id="about-credits">
+                  <div class="credits-container">
+                    <div class="credits-header">
+                      <h2><i class="fas fa-user-friends"></i> Credits</h2>
+                    </div>
+                    <div class="credits-content">
+                      <!-- Creator Info -->
+                      <div class="credits-section">
+                        <h3>Created By</h3>
+                        <div class="creator-info">
+                          <i class="fas fa-graduation-cap"></i>
+                          <span>Vaibhav Jain</span>
+                        </div>
+                      </div>
+
+                      <!-- Studio Credits -->
+                      <div class="credits-section">
+                        <h3>Studio Credits</h3>
+                        <div class="studio-credit">
+                          <i class="fas fa-paint-brush"></i>
+                          <div>
+                            <p class="studio-name">Explore, Explain, Propose (Studio)</p>
+                            <p class="instructors">Instructors: Laura Kurgan, Snoweria Zhang</p>
+                            <p class="semester">Fall 2024</p>
+                          </div>
+                        </div>
+                        <div class="studio-credit">
+                          <i class="fas fa-paint-brush"></i>
+                          <div>
+                            <p class="studio-name">Design in Action (Studio)</p>
+                            <p class="instructors">Instructors: Seth Thompson, Catherine Griffiths</p>
+                            <p class="semester">Spring 2025</p>
+                          </div>
+                        </div>
+                        <div class="studio-credit">
+                          <i class="fas fa-paint-brush"></i>
+                          <div>
+                            <p class="studio-name">Colloquium Advisor</p>
+                            <p class="instructors">Juan Francisco Saldarriaga</p>
+                            <p class="semester">Spring 2025</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Institution Info -->
+                      <div class="credits-section">
+                        <h3>Institution</h3>
+                        <div class="institution">
+                          <i class="fas fa-university"></i>
+                          <div>
+                            <p>M.S. Computational Design Practice (MS.CDP)</p>
+                            <p>Graduate School of Architecture, Planning, and Preservation (GSAPP)</p>
+                            <p>Columbia University, New York, USA</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Info Section -->
+                <div class="about-section hidden" id="about-info">
+                  <div class="info-container">
+                    <div class="info-header">
+                      <h2><i class="fas fa-info-circle"></i> About MEMENTO</h2>
+                    </div>
+                    <div class="info-content">
+                      <!-- Info content will be dynamically loaded here -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- ========== MAIN CONTENT SECTION ========== -->
+      <main class="main-content">
+        <!-- Explorer Tab Content -->
+        <div class="tab-content hidden" id="explorer">
+          <div class="explorer-tabs">
+            <button class="explorer-tab-btn" data-tab="profile">Profile</button>
+            <button class="explorer-tab-btn" data-tab="settings">Settings</button>
+          </div>
+          
+          <div class="explorer-tab-content" id="profile-tab">
+            <!-- Profile content here -->
+          </div>
+          <div class="explorer-tab-content" id="settings-tab">
+            <!-- Settings content here -->
+          </div>
+        </div>
+
+        <!-- Journey Tab Content -->
+        <div class="tab-content hidden" id="journey">
+          <div class="journey-content">
+            <!-- Journey content here -->
+          </div>
+        </div>
+
+        <!-- Discovery Tab Content -->
+        <div class="tab-content active" id="discovery">
+          <div id="map"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- ========== EXTERNAL SCRIPTS ========== -->
+  <!-- Turf.js for geospatial analysis -->
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6.5.0/turf.min.js"></script>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+  
+  <!-- Core configs first -->
+  <script src="scripts/firebase-config.js"></script>
+  <script src="scripts/firebase-setup.js"></script>
+
+  <!-- Utilities -->
+  <script src="scripts/toast-notification.js"></script>
+  <script src="scripts/layout.js"></script>
+
+  <!-- Components -->
+  <script src="scripts/navigation.js"></script>
+  <script src="scripts/map-container.js"></script>
+  <script src="scripts/auth-container.js"></script>
+  <script src="scripts/activities.js"></script>
+  <script src="scripts/capture-form.js"></script>
+  <script src="scripts/credits-container.js"></script>
+  <script src="scripts/curated-container.js"></script>
+  <script src="scripts/drafts-container.js"></script>
+  <script src="scripts/favorites-container.js"></script>
+  <script src="scripts/filter-settings.js"></script>
+  <script src="scripts/help-container.js"></script>
+  <script src="scripts/info-container.js"></script>
+  <script src="scripts/live-feed-container.js"></script>
+  <script src="scripts/profile-container.js"></script>
+  <script src="scripts/my-mementos.js"></script>
+
+  <!-- Main script last -->
+  <script src="scripts/script.js"></script>
+
+  <!-- Confirmation Dialog Script -->
+  <script src="scripts/confirmation-dialog.js"></script>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        // Use relative path for service worker
+        navigator.serviceWorker.register('./sw.js', { scope: './' })
+          .then(registration => {
+            console.log('ServiceWorker registration successful');
+            
+            // Check for updates
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  // New content is available, show update notification
+                  showToast('New version available! Refresh to update.', 'info', true);
+                }
+              });
+            });
+          })
+          .catch(err => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+
+        // Handle updates when the user is already on the page
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!refreshing) {
+            refreshing = true;
+            window.location.reload();
+          }
+        });
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,16 +1,52 @@
 /* --- Global Reset & Container Layout --- */
+:root {
+    --safe-area-inset-top: env(safe-area-inset-top, 0px);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+}
+
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    display: flex;
-    height: 100vh;
+    padding: 0;
+    padding-top: var(--safe-area-inset-top);
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    background-color: #000000;
+    color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     overflow: hidden;
 }
 
+html {
+    height: -webkit-fill-available;
+}
+
 .container {
-    display: flex;
-    width: 100%;
     height: 100vh;
+    height: -webkit-fill-available;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Adjust main content area */
+.main-content {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    padding-bottom: var(--safe-area-inset-bottom);
+}
+
+/* Adjust navigation bar positioning */
+.info-tab {
+    padding-top: var(--safe-area-inset-top);
+}
+
+/* Ensure bottom navigation respects safe area */
+.bottom-nav {
+    padding-bottom: var(--safe-area-inset-bottom);
 }
 
 /* A utility class to hide elements */

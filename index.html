@@ -807,13 +807,34 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
+        navigator.serviceWorker.register('/Memento/sw.js')
           .then(registration => {
             console.log('ServiceWorker registration successful');
+            
+            // Check for updates
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  // New content is available, show update notification
+                  showToast('New version available! Refresh to update.', 'info', true);
+                }
+              });
+            });
           })
           .catch(err => {
             console.log('ServiceWorker registration failed: ', err);
           });
+
+        // Handle updates when the user is already on the page
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!refreshing) {
+            refreshing = true;
+            window.location.reload();
+          }
+        });
       });
     }
   </script>

@@ -1,9 +1,16 @@
 import json
 import requests
 import random
+import os
+from dotenv import load_dotenv
 
-# Your Pexels API Key
-PEXELS_API_KEY = "uLjmGqJakBKmZJjmXTeSBrLg4R8f8sAzzpo3JIQWnyj50tdMozLI9Qzh"
+# Load environment variables
+load_dotenv()
+
+# Get Pexels API Key from environment
+PEXELS_API_KEY = os.getenv('PEXELS_API_KEY')
+if not PEXELS_API_KEY:
+    raise ValueError("PEXELS_API_KEY not found in environment variables")
 
 # Pexels API Endpoint
 PEXELS_API_URL = "https://api.pexels.com/v1/search"

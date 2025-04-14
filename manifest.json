@@ -2,41 +2,41 @@
   "name": "MEMENTO - Urban Experiences",
   "short_name": "MEMENTO",
   "description": "Transform your urban commute into an engaging journey",
-  "start_url": "/",
+  "start_url": "/Memento/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
   "icons": [
     {
-      "src": "data/logo/icon-192x192.png",
+      "src": "/Memento/data/logo/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "data/logo/icon-512x512.png",
+      "src": "/Memento/data/logo/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ],
   "orientation": "portrait",
-  "scope": "/",
+  "scope": "/Memento/",
   "categories": ["lifestyle", "social", "travel"],
   "shortcuts": [
     {
       "name": "Create Memento",
       "short_name": "Create",
       "description": "Create a new urban experience",
-      "url": "/?activity=journey&tab=capture",
-      "icons": [{ "src": "data/logo/create-icon.png", "sizes": "192x192" }]
+      "url": "/Memento/?activity=journey&tab=capture",
+      "icons": [{ "src": "/Memento/data/logo/create-icon.png", "sizes": "192x192" }]
     },
     {
       "name": "Discover",
       "short_name": "Discover",
       "description": "Explore urban experiences",
-      "url": "/?activity=discovery&tab=live-feed",
-      "icons": [{ "src": "data/logo/discover-icon.png", "sizes": "192x192" }]
+      "url": "/Memento/?activity=discovery&tab=live-feed",
+      "icons": [{ "src": "/Memento/data/logo/discover-icon.png", "sizes": "192x192" }]
     }
   ]
 } 
